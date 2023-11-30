@@ -16,7 +16,6 @@ target/
 ### IntelliJ IDEA ###
 .idea
 .idea/
-machine-factory/
 *.iws
 *.iml
 *.ipr
