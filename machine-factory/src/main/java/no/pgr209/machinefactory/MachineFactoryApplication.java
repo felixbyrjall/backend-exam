@@ -3,6 +3,7 @@ package no.pgr209.machinefactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+// Initial
 @SpringBootApplication
 public class MachineFactoryApplication {
 
