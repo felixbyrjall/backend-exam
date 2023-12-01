@@ -34,7 +34,7 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "address_id")
     )
     @JsonIgnoreProperties("customers")
-    private List<Address> addresses = new ArrayList<>();
+    private List<Address> address = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
     public Customer(String customerName, String customerEmail) {
