@@ -20,11 +20,6 @@ public class Part {
     @Column(name = "part_name")
     private String partName;
 
-    // A part can be in many different subassemblies.
-    @ManyToOne
-    @JoinColumn(name = "subassembly_id")
-    private Subassembly subassembly;
-
     // Constructors, getters, setters, and methods below.
     public Part(String partName) {
         this.partName = partName;

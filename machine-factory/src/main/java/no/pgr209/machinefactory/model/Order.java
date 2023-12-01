@@ -25,14 +25,9 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    // An order has one or more machines (Possibly: and a machine can be ordered multiple times.)
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "order_machine",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "machine_id")
-    )
-    @JsonIgnoreProperties("orders")
+    // An order has one or more machines
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "machine_id")
     private List<Machine> machines = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
