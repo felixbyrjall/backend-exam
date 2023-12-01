@@ -30,6 +30,7 @@ public class Address {
     @Column(name = "address_zip")
     private Integer addressZip;
 
+    // A customer can have many addresses, and an address has one or more customers.
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "customer_address",

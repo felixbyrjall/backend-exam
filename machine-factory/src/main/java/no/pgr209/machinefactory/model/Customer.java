@@ -27,6 +27,7 @@ public class Customer {
     @Column(name = "customer_email")
     private String customerEmail;
 
+    // A customer can have many addresses, and an address has one or more customers.
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "customer_address",
@@ -36,6 +37,7 @@ public class Customer {
     @JsonIgnoreProperties("customers")
     private List<Address> addresses = new ArrayList<>();
 
+    // A customer can have many orders
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<Order> orders = new ArrayList<>();

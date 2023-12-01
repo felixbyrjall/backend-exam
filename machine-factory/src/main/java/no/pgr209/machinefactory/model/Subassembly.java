@@ -27,6 +27,7 @@ public class Subassembly {
     @JoinColumn(name = "machine_id")
     private Machine machine;
 
+    // A subassembly has one or more parts
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "part_id")
     private List<Part> parts = new ArrayList<>();

@@ -27,6 +27,7 @@ public class Machine {
     @Column(name = "machine_type")
     private String machineType;
 
+    // An order has one or more machines, a machine can be in multiple orders.
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "order_machine",
@@ -36,6 +37,7 @@ public class Machine {
     @JsonIgnoreProperties("machines")
     private List<Order> orders = new ArrayList<>();
 
+    // A machine has one or more subassemblies
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "subassembly_id")
     private List<Subassembly> subassemblies = new ArrayList<>();

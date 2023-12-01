@@ -25,6 +25,7 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
+    // An order has one or more machines (Possibly: and a machine can be ordered multiple times.)
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "order_machine",
