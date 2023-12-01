@@ -36,6 +36,10 @@ public class Customer {
     @JsonIgnoreProperties("customers")
     private List<Address> addresses = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private List<Order> orders = new ArrayList<>();
+
     // Constructors, getters, setters, and methods below.
     public Customer(String customerName, String customerEmail) {
         this.customerName = customerName;
