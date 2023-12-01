@@ -22,10 +22,21 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId = 0L;
 
+    // Order date
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    // An order has one or more machines
+    // Who ordered - A customer can have many orders.
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    // Where is order shipping to - An address can have many orders.
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    // What is ordered - An order has one or more machines
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "machine_id")
     private List<Machine> machines = new ArrayList<>();
