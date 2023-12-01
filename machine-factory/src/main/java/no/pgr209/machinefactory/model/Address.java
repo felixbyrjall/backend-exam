@@ -36,7 +36,7 @@ public class Address {
             joinColumns = @JoinColumn(name = "address_id"),
             inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
-    @JsonIgnoreProperties("customers")
+    @JsonIgnoreProperties("addresses")
     private List<Customer> customers = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

@@ -31,7 +31,7 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "machine_id")
     )
-    @JsonIgnoreProperties("machine")
+    @JsonIgnoreProperties("orders")
     private List<Machine> machines = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
