@@ -27,6 +27,8 @@ public class Machine {
     @Column(name = "machine_type")
     private String machineType;
 
+
+
     // A machine has one or more subassemblies
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "subassembly_id")
