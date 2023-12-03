@@ -38,8 +38,18 @@ public class Order {
 
     // What is ordered - An order has one or more machines
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "machine_id")
     private List<Machine> machines = new ArrayList<>();
+
+    /* CORRECT WAY - Joined tables
+    // What is ordered - An order has one or more machines
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "order_machine",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "machine_id")
+    )
+    private List<Machine> machines = new ArrayList<>(); */
 
     // Constructors, getters, setters, and methods below.
     public void Order(LocalDateTime orderDate) {

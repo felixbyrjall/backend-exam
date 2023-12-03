@@ -28,6 +28,17 @@ public class Subassembly {
     @JoinColumn(name = "subassembly_id")
     private List<Part> parts = new ArrayList<>();
 
+    /* CORRECT WAY - Joined tables
+    // A subassembly has one or more parts
+        @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "subassembly_part",
+        joinColumns = @JoinColumn(name = "subassembly_id"),
+        inverseJoinColumns = @JoinColumn(name = "part_id")
+    )
+    private List<Part> parts = new ArrayList<>();
+     */
+
     // Constructors, getters, setters, and methods below.
     public Subassembly(String subassemblyName) {
         this.subassemblyName = subassemblyName;
