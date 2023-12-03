@@ -30,7 +30,6 @@ public class Machine {
     @Column(name = "machine_machine")
     private String machineMachine;
 
-
     // A machine has one or more subassemblies
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "subassembly_id")

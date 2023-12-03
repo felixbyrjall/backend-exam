@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Address (
     );
 
 -- (Joined Table for Many-to-Many relationship)
-CREATE TABLE IF NOT EXISTS CustomerAddress (
+CREATE TABLE IF NOT EXISTS Customer_Address (
     customer_id INT,
     address_id INT,
     FOREIGN KEY (customer_id) REFERENCES Customer (id),
