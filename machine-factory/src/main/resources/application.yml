@@ -14,4 +14,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    #open-in-view: false (to solve the warning)
+    open-in-view: false #(in case of unexpected performance issues)
