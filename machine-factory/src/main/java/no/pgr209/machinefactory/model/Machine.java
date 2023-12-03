@@ -28,20 +28,8 @@ public class Machine {
     private String machineType;
 
     // A machine has one or more subassemblies
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "machine_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subassembly> subassemblies = new ArrayList<>();
-
-    /* CORRECT WAY - Joined tables
-    // A machine has one or more subassemblies
-        @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "machine_subassembly",
-        joinColumns = @JoinColumn(name = "machine_id"),
-        inverseJoinColumns = @JoinColumn(name = "subassembly_id")
-    )
-    private List<Subassembly> subassemblies = new ArrayList<>();
-    */
 
     // Constructors, getters, setters, and methods below.
     public Machine(String machineName, String machineType) {
