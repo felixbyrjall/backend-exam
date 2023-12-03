@@ -13,6 +13,6 @@ spring:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none # Implemented flyway.
     open-in-view: false # (in case of unexpected performance issues, as recommended per documentation)
 

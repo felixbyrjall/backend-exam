@@ -1,12 +1,12 @@
 -- Customer Table
-CREATE TABLE IF NOT EXISTS Customer (
+CREATE TABLE Customer (
     id INT PRIMARY KEY,
     customer_name VARCHAR(255),
     customer_email VARCHAR(255)
     );
 
 -- Address Table
-CREATE TABLE IF NOT EXISTS Address (
+CREATE TABLE Address (
     id INT PRIMARY KEY,
     address_street VARCHAR(255),
     address_city VARCHAR(255),
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Address (
     );
 
 -- (Joined Table for Many-to-Many relationship)
-CREATE TABLE IF NOT EXISTS Customer_Address (
+CREATE TABLE Customer_Address (
     customer_id INT,
     address_id INT,
     FOREIGN KEY (customer_id) REFERENCES Customer (id),
@@ -22,14 +22,14 @@ CREATE TABLE IF NOT EXISTS Customer_Address (
     );
 
 -- Machine Table
-CREATE TABLE IF NOT EXISTS Machine (
+CREATE TABLE Machine (
     id INT PRIMARY KEY,
     machine_name VARCHAR(255),
     machine_type VARCHAR(255)
     );
 
 -- Order Table
-CREATE TABLE IF NOT EXISTS "Order" (
+CREATE TABLE "Order" (
     id INT PRIMARY KEY,
     order_date TIMESTAMP,
     customer_id INT,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS "Order" (
     );
 
 -- Subassembly Table
-CREATE TABLE IF NOT EXISTS Subassembly (
+CREATE TABLE Subassembly (
     id INT PRIMARY KEY,
     subassembly_name VARCHAR(255),
     machine_id INT,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS Subassembly (
     );
 
 -- Part Table
-CREATE TABLE IF NOT EXISTS Part (
+CREATE TABLE Part (
     id INT PRIMARY KEY,
     part_name VARCHAR(255),
     subassembly_id INT,
