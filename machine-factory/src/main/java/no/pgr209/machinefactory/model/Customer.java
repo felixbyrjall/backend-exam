@@ -39,7 +39,7 @@ public class Customer {
 
     // A customer can have many orders
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "customer_id")
     private List<Order> orders = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

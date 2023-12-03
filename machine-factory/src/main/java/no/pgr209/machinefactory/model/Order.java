@@ -38,6 +38,7 @@ public class Order {
 
     // What is ordered - An order has one or more machines
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     private List<Machine> machines = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
