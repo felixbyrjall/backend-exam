@@ -27,6 +27,8 @@ public class Machine {
     @Column(name = "machine_type")
     private String machineType;
 
+    @Column(name = "machine_machine")
+    private String machineMachine;
 
 
     // A machine has one or more subassemblies
