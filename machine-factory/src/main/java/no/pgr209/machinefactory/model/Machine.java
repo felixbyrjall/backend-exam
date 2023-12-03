@@ -32,7 +32,7 @@ public class Machine {
 
     // A machine has one or more subassemblies
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subassembly_id")
+    @JoinColumn(name = "machine_id")
     private List<Subassembly> subassemblies = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

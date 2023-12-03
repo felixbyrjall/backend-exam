@@ -20,6 +20,10 @@ public class Part {
     @Column(name = "part_name")
     private String partName;
 
+    @ManyToOne
+    @JoinColumn(name = "subassembly_id")
+    private Subassembly subassembly;
+
     // Constructors, getters, setters, and methods below.
     public Part(String partName) {
         this.partName = partName;

@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "\"order\"")
+@Table(name = "\"ORDER\"")
 public class Order {
 
     @Id
@@ -37,12 +37,12 @@ public class Order {
     private Address address;
 
     // What is ordered - An order has one or more machines
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "machine_id")
-    private List<Machine> machines = new ArrayList<>();
+    private Machine machine;
 
     // Constructors, getters, setters, and methods below.
-    public void Machine(LocalDateTime orderDate) {
+    public void Order(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 }

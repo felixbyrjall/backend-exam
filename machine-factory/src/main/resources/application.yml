@@ -6,13 +6,10 @@ spring:
     driverClassName: org.h2.Driver
     generate-unique-name: false
     name: machine_factory
-  flyway:
-    locations: classpath:db/migration
   h2:
     console:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: none # Implemented flyway.
+      ddl-auto: update # Implemented flyway.
     open-in-view: false # (in case of unexpected performance issues, as recommended per documentation)
-
