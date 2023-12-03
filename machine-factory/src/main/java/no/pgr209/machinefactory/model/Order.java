@@ -37,9 +37,8 @@ public class Order {
     private Address address;
 
     // What is ordered - An order has one or more machines
-    @ManyToOne
-    @JoinColumn(name = "machine_id")
-    private Machine machine;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Machine> machines = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
     public void Order(LocalDateTime orderDate) {

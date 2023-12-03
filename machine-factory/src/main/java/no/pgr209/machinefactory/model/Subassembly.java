@@ -23,10 +23,6 @@ public class Subassembly {
     @Column(name = "subassembly_name")
     private String subassemblyName;
 
-    @ManyToOne
-    @JoinColumn(name = "machine_id")
-    private Machine machine;
-
     // A subassembly has one or more parts
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "subassembly_id")
