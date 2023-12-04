@@ -23,4 +23,8 @@ public class OrderService {
         return orderRepo.findAll();
     }
 
+    //Get order by specific id
+    public Order getOrderById(Long id){
+        return orderRepo.findById(id).orElse(null);
+    }
 }
