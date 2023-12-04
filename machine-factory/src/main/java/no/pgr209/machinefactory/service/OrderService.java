@@ -1,5 +1,6 @@
 package no.pgr209.machinefactory.service;
 
+import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,11 @@ public class OrderService {
     public void deleteOrder(Long id) {
         orderRepo.deleteById(id);
     }
+
+    //Add a customer to an order
+    /*public Order addCustomerToAnOrder(Customer customer, Long id) {
+        var order = orderRepo.findById(id).orElseThrow();
+        order.getAllCustomers().add(customer);
+        return orderRepo.save(order);
+    }*/
 }
