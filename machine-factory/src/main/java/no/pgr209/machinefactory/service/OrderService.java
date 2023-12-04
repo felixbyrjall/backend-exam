@@ -19,12 +19,17 @@ public class OrderService {
     }
 
     //Get ALL orders
-    public List<Order> getAllOrders(){
+    public List<Order> getAllOrders() {
         return orderRepo.findAll();
     }
 
     //Get order by specific id
-    public Order getOrderById(Long id){
+    public Order getOrderById(Long id) {
         return orderRepo.findById(id).orElse(null);
+    }
+
+    //Create an order
+    public Order createOrder(Order order) {
+        return orderRepo.save(order);
     }
 }
