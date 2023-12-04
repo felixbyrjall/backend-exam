@@ -2,6 +2,7 @@ package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.repo.PartRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 public class PartService {
     private final PartRepo partRepo;
 
+    @Autowired
     public PartService(PartRepo partRepo) {
         this.partRepo = partRepo;
     }
