@@ -32,4 +32,9 @@ public class OrderService {
     public Order createOrder(Order order) {
         return orderRepo.save(order);
     }
+
+    //Delete an order
+    public void deleteOrder(Long id) {
+        orderRepo.deleteById(id);
+    }
 }
