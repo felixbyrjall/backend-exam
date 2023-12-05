@@ -28,7 +28,7 @@ public class PartService {
         return partRepo.save(part);
     }
 
-    public void deletePart(Long id) {
+    public void deletePartById(Long id) {
         partRepo.deleteById(id);
     }
 }

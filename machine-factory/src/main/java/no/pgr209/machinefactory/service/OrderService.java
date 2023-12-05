@@ -35,7 +35,7 @@ public class OrderService {
     }
 
     //Delete an order
-    public void deleteOrder(Long id) {
+    public void deleteOrderById(Long id) {
         orderRepo.deleteById(id);
     }
 }

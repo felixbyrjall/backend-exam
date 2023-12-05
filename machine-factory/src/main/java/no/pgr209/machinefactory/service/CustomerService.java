@@ -29,7 +29,7 @@ public class CustomerService {
         return customerRepo.save(customer);
     }
 
-    public void deleteCustomer(Long id) {
+    public void deleteCustomerById(Long id) {
         customerRepo.deleteById(id);
     }
 

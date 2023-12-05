@@ -28,7 +28,7 @@ public class SubassemblyService {
         return subassemblyRepo.save(subassembly);
     }
 
-    public void deleteSubassembly(Long id) {
+    public void deleteSubassemblyById(Long id) {
         subassemblyRepo.deleteById(id);
     }
 }

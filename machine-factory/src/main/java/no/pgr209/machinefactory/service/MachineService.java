@@ -28,7 +28,7 @@ public class MachineService {
         return machineRepo.save(machine);
     }
 
-    public void deleteMachine(Long id) {
+    public void deleteMachineById(Long id) {
         machineRepo.deleteById(id);
     }
 }
