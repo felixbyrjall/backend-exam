@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class MachineFactoryApplication {
 
 
 	@Bean
+	@Profile("!test") // Seperate CommandLine and Testing.
 	CommandLineRunner commandLineRunner(
 			AddressRepo addressRepo,
 			CustomerRepo customerRepo,
@@ -32,7 +34,7 @@ public class MachineFactoryApplication {
 		return args -> {
 			List<Machine> machineList = new ArrayList<>();
 
-			Customer customer = customerRepo.save(new Customer("Ola Normann", "ola@normann.no"));
+			Customer customer = customerRepo.save(new Customer("Ola Nordmann", "ola@nordmann.no"));
 			Address address = addressRepo.save(new Address("Storgata 33", "Oslo", 2204));
 
 			var machine1 = new Machine("3D printer", "Electronics");
