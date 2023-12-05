@@ -44,6 +44,4 @@ public class Order {
     public void Order(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
-
-    //private List<Customer> customers = new ArrayList<>();
 }
