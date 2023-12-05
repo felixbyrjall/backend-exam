@@ -2,6 +2,7 @@ package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.service.MachineService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public class MachineController {
     private final MachineService machineService;
 
+    @Autowired
     public MachineController(MachineService machineService) {
         this.machineService = machineService;
     }
