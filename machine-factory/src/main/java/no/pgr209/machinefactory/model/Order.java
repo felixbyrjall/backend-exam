@@ -36,10 +36,11 @@ public class Order {
     // Where is order shipping to - An address can have many orders.
     @ManyToOne
     @JoinColumn(name = "address_id")
+    @JsonIgnoreProperties({"customers"})
     private Address address;
 
     // What is ordered - An order has one or more machines
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Machine> machines = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

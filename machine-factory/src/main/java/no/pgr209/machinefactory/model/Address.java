@@ -1,6 +1,8 @@
 package no.pgr209.machinefactory.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -37,6 +39,7 @@ public class Address {
 
     // A customer can have many addresses, and an address has one or more customers.
     @ManyToMany(mappedBy = "addresses", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"orders", "addresses"})
     private List<Customer> customers = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
