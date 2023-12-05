@@ -38,11 +38,4 @@ public class OrderService {
     public void deleteOrder(Long id) {
         orderRepo.deleteById(id);
     }
-
-    //Add a customer to an order
-    /*public Order addCustomerToAnOrder(Customer customer, Long id) {
-        var order = orderRepo.findById(id).orElseThrow();
-        order.getAllCustomers().add(customer);
-        return orderRepo.save(order);
-    }*/
 }
