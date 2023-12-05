@@ -3,9 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +18,28 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    //Get all orders
     @GetMapping
     public List<Order> getAllOrders(){
         return orderService.getOrders();
     }
+
+    //Get order by id
+    @GetMapping("/{id}")
+    public Order getOrderById(@PathVariable Long id) {
+        return orderService.getOrderById(id);
+    }
+
+    //Create an order
+    @PostMapping
+    public Order createOrder(@RequestBody Order order) {
+        return orderService.createOrder(order);
+    }
+
+    //Delete order by id
+    @DeleteMapping("/{id}")
+    public void deleteOrderById(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+    }
+
 }
