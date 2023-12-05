@@ -37,7 +37,7 @@ public class Order {
     private Address address;
 
     // What is ordered - An order has one or more machines
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Machine> machines = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

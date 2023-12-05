@@ -24,7 +24,7 @@ public class Subassembly {
     private String subassemblyName;
 
     // A subassembly has one or more parts
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Part> parts = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
