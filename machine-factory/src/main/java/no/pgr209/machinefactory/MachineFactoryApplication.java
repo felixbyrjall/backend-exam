@@ -33,10 +33,6 @@ public class MachineFactoryApplication {
 		return args -> {
 			List<Machine> machineList1 = new ArrayList<>();
 
-
-			Customer customer1 = customerRepo.save(new Customer("Ola Normann", "ola@normann.no"));
-			Address address1 = addressRepo.save(new Address("Storgata 33", "Oslo", 2204));
-
 			var machine1 = new Machine("3D printer", "Electronics");
 			var machine2 = new Machine("Speaker", "Electronics");
 
@@ -45,6 +41,12 @@ public class MachineFactoryApplication {
 
 			Part part = partRepo.save(new Part("Printer nozzle"));
 			Subassembly subassembly = subassemblyRepo.save(new Subassembly("Printer head"));
+
+			Customer customer1 = customerRepo.save(new Customer("Ola Normann", "ola@normann.no"));
+			Address address1 = addressRepo.save(new Address("Storgata 33", "Oslo", 2204));
+
+			customer1.getAddresses().add(address1);
+			customerRepo.save(customer1);
 
 			Order order1 = orderRepo.save(new Order());
 
