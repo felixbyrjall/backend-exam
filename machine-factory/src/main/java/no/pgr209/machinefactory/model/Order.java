@@ -41,7 +41,7 @@ public class Order {
     private List<Machine> machines = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
-    public void Order(LocalDateTime orderDate) {
+    public Order(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 }
