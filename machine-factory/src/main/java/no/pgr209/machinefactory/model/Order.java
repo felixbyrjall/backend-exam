@@ -1,5 +1,6 @@
 package no.pgr209.machinefactory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Order {
     // Who ordered - A customer can have many orders.
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnoreProperties({"addresses", "orders"})
     private Customer customer;
 
     // Where is order shipping to - An address can have many orders.
