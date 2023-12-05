@@ -17,7 +17,7 @@ public class CustomerService {
         this.customerRepo = customerRepo;
     }
 
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getCustomers() {
         return customerRepo.findAll();
     }
 

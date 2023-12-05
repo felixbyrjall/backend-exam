@@ -16,7 +16,7 @@ public class AddressService {
         this.addressRepo = addressRepo;
     }
 
-    public List<Address> getAllAddresses() {
+    public List<Address> getAddresses() {
         return addressRepo.findAll();
     }
 

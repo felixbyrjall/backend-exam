@@ -16,7 +16,7 @@ public class SubassemblyService {
         this.subassemblyRepo = subassemblyRepo;
     }
 
-    public List<Subassembly> getAllSubassemblies() {
+    public List<Subassembly> getSubassemblies() {
         return subassemblyRepo.findAll();
     }
 

@@ -16,7 +16,7 @@ public class MachineService {
         this.machineRepo = machineRepo;
     }
 
-    public List<Machine> getAllMachines() {
+    public List<Machine> getMachines() {
         return machineRepo.findAll();
     }
 

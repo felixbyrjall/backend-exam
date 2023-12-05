@@ -20,7 +20,7 @@ public class OrderService {
     }
 
     //Get ALL orders
-    public List<Order> getAllOrders() {
+    public List<Order> getOrders() {
         return orderRepo.findAll();
     }
 

@@ -16,7 +16,7 @@ public class PartService {
         this.partRepo = partRepo;
     }
 
-    public List<Part> getAllParts() {
+    public List<Part> getParts() {
         return partRepo.findAll();
     }
 
