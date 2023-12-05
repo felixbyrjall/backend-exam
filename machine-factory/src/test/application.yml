@@ -5,7 +5,7 @@ spring:
     password:
     driverClassName: org.h2.Driver
     generate-unique-name: false
-    name: machine_factory
+    name: machine_factory_test
   h2:
     console:
       enabled: true
