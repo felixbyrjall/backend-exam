@@ -39,7 +39,6 @@ public class DataFeedService {
         customerOne = customerRepo.save(customerOne);
         addressOne = addressRepo.save(addressOne);
 
-
         // Initialize Second Customer and Address
         Customer customerTwo = new Customer("Kari Hansen", "kari@hansen.no");
         Address addressTwo = new Address("Husmannsgate 14", "Oslo", 2232);
