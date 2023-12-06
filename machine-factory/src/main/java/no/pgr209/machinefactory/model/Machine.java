@@ -28,7 +28,7 @@ public class Machine {
     private String machineType;
 
     // A machine has one or more subassemblies
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Subassembly> subassemblies = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

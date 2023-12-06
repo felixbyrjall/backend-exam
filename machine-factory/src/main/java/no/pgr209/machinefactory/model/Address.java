@@ -1,6 +1,8 @@
 package no.pgr209.machinefactory.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_gen")
     @SequenceGenerator(name = "address_seq_gen", sequenceName = "address_seq", allocationSize = 1)
     @Column(name = "address_id")
-    private Long addressId = 0L;
+    private Long addressId;
 
     @Column(name = "address_street")
     private String addressStreet;
@@ -31,13 +33,8 @@ public class Address {
     private Integer addressZip;
 
     // A customer can have many addresses, and an address has one or more customers.
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "customer_address",
-            joinColumns = @JoinColumn(name = "address_id"),
-            inverseJoinColumns = @JoinColumn(name = "customer_id")
-    )
-    @JsonIgnoreProperties("addresses")
+    @ManyToMany(mappedBy = "addresses", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"orders", "addresses"})
     private List<Customer> customers = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

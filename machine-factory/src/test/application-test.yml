@@ -1,13 +1,13 @@
-spring.profiles.active: h2
+spring.profiles.active: test
 
 spring:
   datasource:
-    url: jdbc:h2:mem:mydb
+    url: jdbc:h2:mem:test
     username: sa
     password:
     driverClassName: org.h2.Driver
     generate-unique-name: false
-    name: machine_factory
+    name: machine_factory_test
   h2:
     console:
       enabled: true
