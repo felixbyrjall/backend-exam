@@ -42,7 +42,7 @@ public class Customer {
     // A customer can have many orders
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
-    @JsonIgnoreProperties({"customers", "machines", "addresses"})
+    @JsonIgnoreProperties({"customers", "machines", "address", "customer"})
     private List<Order> orders = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
