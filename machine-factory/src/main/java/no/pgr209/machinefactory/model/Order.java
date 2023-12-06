@@ -41,6 +41,7 @@ public class Order {
 
     // What is ordered - An order has one or more machines
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"subassemblies"})
     private List<Machine> machines = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

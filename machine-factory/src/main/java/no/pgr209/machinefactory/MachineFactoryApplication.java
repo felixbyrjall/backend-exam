@@ -18,6 +18,6 @@ public class MachineFactoryApplication {
 	@Bean
 	@Profile("!test") // Ensure it runs only when not in the test profile
 	CommandLineRunner commandLineRunner(DataFeedService dataFeedService) {
-		return args -> dataFeedService.initializeData(); // Initialize data for API requests.
+		return args -> dataFeedService.initializeData(); // Initialize sample data for API requests.
 	}
 }
