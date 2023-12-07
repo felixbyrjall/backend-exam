@@ -40,10 +40,4 @@ public class CustomerService {
         customerRepo.deleteById(id);
     }
 
-    //Add a customer to an order
-    public Customer addOrderToCustomer(Order order, Long id) {
-        var customer = customerRepo.findById(id).orElseThrow();
-        customer.getOrders().add(order);
-        return customerRepo.save(customer);
-    }
 }
