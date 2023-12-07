@@ -6,6 +6,7 @@ import no.pgr209.machinefactory.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +47,8 @@ public class OrderServiceIntegrationTest {
         order.setMachines(machines);
         orderService.createOrder(order);
 
-        var orders = orderService.getOrders();
+        var ordersOnAllPages = orderService.getOrders(Pageable.unpaged());
+        List<Order> orders = ordersOnAllPages.getContent();
 
         assert orders.size() == 1; // Test count
         assert orders.get(0).getCustomer().getCustomerName().equals("James Jameson"); // Test Customer
