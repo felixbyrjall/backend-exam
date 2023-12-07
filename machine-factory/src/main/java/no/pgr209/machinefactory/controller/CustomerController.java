@@ -13,12 +13,10 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final OrderService orderService;
 
     @Autowired
-    public CustomerController(CustomerService customerService, OrderService orderService) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.orderService = orderService;
     }
 
     //Get all customers
@@ -48,11 +46,4 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
     }
 
-    @PostMapping("/{id}/{orderId}")
-    public Customer addOrderToCustomer(@PathVariable Long id, @PathVariable Long orderId) {
-        var customer = customerService.getCustomerById(id);
-        var order = orderService.getOrderById(orderId);
-        customer.getOrders().add(order);
-        return customerService.createCustomer(customer);
-    }
 }
