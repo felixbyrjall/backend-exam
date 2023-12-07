@@ -23,30 +23,22 @@ public class OrderRepoUnitTest {
 
     @Test
     public void OrderRepo_Save_ReturnSavedOrder() {
-        // Arrange
         Order order = new Order();
-
-        // Act
         Order savedOrder = orderRepo.save(order);
 
-        // Assert
         assertNotNull(savedOrder);
         assertNotNull(savedOrder.getOrderId());
     }
 
     @Test
     public void OrderRepo_GetAll_ReturnNotEmpty() {
-        // Arrange
         Order firstOrder = new Order();
         Order secondOrder = new Order();
-
         orderRepo.save(firstOrder);
         orderRepo.save(secondOrder);
 
-        // Act
         List<Order> orders = orderRepo.findAll();
 
-        // Assert
         assertNotNull(orders);
         assertThat(orders.size()).isGreaterThan(0);
 
@@ -54,15 +46,11 @@ public class OrderRepoUnitTest {
 
     @Test
     public void OrderRepo_FindById_ReturnOrder() {
-        // Arrange
         Order order = new Order();
-
         orderRepo.save(order);
 
-        // Act
         Optional<Order> foundOrder = orderRepo.findById(order.getOrderId());
 
-        // Assert
         assertThat(foundOrder).isPresent();
     }
 }
