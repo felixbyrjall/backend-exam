@@ -3,6 +3,8 @@ package no.pgr209.machinefactory.service;
 import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class MachineService {
         this.machineRepo = machineRepo;
     }
 
-    public List<Machine> getMachines() {
-        return machineRepo.findAll();
+    public Page<Machine> getMachines(Pageable pageable) {
+        return machineRepo.findAll(pageable);
     }
 
     public Machine getMachineById(Long id) {
