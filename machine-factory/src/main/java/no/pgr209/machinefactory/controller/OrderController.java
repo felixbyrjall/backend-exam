@@ -3,9 +3,10 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/order")
@@ -20,8 +21,8 @@ public class OrderController {
 
     //Get all orders
     @GetMapping
-    public List<Order> getOrders(){
-        return orderService.getOrders();
+    public Page<Order> getOrders(Pageable pageable){
+        return orderService.getOrders(pageable);
     }
 
     //Get order by id

@@ -1,12 +1,11 @@
 package no.pgr209.machinefactory.service;
 
-import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class OrderService {
@@ -20,8 +19,8 @@ public class OrderService {
     }
 
     //Get ALL orders
-    public List<Order> getOrders() {
-        return orderRepo.findAll();
+    public Page<Order> getOrders(Pageable pageable) {
+        return orderRepo.findAll(pageable);
     }
 
     //Get order by specific id
