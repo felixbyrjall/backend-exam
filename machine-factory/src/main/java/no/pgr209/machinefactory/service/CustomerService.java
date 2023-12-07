@@ -4,8 +4,7 @@ import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +18,14 @@ public class CustomerService {
         this.customerRepo = customerRepo;
     }
 
-    public Page<Customer> getCustomers(Pageable pageable) {
-        return customerRepo.findAll(pageable);
+    //Get ALL customers
+    public List<Customer> getAllCustomers() {
+        return customerRepo.findAll();
+    }
+
+    //Get customers by page
+    public List<Customer> getCustomersByPage(int pageNr) {
+        return customerRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
     }
 
     public Customer getCustomerById(Long id) {

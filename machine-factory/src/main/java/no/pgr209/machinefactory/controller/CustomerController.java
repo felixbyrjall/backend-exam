@@ -4,8 +4,6 @@ import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.service.CustomerService;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +21,16 @@ public class CustomerController {
         this.orderService = orderService;
     }
 
-    @GetMapping
-    public Page<Customer> getCustomers(Pageable pageable) {
-        return customerService.getCustomers(pageable);
+    //Get all customers
+    @GetMapping()
+    public List<Customer> getAllCustomers() {
+        return customerService.getAllCustomers();
+    }
+
+    //Get customers by page
+    @GetMapping("/page/{pageNr}")
+    public List<Customer> getCustomersByPage(@PathVariable int pageNr) {
+        return customerService.getCustomersByPage(pageNr);
     }
 
     @GetMapping("/{id}")
