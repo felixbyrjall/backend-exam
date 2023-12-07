@@ -1,5 +1,7 @@
 package no.pgr209.machinefactory.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ public class AddressController {
     }
 
     @GetMapping
-    public List<Address> getAddresses() {
-        return addressService.getAddresses();
+    public Page<Address> getAddresses(Pageable pageable) {
+        return addressService.getAddresses(pageable);
     }
 
     @GetMapping("/{id}")

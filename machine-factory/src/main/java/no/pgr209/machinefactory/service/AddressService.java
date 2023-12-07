@@ -3,6 +3,8 @@ package no.pgr209.machinefactory.service;
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class AddressService {
         this.addressRepo = addressRepo;
     }
 
-    public List<Address> getAddresses() {
-        return addressRepo.findAll();
+    public Page<Address> getAddresses(Pageable pageable) {
+        return addressRepo.findAll(pageable);
     }
 
     public Address getAddressById(Long id) {
