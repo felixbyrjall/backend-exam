@@ -20,8 +20,8 @@ public class OrderService {
     }
 
     //Get ALL orders
-    public List<Order> getAllOrders(int MAX_SIZE) {
-        return orderRepo.findAll(PageRequest.of(0, MAX_SIZE)).stream().toList();
+    public List<Order> getAllOrders() {
+        return orderRepo.findAll();
     }
 
     //Get orders by page

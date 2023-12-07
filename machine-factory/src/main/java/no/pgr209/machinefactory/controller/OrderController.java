@@ -22,7 +22,7 @@ public class OrderController {
     //Get all orders
     @GetMapping()
     public List<Order> getAllOrders() {
-        return orderService.getAllOrders(Integer.MAX_VALUE);
+        return orderService.getAllOrders();
     }
 
     //Get orders by page

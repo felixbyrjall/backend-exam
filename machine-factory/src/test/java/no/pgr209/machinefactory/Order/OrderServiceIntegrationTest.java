@@ -47,8 +47,7 @@ public class OrderServiceIntegrationTest {
         order.setMachines(machines);
         orderService.createOrder(order);
 
-        var ordersOnAllPages = orderService.getOrders(Pageable.unpaged());
-        List<Order> orders = ordersOnAllPages.getContent();
+        var orders = orderService.getAllOrders();
 
         assert orders.size() == 1; // Test count
         assert orders.get(0).getCustomer().getCustomerName().equals("James Jameson"); // Test Customer
