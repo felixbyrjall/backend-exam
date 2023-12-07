@@ -3,6 +3,8 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.service.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +21,8 @@ public class PartController {
     }
 
     @GetMapping
-    public List<Part> getParts() {
-        return partService.getParts();
+    public Page<Part> getParts(Pageable pageable) {
+        return partService.getParts(pageable);
     }
 
     @GetMapping("/{id}")
