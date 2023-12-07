@@ -3,8 +3,6 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.service.SubassemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +18,16 @@ public class SubassemblyController {
         this.subassemblyService = subassemblyService;
     }
 
-    @GetMapping
-    public Page<Subassembly> getSubassemblies(Pageable pageable) {
-        return subassemblyService.getSubassemblies(pageable);
+    //Get all subassembly
+    @GetMapping()
+    public List<Subassembly> getAllSubassemblies() {
+        return subassemblyService.getAllSubassemblies();
+    }
+
+    //Get subassemblies by page
+    @GetMapping("/page/{pageNr}")
+    public List<Subassembly> getSubassembliesByPage(@PathVariable int pageNr) {
+        return subassemblyService.getSubassembliesByPage(pageNr);
     }
 
     @GetMapping("/{id}")

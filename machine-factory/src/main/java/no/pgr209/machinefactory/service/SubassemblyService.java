@@ -3,8 +3,7 @@ package no.pgr209.machinefactory.service;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +17,14 @@ public class SubassemblyService {
         this.subassemblyRepo = subassemblyRepo;
     }
 
-    public Page<Subassembly> getSubassemblies(Pageable pageable) {
-        return subassemblyRepo.findAll(pageable);
+    //Get ALL orders
+    public List<Subassembly> getAllSubassemblies() {
+        return subassemblyRepo.findAll();
+    }
+
+    //Get subassemblies by page
+    public List<Subassembly> getSubassembliesByPage(int pageNr) {
+        return subassemblyRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
     }
 
     public Subassembly getSubassemblyById(Long id) {
