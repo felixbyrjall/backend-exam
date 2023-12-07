@@ -20,48 +20,50 @@ The total file size of the entire exam paper/file must not exceed 5GB in zip for
 
 <h3>Assignment:</h3>
   
-- [ ] You will build a rest Api using Java and Spring Boot.
-- [ ] You must use Spring Data JPA and H2 in-memory database to persist all data.
-- [ ] You must use Repositories, Services, and RestControllers
-- [ ] You should implement pagination for all endpoints that return lists
+- [x] You will build a rest Api using Java and Spring Boot.
+- [x] You must use Spring Data JPA and H2 in-memory database to persist all data.
+- [x] You must use Repositories, Services, and RestControllers
+- [x] You should implement pagination for all endpoints that return lists
 - [ ] You may implement Flyway, but it is not required
-- [ ] You should have the following tests, making use of @SpringBootTest, @DataJpaTest where necessary:
+- [x] You should have the following tests, making use of @SpringBootTest, @DataJpaTest where necessary:
 - [ ] Unit tests of services and business logic using MockBean
-- [ ] Integrations tests
+- [x] Integrations tests
 - [ ] End-to-end tests using MockMvc
 
   
 You are building an order system for a factory that sells machines.
 The domain objects are as follows:
 
-- [ ] Customer
-- [ ] Address
-- [ ] Order
-- [ ] Machine
-- [ ] Subassembly
-- [ ] Part
+- [x] Customer
+- [x] Address
+- [x] Order
+- [x] Machine
+- [x] Subassembly
+- [x] Part
 
-<p>A customer can have many addresses<br>
-An address has one or more customers<br>
-A customer can have many orders<br>
-An order has one or more machines<br>
-A machine has one or more subassemblies<br>
-A subassembly has one or more parts</p>
+Model:
+- [x] A customer can have many addresses<br>
+- [x] An address has one or more customers<br>
+- [x] A customer can have many orders<br>
+- [x] An order has one or more machines<br>
+- [x] A machine has one or more subassemblies<br>
+- [x] A subassembly has one or more parts
 
-<p>- Customer must know about addresses, and addresses must know customers they belong to.<br/>
-- Order must know about customers, and customers must know all their orders.<br>
-- Order must know about machines, but machines do not need to know what orders they are part of.<br>
-- Machines must know what subassemblies they require, <br>
+More model:
+- [x] Customer must know about addresses, and addresses must know customers they belong to.<br/>
+- [x] Order must know about customers, and customers must know all their orders.<br>
+- [x] Order must know about machines, but machines do not need to know what orders they are part of.<br>
+- [x] Machines must know what subassemblies they require, <br>
   subassemblies do not need to know what machines they are a part of.<br>
-- Subassemblies must know about parts, parts do not need to know what machines they are part of</p>
+- [x] Subassemblies must know about parts, parts do not need to know what machines they are part of
 
-<p>Controllers, Services, Repositories should be implemented for all domain objects,<br/> implementing the follow
-ing functionality:</br>
-- Get one by id</br>
-- Get all with pagination<br>
-- Create one<br>
-- Delete one<br>
-- Update one<br></p>
+Controllers, Services, Repositories should be implemented for all domain objects,<br/> 
+implementing the following functionality:</br>
+- [x] Get one by id</br>
+- [ ] Get all with pagination<br>
+- [x] Create one<br>
+- [x] Delete one<br>
+- [ ] Update one<br>
 
 <p>Additional functionality can be added, such as:<br/>
 - Create a customer, and add an address to it<br/>
@@ -71,22 +73,22 @@ ing functionality:</br>
 <h3>Delivery:</h3>
 
 - [ ] You should deliver a zip file with your complete code.<br/>
-- [ ] DO NOT INCLUDE THE /TARGET DIRECTORY.<br/>
+- [x] DO NOT INCLUDE THE /TARGET DIRECTORY.<br/>
 - [ ] Include a readme file in the project root.<br/>
 - [ ] This file should include any instructions needed to run the application.<br/>
 - [ ] This readme should also include anything you were unable to get working, <br/>
-- [ ] and what you tried to do to fix it.<br/>
+      and what you tried to do to fix it.<br/>
 - [ ] Do not include names of the group members.
 
 <h3>Grading:</h3>
 
-- [ ] F - That application does not include at least one model,<br>
+- [x] F - That application does not include at least one model,<br>
 repository, service, controller, or the application does not run.
-- [ ] E - The application implements partial functionality<br>
-- [ ] D - The application implements complete fuctionality, but no tests
-- [ ] C - The application implements complete functionality,<br>
+- [x] E - The application implements partial functionality<br>
+- [x] D - The application implements complete fuctionality, but no tests
+- [x] C - The application implements complete functionality,<br>
 some additional functionality and includes unit tests
-- [ ] B - The application implements complete functionality,<br>
+- [x] B - The application implements complete functionality,<br>
 - [ ] some additional functionality and includes both unit and integration tests
 - [ ] A - The application implements complete functionality, <br>
 some additional functionality and includes unit, integration, <br>
