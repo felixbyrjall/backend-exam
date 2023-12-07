@@ -22,7 +22,7 @@ public class AddressService {
         return addressRepo.findAll();
     }
 
-    //Get customers by page
+    //Get addresses by page
     public List<Address> getAddressesByPage(int pageNr) {
         return addressRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
     }
