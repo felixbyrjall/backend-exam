@@ -34,7 +34,6 @@ public class OrderServiceUnitTest {
         when(orderRepo.findAll()).thenReturn(orderList);
 
         var orders = orderService.getAllOrders();
-
         assert orders.size() == 2;
     }
 
@@ -48,7 +47,6 @@ public class OrderServiceUnitTest {
         when(orderRepo.findAll(any(PageRequest.class))).thenReturn(orderPage);
 
         List<Order> orders = orderService.getOrdersByPage(0);
-
         assertTrue(orders.size() == 12);
     }
 }

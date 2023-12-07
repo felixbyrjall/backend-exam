@@ -30,10 +30,9 @@ public class OrderServiceIntegrationTest {
     @Test
     @Transactional
     void shouldFetchOrders(){
-        var order = new Order(LocalDateTime.now());
-
         Customer customer = customerRepo.save(new Customer("James Jameson", "James@jameson.com"));
         Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", 2013));
+        var order = new Order(LocalDateTime.now());
 
         List<Machine> machines = new ArrayList<>();
         var FirstMachine = new Machine("3D Printer", "Electronics");
