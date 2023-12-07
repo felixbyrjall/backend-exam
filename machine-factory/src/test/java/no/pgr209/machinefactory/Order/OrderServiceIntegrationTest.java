@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 @ActiveProfiles("test") // Seperate CommandLine and Testing.
 public class OrderServiceIntegrationTest {
@@ -48,15 +50,19 @@ public class OrderServiceIntegrationTest {
 
         var orders = orderService.getAllOrders();
 
-        assert orders.size() == 1; // Test count
-        assert orders.get(0).getCustomer().getCustomerName().equals("James Jameson"); // Test Customer
-        assert orders.get(0).getCustomer().getCustomerEmail().equals("James@jameson.com");
-        assert orders.get(0).getAddress().getAddressCity().equals("Skjetten"); // Test address
-        assert orders.get(0).getAddress().getAddressStreet().equals("Karihaugsveien 78");
-        assert orders.get(0).getAddress().getAddressZip().equals(2013);
-        assert orders.get(0).getMachines().get(0).getMachineName().equals("3D Printer"); // Test machine
-        assert orders.get(0).getMachines().get(0).getMachineType().equals("Electronics");
-        assert orders.get(0).getMachines().get(1).getMachineName().equals("Speaker"); // Test second index machine
-        assert orders.get(0).getMachines().get(1).getMachineType().equals("Electronics");
+        assertEquals(1, orders.size());
+
+        assertEquals("James Jameson", orders.get(0).getCustomer().getCustomerName());
+        assertEquals("James@jameson.com", orders.get(0).getCustomer().getCustomerEmail());
+
+        assertEquals("Skjetten", orders.get(0).getAddress().getAddressCity());
+        assertEquals("Karihaugsveien 78", orders.get(0).getAddress().getAddressStreet());
+        assertEquals(2013, orders.get(0).getAddress().getAddressZip());
+
+        assertEquals("3D Printer", orders.get(0).getMachines().get(0).getMachineName());
+        assertEquals("Electronics", orders.get(0).getMachines().get(0).getMachineType());
+
+        assertEquals("Speaker", orders.get(0).getMachines().get(1).getMachineName());
+        assertEquals("Electronics", orders.get(0).getMachines().get(1).getMachineType());
     }
 }
