@@ -4,6 +4,8 @@ import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,5 +44,19 @@ public class OrderService {
     //Delete an order
     public void deleteOrderById(Long id) {
         orderRepo.deleteById(id);
+    }
+
+    //Update an order
+    public ResponseEntity<Order> updateOrder(Long id, Order updatedOrder) {
+        Order existingOrder = orderRepo.findById(id).orElse(null);
+
+        if(existingOrder != null) {
+
+            existingOrder.setOrderDate(updatedOrder.getOrderDate());
+            return new ResponseEntity<>(orderRepo.save(existingOrder), HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

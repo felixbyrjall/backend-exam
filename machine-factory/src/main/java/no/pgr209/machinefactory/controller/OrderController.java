@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,5 +48,10 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public void deleteOrderById(@PathVariable Long id) {
         orderService.deleteOrderById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
+        return orderService.updateOrder(id, updatedOrder);
     }
 }
