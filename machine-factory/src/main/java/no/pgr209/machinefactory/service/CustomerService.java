@@ -1,10 +1,11 @@
 package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Customer;
-import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,4 +41,17 @@ public class CustomerService {
         customerRepo.deleteById(id);
     }
 
+    public ResponseEntity<Customer> updateCustomer(Long id, Customer updatedCustomer) {
+        Customer existingCustomer = customerRepo.findById(id).orElse(null);
+
+        if(existingCustomer != null) {
+
+            existingCustomer.setCustomerName(updatedCustomer.getCustomerName());
+            existingCustomer.setCustomerEmail(updatedCustomer.getCustomerEmail());
+            return new ResponseEntity<>(customerRepo.save(existingCustomer), HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

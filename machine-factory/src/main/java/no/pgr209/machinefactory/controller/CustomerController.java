@@ -2,8 +2,8 @@ package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.service.CustomerService;
-import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,4 +46,8 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+        return customerService.updateCustomer(id, updatedCustomer);
+    }
 }
