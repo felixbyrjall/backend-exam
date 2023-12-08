@@ -62,7 +62,7 @@ public class OrderIntegrationTest {
             {
                 "customerId": %d,
                 "addressId": %d,
-                "machineIds": [%d, %d],
+                "machineId": [%d, %d],
                 "orderDate": "2023-01-01T00:00:00"
             }
             """, customerId, addressId, machineId1, machineId2);
