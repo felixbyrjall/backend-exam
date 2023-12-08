@@ -4,6 +4,8 @@ import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,5 +39,20 @@ public class AddressService {
 
     public void deleteAddressById(Long id) {
         addressRepo.deleteById(id);
+    }
+
+    public ResponseEntity<Address> updateAddress(Long id, Address updatedAddress) {
+        Address existingAddress = addressRepo.findById(id).orElse(null);
+
+        if(existingAddress != null) {
+
+            existingAddress.setAddressStreet(updatedAddress.getAddressStreet());
+            existingAddress.setAddressCity(updatedAddress.getAddressCity());
+            existingAddress.setAddressZip(updatedAddress.getAddressZip());
+            return new ResponseEntity<>(addressRepo.save(existingAddress), HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

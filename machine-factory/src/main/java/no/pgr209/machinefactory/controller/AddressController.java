@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +44,10 @@ public class AddressController {
     @DeleteMapping("/{id}")
     public void deleteAddressById(@PathVariable Long id) {
         addressService.deleteAddressById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody Address updatedAddress) {
+        return addressService.updateAddress(id, updatedAddress);
     }
 }
