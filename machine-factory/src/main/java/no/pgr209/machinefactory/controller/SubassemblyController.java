@@ -1,8 +1,10 @@
 package no.pgr209.machinefactory.controller;
 
+import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.service.SubassemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +45,10 @@ public class SubassemblyController {
     @DeleteMapping("/{id}")
     public void deleteSubassemblyById(@PathVariable Long id) {
         subassemblyService.deleteSubassemblyById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Subassembly> updateSubassembly(@PathVariable Long id, @RequestBody Part updatedSubassembly) {
+        return subassemblyService.updateSubassembly(id, updatedSubassembly);
     }
 }
