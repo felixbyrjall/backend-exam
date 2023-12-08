@@ -10,8 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -74,8 +73,30 @@ public class OrderIntegrationTest {
                 .andReturn();
     }
 
+    @Test
+    void shouldUpdateOrder() throws Exception {
 
+        String orderJson = String.format("""
+            {
+                "customerId": 2,
+                "addressId": 2,
+                "machineId": [2],
+                "orderDate": "2023-01-01T00:00:00"
+            }
+            """);
 
+        mockMvc.perform(put("/api/order/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderJson))
+                .andExpect(status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerName").value("Kari Hansen"))
+                .andReturn();
+    }
 
+    @Test // Needs to look over.
+    void updateOrderNotFound() throws Exception {
+        mockMvc.perform(put("/api/order/50"))
+                .andExpect(status().is(400));
+    }
 
 }
