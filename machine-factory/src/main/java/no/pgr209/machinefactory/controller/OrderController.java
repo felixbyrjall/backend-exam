@@ -1,6 +1,7 @@
 package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Order;
+import no.pgr209.machinefactory.model.UpdateOrderDTO;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
-        return orderService.updateOrder(id, updatedOrder);
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody UpdateOrderDTO updateOrderDTO) {
+        return orderService.updateOrder(id, updateOrderDTO);
     }
 }
