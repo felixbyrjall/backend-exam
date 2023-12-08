@@ -1,6 +1,5 @@
 package no.pgr209.machinefactory.service;
 
-import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +41,12 @@ public class SubassemblyService {
         subassemblyRepo.deleteById(id);
     }
 
-    public ResponseEntity<Subassembly> updateSubassembly(Long id, Part updatedSubassembly) {
+    public ResponseEntity<Subassembly> updateSubassembly(Long id, Subassembly updatedSubassembly) {
         Subassembly existingSubassembly = subassemblyRepo.findById(id).orElse(null);
 
         if(existingSubassembly != null) {
 
-            existingSubassembly.setSubassemblyName(updatedSubassembly.getPartName());
+            existingSubassembly.setSubassemblyName(updatedSubassembly.getSubassemblyName());
             return new ResponseEntity<>(subassemblyRepo.save(existingSubassembly), HttpStatus.OK);
 
         } else {

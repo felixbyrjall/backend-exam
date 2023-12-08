@@ -1,6 +1,5 @@
 package no.pgr209.machinefactory.controller;
 
-import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.service.SubassemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,7 @@ public class SubassemblyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Subassembly> updateSubassembly(@PathVariable Long id, @RequestBody Part updatedSubassembly) {
+    public ResponseEntity<Subassembly> updateSubassembly(@PathVariable Long id, @RequestBody Subassembly updatedSubassembly) {
         return subassemblyService.updateSubassembly(id, updatedSubassembly);
     }
 }
