@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,5 +43,10 @@ public class MachineController {
     @DeleteMapping("/{id}")
     public void deleteMachineById(@PathVariable Long id) {
         machineService.deleteMachineById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Machine> updateMachine(@PathVariable Long id, @RequestBody Machine updatedMachine) {
+        return machineService.updateMachine(id, updatedMachine);
     }
 }

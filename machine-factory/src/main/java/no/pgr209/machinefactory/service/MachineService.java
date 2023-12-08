@@ -4,6 +4,8 @@ import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,5 +39,19 @@ public class MachineService {
 
     public void deleteMachineById(Long id) {
         machineRepo.deleteById(id);
+    }
+
+    public ResponseEntity<Machine> updateMachine(Long id, Machine updatedMachine) {
+        Machine existingMachine = machineRepo.findById(id).orElse(null);
+
+        if(existingMachine != null) {
+
+            existingMachine.setMachineName(updatedMachine.getMachineName());
+            existingMachine.setMachineType(updatedMachine.getMachineType());
+            return new ResponseEntity<>(machineRepo.save(existingMachine), HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
