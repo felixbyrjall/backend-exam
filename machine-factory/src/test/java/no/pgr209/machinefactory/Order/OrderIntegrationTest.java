@@ -163,6 +163,24 @@ public class OrderIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test // Testing PUT request, updating an order.
+    void shouldNotUpdateOrderWithInvalidData() throws Exception {
+
+        String orderJson = String.format("""
+        {
+            "customerId": %d,
+            "addressId": %d,
+            "machineId": [%d],
+            "orderDate": "2023-01-01T00:00:00"
+        }
+        """, 15L, 16L, 5L);
+
+        mockMvc.perform(put("/api/order/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderJson))
+                .andExpect(status().isNotFound());
+    }
+
     @Test // Test DELETE request.
     void shouldDeleteOrderById() throws Exception {
         mockMvc.perform(get("/api/order/2")) // Check if order exist.
