@@ -27,25 +27,29 @@ public class OrderServiceIntegrationTest {
     AddressRepo addressRepo;
 
     @Autowired
+    MachineRepo machineRepo;
+
+    @Autowired
     CustomerRepo customerRepo;
 
-    /*@Test
+    @Test
     @Transactional
     void shouldFetchOrders(){
         Customer customer = customerRepo.save(new Customer("James Jameson", "James@jameson.com"));
         Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", 2013));
         OrderDTO order = new OrderDTO();
 
-        List<Machine> machines = new ArrayList<>();
-        var FirstMachine = new Machine("3D Printer", "Electronics");
-        var SecondMachine = new Machine("Speaker", "Electronics");
+        List<Long> machines = new ArrayList<>();
+        var FirstMachine = machineRepo.save(new Machine("3D Printer", "Electronics"));
+        var SecondMachine = machineRepo.save(new Machine("Speaker", "Electronics"));
 
-        machines.add(FirstMachine);
-        machines.add(SecondMachine);
+        machines.add(FirstMachine.getMachineId());
+        machines.add(SecondMachine.getMachineId());
 
-        order.setAddress(address);
-        order.setCustomer(customer);
-        order.setMachines(machines);
+        order.setAddressId(address.getAddressId());
+        order.setCustomerId(customer.getCustomerId());
+        order.setMachineId(machines);
+        order.setOrderDate(LocalDateTime.now());
         orderService.createOrder(order);
 
         var orders = orderService.getAllOrders();
@@ -64,5 +68,5 @@ public class OrderServiceIntegrationTest {
 
         assertEquals("Speaker", orders.get(0).getMachines().get(1).getMachineName());
         assertEquals("Electronics", orders.get(0).getMachines().get(1).getMachineType());
-    }*/
+    }
 }
