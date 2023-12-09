@@ -1,5 +1,6 @@
 package no.pgr209.machinefactory.Order;
 
+import jakarta.transaction.Transactional;
 import no.pgr209.machinefactory.service.DataFeedService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class OrderIntegrationTest {
 
     @Autowired
@@ -88,6 +90,7 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[1].machineId").value(2L));
     }
 
+
     @Test // Testing PUT request, updating an order.
     void shouldUpdateOrder() throws Exception {
 
@@ -118,24 +121,12 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineType").value("Electronics"));
     }
 
-    @Test // Test DELETE request.
-    void shouldDeleteOrderById() throws Exception {
-        mockMvc.perform(get("/api/order/2")) // Check if order exist.
-                .andExpect(status().isOk());
-
-        mockMvc.perform(delete("/api/order/2")) // Delete
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/api/order/2")) // Check if it is removed.
-                .andExpect(status().isNotFound());
-    }
-
-
     @Test // Expect fetch to be NOT FOUND using non-existent ID
     void shouldNotFetchNonExistentOrderById () throws Exception {
         mockMvc.perform(get("/api/order/81561"))
                 .andExpect(status().isNotFound());
     }
+
 
     @Test // Expect NOT FOUND when creating Order with non-existent parameters and invalid Data.
     void shouldNotCreateOrderWithInvalidData() throws Exception {
@@ -172,4 +163,15 @@ public class OrderIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test // Test DELETE request.
+    void shouldDeleteOrderById() throws Exception {
+        mockMvc.perform(get("/api/order/2")) // Check if order exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/order/2")) // Delete
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/order/2")) // Check if it is removed.
+                .andExpect(status().isNotFound());
+    }
 }
