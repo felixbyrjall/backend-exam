@@ -41,6 +41,10 @@ public class CustomerService {
         customerRepo.deleteById(id);
     }
 
+    public boolean customerExists(Long id) {
+        return customerRepo.existsById(id);
+    }
+
     public ResponseEntity<Customer> updateCustomer(Long id, Customer updatedCustomer) {
         Customer existingCustomer = customerRepo.findById(id).orElse(null);
 
