@@ -111,13 +111,13 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineType").value("Electronics"));
     }
 
-/*
-    @Test // Expect fetch to be Not Found using non-existent ID
+
+    @Test // Expect fetch to be NOT FOUND using non-existent ID
     void shouldNotFetchNonExistentOrderById () throws Exception {
         mockMvc.perform(get("/api/order/81561"))
                 .andExpect(status().isNotFound());
     }
- */
+
     @Test // Expect NOT FOUND when creating Order with non-existent parameters.
     void shouldNotCreateOrder() throws Exception {
 
