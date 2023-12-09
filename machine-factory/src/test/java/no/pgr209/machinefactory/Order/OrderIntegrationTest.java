@@ -137,8 +137,8 @@ public class OrderIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect NOT FOUND when creating Order with non-existent parameters.
-    void shouldNotCreateOrder() throws Exception {
+    @Test // Expect NOT FOUND when creating Order with non-existent parameters and invalid Data.
+    void shouldNotCreateOrderWithInvalidData() throws Exception {
 
         String orderJson = String.format("""
         {
