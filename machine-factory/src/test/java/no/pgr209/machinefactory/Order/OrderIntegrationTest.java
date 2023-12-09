@@ -33,10 +33,7 @@ public class OrderIntegrationTest {
     @Test // Testing connection is OK (200), fetching orders (GET)
     void shouldFetchOrders() throws Exception {
         mockMvc.perform(get("/api/order"))
-                .andExpect(status().isOk())
-                .andDo(result -> {
-                    System.out.println(result.getResponse().getContentAsString());
-                });
+                .andExpect(status().isOk());
     }
 
     @Test // Testing GET request, ensuring correct values returned.
@@ -67,7 +64,7 @@ public class OrderIntegrationTest {
         MvcResult createResult = mockMvc.perform(post("/api/order")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(orderJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn();
 
         // Extract the orderId from the response
@@ -78,16 +75,11 @@ public class OrderIntegrationTest {
         // Fetch the created order and check if details match.
         mockMvc.perform(get("/api/order/" + orderId))
                 .andExpect(status().isOk())
-                .andDo(result -> {
-                    System.out.println(result.getResponse().getContentAsString());
-                });
-        /*
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerName").value("Ola Nordmann"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineId").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineId").value(2L));
-         */
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machines[1].machineId").value(2L));
     }
 
 
@@ -123,23 +115,32 @@ public class OrderIntegrationTest {
     }
 
     // BELOW: Testing the opposite.
-
-    @Test // Expect bad request (400) missing body parameters.
+/*
+    @Test // Expect fetch to be Not Found using non-existent ID
+    void shouldNotFetchNonExistentOrderById () throws Exception {
+        mockMvc.perform(get("/api/order/81561"))
+                .andExpect(status().isNotFound());
+    }
+ */
+    @Test // Expect NOT FOUND when creating Order with non-existent parameters.
     void shouldNotCreateOrder() throws Exception {
 
-        String orderJson = String.format(""" 
+        String orderJson = String.format("""
         {
             "customerId": %d,
+            "addressId": %d,
+            "machineId": [%d],
+            "orderDate": "2023-01-01T00:00:00"
         }
-        """, 1L);
+        """, 12L, 4L, 16L);
 
         mockMvc.perform(post("/api/order")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(orderJson))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 
-    @Test // Expect Not Found using non-existent ID
+    @Test // Expect NOT FOUND when trying to update a non-existent order ID
     void shouldNotUpdateNonExistentOrder () throws Exception {
         String orderJson = String.format("""
             {
