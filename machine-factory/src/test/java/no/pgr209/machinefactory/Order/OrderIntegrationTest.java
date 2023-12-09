@@ -38,6 +38,13 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId").value(2));
     }
 
+    @Test // Ensure orders are returned from order pagination with correct orders.
+    void shouldFetchOrdersPageOne() throws Exception {
+        mockMvc.perform(get("/api/order/page/0"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(1));
+    }
+
     @Test // Test GET request, ensure correct values are returned from order by ID.
     void shouldFetchOrderById() throws Exception {
         mockMvc.perform(get("/api/order/1"))
