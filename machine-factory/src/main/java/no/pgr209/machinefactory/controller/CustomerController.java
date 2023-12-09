@@ -78,7 +78,12 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
-        return customerService.updateCustomer(id, updatedCustomer);
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
+        Customer updatedCustomer = customerService.updateCustomer(id, customerDTO);
+
+        if(updatedCustomer != null){
+            return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
