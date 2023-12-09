@@ -56,23 +56,23 @@ public class OrderService {
     }
 
     //Update an order
-    public ResponseEntity<Order> updateOrder(Long id, UpdateOrderDTO updateOrderDTO) {
+    public ResponseEntity<Order> updateOrder(Long id, OrderDTO orderDTO) {
         Order existingOrder = orderRepo.findById(id).orElse(null);
 
         if(existingOrder != null) {
 
-            if(updateOrderDTO.getCustomerId() != null) {
-                Customer customer = customerRepo.findById(updateOrderDTO.getCustomerId()).orElse(null);
+            if(orderDTO.getCustomerId() != null) {
+                Customer customer = customerRepo.findById(orderDTO.getCustomerId()).orElse(null);
                 existingOrder.setCustomer(customer);
             }
 
-            if(updateOrderDTO.getAddressId() != null) {
-                Address address = addressRepo.findById(updateOrderDTO.getAddressId()).orElse(null);
+            if(orderDTO.getAddressId() != null) {
+                Address address = addressRepo.findById(orderDTO.getAddressId()).orElse(null);
                 existingOrder.setAddress(address);
             }
 
-            if(updateOrderDTO.getMachineId() != null) {
-                List<Machine> machine = machineRepo.findAllById(updateOrderDTO.getMachineId());
+            if(orderDTO.getMachineId() != null) {
+                List<Machine> machine = machineRepo.findAllById(orderDTO.getMachineId());
                 existingOrder.setMachines(machine);
             }
 
