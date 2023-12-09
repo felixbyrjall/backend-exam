@@ -52,10 +52,6 @@ public class OrderIntegrationTest {
 
     @Test
     void shouldCreateOrder() throws Exception {
-        long customerId = 1L;
-        long addressId = 1L;
-        long machineId1 = 1L;
-        long machineId2 = 2L;
 
         String orderJson = String.format("""
             {
@@ -64,7 +60,7 @@ public class OrderIntegrationTest {
                 "machineId": [%d, %d],
                 "orderDate": "2023-01-01T00:00:00"
             }
-            """, customerId, addressId, machineId1, machineId2);
+            """, 1L, 1L, 1L, 2L);
 
         mockMvc.perform(post("/api/order")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -78,12 +74,12 @@ public class OrderIntegrationTest {
 
         String orderJson = String.format("""
             {
-                "customerId": 2,
-                "addressId": 2,
-                "machineId": [2],
+                "customerId": %d,
+                "addressId": %d,
+                "machineId": [%d],
                 "orderDate": "2023-01-01T00:00:00"
             }
-            """);
+            """, 2L, 2L, 2L);
 
         mockMvc.perform(put("/api/order/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -93,10 +89,38 @@ public class OrderIntegrationTest {
                 .andReturn();
     }
 
-    @Test // Needs to look over.
-    void updateOrderNotFound() throws Exception {
-        mockMvc.perform(put("/api/order/50"))
-                .andExpect(status().is(400));
+    // Testing the opposite.
+    @Test // Expect bad request (400) missing body parameters.
+    void shouldNotCreateOrder() throws Exception {
+
+        String orderJson = String.format(""" 
+        {
+            "customerId": %d,
+            // other required parameters omitted
+        }
+        """, 1L);
+
+        mockMvc.perform(post("/api/order")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test // Expect Not Found using non-existent ID
+    void shouldNotFindUpdateOrder() throws Exception {
+        String orderJson = String.format("""
+            {
+                "customerId": %d,
+                "addressId": %d,
+                "machineId": [%d],
+                "orderDate": "2023-01-01T00:00:00"
+            }
+            """, 2L, 2L, 2L);
+
+        mockMvc.perform(put("/api/order/56123564")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderJson))
+                .andExpect(status().isNotFound());
     }
 
 }
