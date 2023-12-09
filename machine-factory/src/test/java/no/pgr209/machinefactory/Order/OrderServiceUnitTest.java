@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +47,10 @@ public class OrderServiceUnitTest {
         Page<Order> orderPage = new PageImpl<>(allOrders);
         when(orderRepo.findAll(any(PageRequest.class))).thenReturn(orderPage);
 
-        List<Order> orders = orderService.getOrdersByPage(0);
+        ResponseEntity<List<Order>> ordersResponse = orderService.getOrdersByPage(0);
+        List<Order> orders = ordersResponse.getBody();
+
         assertTrue(orders.size() == 12);
     }
+
 }
