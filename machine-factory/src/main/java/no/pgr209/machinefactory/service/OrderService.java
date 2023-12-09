@@ -43,11 +43,8 @@ public class OrderService {
     }
 
     //Get order by specific id
-    public ResponseEntity<Order> getOrderById(Long id) {
-        if(orderRepo.findById(id).isPresent()) {
-            return new ResponseEntity<>(orderRepo.findById(id).orElse(null), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public Order getOrderById(Long id) {
+        return (orderRepo.findById(id).orElse(null));
     }
 
     //Create an order

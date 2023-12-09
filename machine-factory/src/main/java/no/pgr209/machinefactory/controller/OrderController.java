@@ -48,7 +48,12 @@ public class OrderController {
     //Get order by id
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+        Order orderById = orderService.getOrderById(id);
+
+        if(!(orderById == null)){
+            return new ResponseEntity<>(orderById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Create an order
