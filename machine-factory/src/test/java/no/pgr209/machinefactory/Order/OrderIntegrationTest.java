@@ -27,7 +27,7 @@ public class OrderIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        dataFeedService.initializeData();
+        dataFeedService.initializeData(); // Feed in-memory DB with sample data from DataFeedService.
     }
 
     @Test // Testing connection is OK when fetching orders (GET), ensure orders are returned.
@@ -46,9 +46,6 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerName").value("Ola Nordmann"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressStreet").value("Storgata 33"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines.[0].machineType").value("Electronics"))
-                .andDo(result -> {
-                    System.out.println(result.getResponse().getContentAsString());
-                });
     }
 
     @Test // Testing POST request, creating an order, and then fetching it.
@@ -99,8 +96,7 @@ public class OrderIntegrationTest {
         mockMvc.perform(put("/api/order/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(orderJson))
-                .andExpect(status().isOk())
-                .andReturn(); // Necessary?
+                .andExpect(status().isOk());
 
         // Fetch the updated order and check if details actually match.
         mockMvc.perform(get("/api/order/1"))
