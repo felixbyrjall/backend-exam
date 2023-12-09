@@ -73,13 +73,13 @@ public class OrderService {
         {
             if(!machineRepo.existsById(machineId)) {
                 HttpHeaders responseHeaders = new HttpHeaders();
-                responseHeaders.set("MachineIdNotFound", (orderDTO.getMachineId()).toString());
+                responseHeaders.set("MachineIdNotFound", (machineId).toString());
                 return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
+            } else {
+                List<Machine> machine = machineRepo.findAllById(orderDTO.getMachineId());
+                newOrder.setMachines(machine);
             }
         }
-
-        List<Machine> machine = machineRepo.findAllById(orderDTO.getMachineId());
-        newOrder.setMachines(machine);
 
         return new ResponseEntity<>(orderRepo.save(newOrder), HttpStatus.CREATED);
     }
