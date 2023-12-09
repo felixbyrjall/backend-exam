@@ -75,7 +75,7 @@ public class OrderService {
     }
 
     //Check if an order exists
-    public boolean orderExist(Long id) {
+    public boolean orderExists(Long id) {
         return orderRepo.existsById(id);
     }
 
