@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
-@ActiveProfiles("test") // Seperate CommandLine and Testing.
+@ActiveProfiles("test") // Seperate CommandLine and Data Jpa test.
 public class OrderRepoUnitTest {
 
     @Autowired
