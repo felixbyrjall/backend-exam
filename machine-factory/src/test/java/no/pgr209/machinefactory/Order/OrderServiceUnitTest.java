@@ -49,8 +49,12 @@ public class OrderServiceUnitTest {
 
         ResponseEntity<List<Order>> ordersResponse = orderService.getOrdersByPage(0);
         List<Order> orders = ordersResponse.getBody();
+        int countOrders = 0;
+        if (orders != null) {
+            countOrders = orders.size();
+        }
 
-        assertEquals(12, orders.size());
+        assertEquals(12, countOrders);
     }
 
 }
