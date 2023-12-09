@@ -82,7 +82,6 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[1].machineId").value(2L));
     }
 
-
     @Test // Testing PUT request, updating an order.
     void shouldUpdateOrder() throws Exception {
 
@@ -114,7 +113,6 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineType").value("Electronics"));
     }
 
-    // BELOW: Testing the opposite.
 /*
     @Test // Expect fetch to be Not Found using non-existent ID
     void shouldNotFetchNonExistentOrderById () throws Exception {
