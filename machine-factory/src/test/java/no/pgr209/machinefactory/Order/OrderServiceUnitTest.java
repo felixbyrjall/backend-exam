@@ -1,5 +1,6 @@
 package no.pgr209.machinefactory.Order;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import no.pgr209.machinefactory.model.Order;
@@ -50,7 +51,7 @@ public class OrderServiceUnitTest {
         ResponseEntity<List<Order>> ordersResponse = orderService.getOrdersByPage(0);
         List<Order> orders = ordersResponse.getBody();
 
-        assertTrue(orders.size() == 12);
+        assertEquals(12, orders.size());
     }
 
 }
