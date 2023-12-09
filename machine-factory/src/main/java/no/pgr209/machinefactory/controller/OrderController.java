@@ -29,7 +29,7 @@ public class OrderController {
 
     //Get orders by page
     @GetMapping("/page/{pageNr}")
-    public List<Order> getOrdersByPage(@PathVariable int pageNr) {
+    public ResponseEntity<List<Order>> getOrdersByPage(@PathVariable int pageNr) {
         return orderService.getOrdersByPage(pageNr);
     }
 
