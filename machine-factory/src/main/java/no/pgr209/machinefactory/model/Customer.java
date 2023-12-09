@@ -30,7 +30,7 @@ public class Customer {
     private String customerEmail;
 
     // A customer can have many addresses, and an address has one or more customers.
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "customer_address",
             joinColumns = @JoinColumn(name = "customer_id"),
