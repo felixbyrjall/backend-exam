@@ -38,8 +38,8 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId").value(2));
     }
 
-    @Test // Ensure orders are returned from order pagination with correct orders.
-    void shouldFetchOrdersPageOne() throws Exception {
+    @Test // Ensure orders are returned from order pagination, returning the correct orders.
+    void shouldFetchOrdersOnPage() throws Exception {
         mockMvc.perform(get("/api/order/page/0"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(1));
@@ -116,6 +116,18 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineId").value(2L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineName").value("Speaker"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineType").value("Electronics"));
+    }
+
+    @Test // Test DELETE request.
+    void shouldDeleteOrderById() throws Exception {
+        mockMvc.perform(get("/api/order/2")) // Check if order exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/order/2")) // Delete
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/order/2")) // Check if it is removed.
+                .andExpect(status().isNotFound());
     }
 
 
