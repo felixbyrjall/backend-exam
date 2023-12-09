@@ -89,6 +89,11 @@ public class OrderService {
         orderRepo.deleteById(id);
     }
 
+    //Check if an order exists
+    public boolean orderExist(Long id) {
+        return orderRepo.existsById(id);
+    }
+
     //Update an order
     public ResponseEntity<Order> updateOrder(Long id, OrderDTO orderDTO) {
         Order existingOrder = orderRepo.findById(id).orElse(null);

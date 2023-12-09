@@ -64,8 +64,12 @@ public class OrderController {
 
     //Delete order by id
     @DeleteMapping("/{id}")
-    public void deleteOrderById(@PathVariable Long id) {
-        orderService.deleteOrderById(id);
+    public ResponseEntity<String> deleteOrderById(@PathVariable Long id) {
+        if (orderService.orderExist(id)) {
+            orderService.deleteOrderById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
