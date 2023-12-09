@@ -1,8 +1,10 @@
 package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Customer;
+import no.pgr209.machinefactory.model.CustomerDTO;
 import no.pgr209.machinefactory.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +56,16 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer createCustomer(Customer customer) {
-        return customerService.createCustomer(customer);
+    public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDTO customerDTO) {
+        Customer createdCustomer = customerService.createCustomer(customerDTO);
+
+        if(createdCustomer != null) {
+            return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Error", "One or more IDs not found");
+            return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
