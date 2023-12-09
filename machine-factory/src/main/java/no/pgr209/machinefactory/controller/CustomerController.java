@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,14 +22,25 @@ public class CustomerController {
 
     //Get all customers
     @GetMapping()
-    public List<Customer> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<Customer>> getAllCustomers() {
+        List<Customer> allCustomers = customerService.getAllCustomers();
+
+        if(!allCustomers.isEmpty()) {
+            return new ResponseEntity<>(allCustomers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get customers by page
     @GetMapping("/page/{pageNr}")
-    public List<Customer> getCustomersByPage(@PathVariable int pageNr) {
-        return customerService.getCustomersByPage(pageNr);
+    public ResponseEntity<List<Customer>> getCustomersByPage(@PathVariable int pageNr) {
+        List<Customer> customersByPage = customerService.getCustomersByPage(pageNr);
+
+        if(!customersByPage.isEmpty()) {
+            return new ResponseEntity<>(customersByPage, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
