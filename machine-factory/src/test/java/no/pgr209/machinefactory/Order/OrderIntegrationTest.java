@@ -30,13 +30,15 @@ public class OrderIntegrationTest {
         dataFeedService.initializeData();
     }
 
-    @Test // Testing connection is OK (200), fetching orders (GET)
+    @Test // Testing connection is OK when fetching orders (GET), ensure orders are returned.
     void shouldFetchOrders() throws Exception {
         mockMvc.perform(get("/api/order"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId").value(2));
     }
 
-    @Test // Testing GET request, ensuring correct values returned.
+    @Test // Test GET request, ensure correct values are returned from order by ID.
     void shouldFetchOrderById() throws Exception {
         mockMvc.perform(get("/api/order/1"))
                 .andExpect(status().isOk())
