@@ -4,6 +4,7 @@ import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.model.OrderDTO;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,14 @@ public class OrderController {
 
     //Get all orders
     @GetMapping()
-    public List<Order> getAllOrders() {
-        return orderService.getAllOrders();
+    public ResponseEntity<List<Order>> getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+
+        if (!orders.isEmpty()){
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get orders by page
