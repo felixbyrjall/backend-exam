@@ -95,7 +95,7 @@ public class OrderService {
     }
 
     //Update an order
-    public ResponseEntity<Order> updateOrder(Long id, OrderDTO orderDTO) {
+    public Order updateOrder(Long id, OrderDTO orderDTO) {
         Order existingOrder = orderRepo.findById(id).orElse(null);
 
         if(existingOrder != null) {
@@ -115,10 +115,10 @@ public class OrderService {
                 existingOrder.setMachines(machine);
             }
 
-            return new ResponseEntity<>(orderRepo.save(existingOrder), HttpStatus.OK);
+            return orderRepo.save(existingOrder);
 
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
     }
 }
