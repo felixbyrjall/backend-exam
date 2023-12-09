@@ -29,6 +29,7 @@ public class Machine {
 
     // A machine has one or more subassemblies
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("parts")
     private List<Subassembly> subassemblies = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

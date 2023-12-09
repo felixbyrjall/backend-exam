@@ -2,8 +2,8 @@ package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.service.CustomerService;
-import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,17 +13,22 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final OrderService orderService;
 
     @Autowired
-    public CustomerController(CustomerService customerService, OrderService orderService) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.orderService = orderService;
     }
 
-    @GetMapping
-    public List<Customer> getCustomers() {
-        return customerService.getCustomers();
+    //Get all customers
+    @GetMapping()
+    public List<Customer> getAllCustomers() {
+        return customerService.getAllCustomers();
+    }
+
+    //Get customers by page
+    @GetMapping("/page/{pageNr}")
+    public List<Customer> getCustomersByPage(@PathVariable int pageNr) {
+        return customerService.getCustomersByPage(pageNr);
     }
 
     @GetMapping("/{id}")
@@ -41,11 +46,8 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
     }
 
-    @PostMapping("/{id}/{orderId}")
-    public Customer addOrderToCustomer(@PathVariable Long id, @PathVariable Long orderId) {
-        var customer = customerService.getCustomerById(id);
-        var order = orderService.getOrderById(orderId);
-        customer.getOrders().add(order);
-        return customerService.createCustomer(customer);
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+        return customerService.updateCustomer(id, updatedCustomer);
     }
 }

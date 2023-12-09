@@ -1,11 +1,14 @@
 package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Order;
+import no.pgr209.machinefactory.model.UpdateOrderDTO;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/order")
@@ -19,9 +22,15 @@ public class OrderController {
     }
 
     //Get all orders
-    @GetMapping
-    public List<Order> getOrders(){
-        return orderService.getOrders();
+    @GetMapping()
+    public List<Order> getAllOrders() {
+        return orderService.getAllOrders();
+    }
+
+    //Get orders by page
+    @GetMapping("/page/{pageNr}")
+    public List<Order> getOrdersByPage(@PathVariable int pageNr) {
+        return orderService.getOrdersByPage(pageNr);
     }
 
     //Get order by id
@@ -40,5 +49,10 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public void deleteOrderById(@PathVariable Long id) {
         orderService.deleteOrderById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody UpdateOrderDTO updateOrderDTO) {
+        return orderService.updateOrder(id, updateOrderDTO);
     }
 }

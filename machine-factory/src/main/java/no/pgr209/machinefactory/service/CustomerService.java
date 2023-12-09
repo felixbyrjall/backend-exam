@@ -1,9 +1,11 @@
 package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Customer;
-import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +19,14 @@ public class CustomerService {
         this.customerRepo = customerRepo;
     }
 
-    public List<Customer> getCustomers() {
+    //Get ALL customers
+    public List<Customer> getAllCustomers() {
         return customerRepo.findAll();
+    }
+
+    //Get customers by page
+    public List<Customer> getCustomersByPage(int pageNr) {
+        return customerRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
     }
 
     public Customer getCustomerById(Long id) {
@@ -33,10 +41,17 @@ public class CustomerService {
         customerRepo.deleteById(id);
     }
 
-    //Add a customer to an order
-    public Customer addOrderToCustomer(Order order, Long id) {
-        var customer = customerRepo.findById(id).orElseThrow();
-        customer.getOrders().add(order);
-        return customerRepo.save(customer);
+    public ResponseEntity<Customer> updateCustomer(Long id, Customer updatedCustomer) {
+        Customer existingCustomer = customerRepo.findById(id).orElse(null);
+
+        if(existingCustomer != null) {
+
+            existingCustomer.setCustomerName(updatedCustomer.getCustomerName());
+            existingCustomer.setCustomerEmail(updatedCustomer.getCustomerEmail());
+            return new ResponseEntity<>(customerRepo.save(existingCustomer), HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
