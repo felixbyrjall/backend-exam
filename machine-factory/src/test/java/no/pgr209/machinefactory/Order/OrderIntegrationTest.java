@@ -90,7 +90,6 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[1].machineId").value(2L));
     }
 
-
     @Test // Testing PUT request, updating an order.
     void shouldUpdateOrder() throws Exception {
 
@@ -126,7 +125,6 @@ public class OrderIntegrationTest {
         mockMvc.perform(get("/api/order/81561"))
                 .andExpect(status().isNotFound());
     }
-
 
     @Test // Expect NOT FOUND when creating Order with non-existent parameters and invalid Data.
     void shouldNotCreateOrderWithInvalidData() throws Exception {
