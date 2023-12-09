@@ -25,10 +25,10 @@ public class OrderController {
     //Get all orders
     @GetMapping()
     public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
+        List<Order> allOrders = orderService.getAllOrders();
 
-        if (!orders.isEmpty()){
-            return new ResponseEntity<>(orders, HttpStatus.OK);
+        if (!allOrders.isEmpty()){
+            return new ResponseEntity<>(allOrders, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -37,7 +37,12 @@ public class OrderController {
     //Get orders by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Order>> getOrdersByPage(@PathVariable int pageNr) {
-        return orderService.getOrdersByPage(pageNr);
+        List<Order> ordersByPage = orderService.getOrdersByPage(pageNr);
+
+        if(!ordersByPage.isEmpty()) {
+            return new ResponseEntity<>(ordersByPage, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Get order by id
