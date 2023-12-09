@@ -47,14 +47,9 @@ public class OrderServiceUnitTest {
         Page<Order> orderPage = new PageImpl<>(allOrders);
         when(orderRepo.findAll(any(PageRequest.class))).thenReturn(orderPage);
 
-        ResponseEntity<List<Order>> ordersResponse = orderService.getOrdersByPage(0);
-        List<Order> orders = ordersResponse.getBody();
-        int countOrders = 0;
-        if (orders != null) {
-            countOrders = orders.size();
-        }
+        List<Order> orders = orderService.getOrdersByPage(0);
 
-        assertEquals(12, countOrders);
+        assertEquals(12, orders.size());
     }
 
 }
