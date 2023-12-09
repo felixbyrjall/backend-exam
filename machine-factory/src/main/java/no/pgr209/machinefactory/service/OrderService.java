@@ -38,8 +38,11 @@ public class OrderService {
     }
 
     //Get orders by page
-    public List<Order> getOrdersByPage(int pageNr) {
-        return orderRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+    public ResponseEntity<List<Order>> getOrdersByPage(int pageNr) {
+        if(!orderRepo.findAll(PageRequest.of(pageNr, 10)).isEmpty()) {
+            return new ResponseEntity<>(orderRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Get order by specific id
