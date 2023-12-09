@@ -45,7 +45,7 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.orderId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerName").value("Ola Nordmann"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressStreet").value("Storgata 33"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.machines.[0].machineType").value("Electronics"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machines.[0].machineType").value("Electronics"));
     }
 
     @Test // Testing POST request, creating an order, and then fetching it.
