@@ -4,6 +4,7 @@ import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.model.OrderDTO;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,7 @@ public class OrderController {
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Order orderById = orderService.getOrderById(id);
 
-        if(!(orderById == null)){
+        if(orderById != null) {
             return new ResponseEntity<>(orderById, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -59,7 +60,15 @@ public class OrderController {
     //Create an order
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
-        return orderService.createOrder(orderDTO);
+        Order createdOrder = orderService.createOrder(orderDTO);
+
+        if(createdOrder != null) {
+            return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Error", "One or more IDs not found");
+            return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
+        }
     }
 
     //Delete order by id
@@ -80,6 +89,5 @@ public class OrderController {
             return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
     }
 }
