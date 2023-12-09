@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.Order;
 import no.pgr209.machinefactory.repo.*;
 import no.pgr209.machinefactory.model.*;
 import no.pgr209.machinefactory.service.OrderService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ActiveProfiles("test") // Seperate CommandLine and Testing.
+@Transactional
 public class OrderServiceIntegrationTest {
 
     @Autowired
@@ -29,10 +31,20 @@ public class OrderServiceIntegrationTest {
     MachineRepo machineRepo;
 
     @Autowired
+    OrderRepo orderRepo;
+
+    @Autowired
     CustomerRepo customerRepo;
 
+    @BeforeEach
+    void setUp() {
+        orderRepo.deleteAll();
+        customerRepo.deleteAll();
+        addressRepo.deleteAll();
+        machineRepo.deleteAll();
+    }
+
     @Test
-    @Transactional
     void shouldFetchOrders(){
         Customer customer = customerRepo.save(new Customer("James Jameson", "James@jameson.com"));
         Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", 2013));
