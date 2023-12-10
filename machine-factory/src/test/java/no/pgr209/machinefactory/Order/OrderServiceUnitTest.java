@@ -2,9 +2,6 @@ package no.pgr209.machinefactory.Order;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import no.pgr209.machinefactory.model.Order;
-import no.pgr209.machinefactory.repo.AddressRepo;
-import no.pgr209.machinefactory.repo.CustomerRepo;
-import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.OrderRepo;
 import no.pgr209.machinefactory.service.OrderService;
 import org.junit.jupiter.api.Test;
@@ -35,7 +32,7 @@ public class OrderServiceUnitTest {
     @Mock
     private MachineRepo machineRepo;
      */
-    
+
     @InjectMocks
     private OrderService orderService;
 
