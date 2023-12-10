@@ -41,6 +41,10 @@ public class MachineService {
         machineRepo.deleteById(id);
     }
 
+    public boolean machineExists(Long id) {
+        return machineRepo.existsById(id);
+    }
+
     public ResponseEntity<Machine> updateMachine(Long id, Machine updatedMachine) {
         Machine existingMachine = machineRepo.findById(id).orElse(null);
 
