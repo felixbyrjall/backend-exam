@@ -37,7 +37,6 @@ public class OrderServiceUnitTest {
 
     @Test
     void shouldReturnAllOrders() {
-
         List<Order> mockOrders = new ArrayList<>();
         when(orderRepo.findAll()).thenReturn(mockOrders);
 
