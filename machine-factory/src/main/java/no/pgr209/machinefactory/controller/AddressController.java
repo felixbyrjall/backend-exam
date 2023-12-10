@@ -34,8 +34,13 @@ public class AddressController {
 
     //Get addresses by page
     @GetMapping("/page/{pageNr}")
-    public List<Address> getAddressesByPage(@PathVariable int pageNr) {
-        return addressService.getAddressesByPage(pageNr);
+    public ResponseEntity<List<Address>> getAddressesByPage(@PathVariable int pageNr) {
+        List<Address> addressesByPage = addressService.getAddressesByPage(pageNr);
+
+        if(!addressesByPage.isEmpty()) {
+            return new ResponseEntity<>(addressesByPage, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
