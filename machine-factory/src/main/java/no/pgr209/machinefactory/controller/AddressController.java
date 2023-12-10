@@ -44,8 +44,13 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-    public Address getAddressById(@PathVariable Long id) {
-        return addressService.getAddressById(id);
+    public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
+        Address addressById = addressService.getAddressById(id);
+
+        if(addressById != null) {
+            return new ResponseEntity<>(addressById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
