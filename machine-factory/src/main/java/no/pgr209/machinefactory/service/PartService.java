@@ -41,6 +41,10 @@ public class PartService {
         partRepo.deleteById(id);
     }
 
+    public boolean partExists(Long id) {
+        return partRepo.existsById(id);
+    }
+
     public ResponseEntity<Part> updatePart(Long id, Part updatedPart) {
         Part existingPart = partRepo.findById(id).orElse(null);
 
