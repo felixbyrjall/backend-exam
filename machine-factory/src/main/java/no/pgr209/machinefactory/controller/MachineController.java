@@ -77,7 +77,12 @@ public class MachineController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Machine> updateMachine(@PathVariable Long id, @RequestBody Machine updatedMachine) {
-        return machineService.updateMachine(id, updatedMachine);
+    public ResponseEntity<Machine> updateMachine(@PathVariable Long id, @RequestBody MachineDTO machineDTO) {
+        Machine updatedMachine = machineService.updateMachine(id, machineDTO);
+
+        if(updatedMachine != null && updatedMachine.getMachineName() != null && updatedMachine.getMachineType() != null && updatedMachine.getSubassemblies() != null) {
+            return new ResponseEntity<>(updatedMachine, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

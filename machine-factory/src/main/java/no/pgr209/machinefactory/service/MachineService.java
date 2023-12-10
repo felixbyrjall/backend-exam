@@ -2,12 +2,11 @@ package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.model.MachineDTO;
+import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,17 +66,28 @@ public class MachineService {
         return machineRepo.existsById(id);
     }
 
-    public ResponseEntity<Machine> updateMachine(Long id, Machine updatedMachine) {
+    public Machine updateMachine(Long id, MachineDTO machineDTO) {
         Machine existingMachine = machineRepo.findById(id).orElse(null);
 
         if(existingMachine != null) {
 
-            existingMachine.setMachineName(updatedMachine.getMachineName());
-            existingMachine.setMachineType(updatedMachine.getMachineType());
-            return new ResponseEntity<>(machineRepo.save(existingMachine), HttpStatus.OK);
+            if(machineDTO.getMachineName() != null){
+                existingMachine.setMachineName(machineDTO.getMachineName());
+            }
+
+            if(machineDTO.getMachineType() != null){
+                existingMachine.setMachineType(machineDTO.getMachineType());
+            }
+
+            if(existingMachine.getMachineId() != null) {
+                List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
+                existingMachine.setSubassemblies(subassemblies);
+            }
+
+            return machineRepo.save(existingMachine);
 
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
     }
 }
