@@ -41,6 +41,10 @@ public class SubassemblyService {
         subassemblyRepo.deleteById(id);
     }
 
+    public boolean subassemblyExists(Long id) {
+        return subassemblyRepo.existsById(id);
+    }
+
     public ResponseEntity<Subassembly> updateSubassembly(Long id, Subassembly updatedSubassembly) {
         Subassembly existingSubassembly = subassemblyRepo.findById(id).orElse(null);
 
