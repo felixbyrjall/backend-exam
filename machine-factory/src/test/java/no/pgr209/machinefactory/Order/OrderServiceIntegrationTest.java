@@ -43,7 +43,7 @@ public class OrderServiceIntegrationTest {
     }
 
     @Test
-    void shouldFetchOrders(){
+    void shouldCreateAndFetchOrders(){
         Customer customer = customerRepo.save(new Customer("James Jameson", "James@jameson.com"));
         Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", 2013));
         OrderDTO order = new OrderDTO();
