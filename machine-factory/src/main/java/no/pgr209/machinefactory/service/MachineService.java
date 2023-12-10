@@ -1,7 +1,9 @@
 package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Machine;
+import no.pgr209.machinefactory.model.MachineDTO;
 import no.pgr209.machinefactory.repo.MachineRepo;
+import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -13,10 +15,12 @@ import java.util.List;
 @Service
 public class MachineService {
     private final MachineRepo machineRepo;
+    private final SubassemblyRepo subassemblyRepo;
 
     @Autowired
-    public MachineService(MachineRepo machineRepo) {
+    public MachineService(MachineRepo machineRepo, SubassemblyRepo subassemblyRepo) {
         this.machineRepo = machineRepo;
+        this.subassemblyRepo = subassemblyRepo;
     }
 
     //Get ALL machines
@@ -33,8 +37,26 @@ public class MachineService {
         return machineRepo.findById(id).orElse(null);
     }
 
-    public Machine createMachine(Machine machine) {
-        return machineRepo.save(machine);
+    public Machine createMachine(MachineDTO machineDTO) {
+        Machine newMachine = new Machine();
+
+        if(machineDTO.getMachineName() == null){
+            return null;
+        }
+        newMachine.setMachineName(machineDTO.getMachineName());
+
+        if(machineDTO.getMachineType() == null){
+            return null;
+        }
+        newMachine.setMachineType(machineDTO.getMachineType());
+
+        List<Long> subassemblyIds = machineDTO.getSubassemblyId();
+        if(!subassemblyIds.stream().allMatch(subassemblyRepo::existsById)) {
+            return null;
+        }
+        newMachine.setSubassemblies(subassemblyRepo.findAllById(subassemblyIds));
+
+        return machineRepo.save(newMachine);
     }
 
     public void deleteMachineById(Long id) {

@@ -1,8 +1,10 @@
 package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Machine;
+import no.pgr209.machinefactory.model.MachineDTO;
 import no.pgr209.machinefactory.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,13 +55,25 @@ public class MachineController {
     }
 
     @PostMapping
-    public Machine createMachine(Machine machine) {
-        return machineService.createMachine(machine);
+    public ResponseEntity<Machine> createMachine(@RequestBody MachineDTO machineDTO) {
+        Machine createdMachine = machineService.createMachine(machineDTO);
+
+        if(createdMachine != null) {
+            return new ResponseEntity<>(createdMachine, HttpStatus.CREATED);
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Error", "One or more fields are invalid");
+            return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMachineById(@PathVariable Long id) {
-        machineService.deleteMachineById(id);
+    public ResponseEntity<String> deleteMachineById(@PathVariable Long id) {
+        if (machineService.machineExists(id)) {
+            machineService.deleteMachineById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
