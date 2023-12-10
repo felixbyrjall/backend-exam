@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,14 @@ public class MachineController {
 
     //Get all machines
     @GetMapping()
-    public List<Machine> getAllMachines() {
-        return machineService.getAllMachines();
+    public ResponseEntity<List<Machine>> getAllMachines() {
+        List<Machine> allMachines = machineService.getAllMachines();
+
+        if(!allMachines.isEmpty()){
+            return new ResponseEntity<>(allMachines, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get machines by page
