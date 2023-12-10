@@ -41,6 +41,10 @@ public class AddressService {
         addressRepo.deleteById(id);
     }
 
+    public boolean addressExists(Long id) {
+        return addressRepo.existsById(id);
+    }
+
     public ResponseEntity<Address> updateAddress(Long id, Address updatedAddress) {
         Address existingAddress = addressRepo.findById(id).orElse(null);
 
