@@ -1,11 +1,10 @@
 package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Address;
+import no.pgr209.machinefactory.model.AddressDTO;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,18 +44,27 @@ public class AddressService {
         return addressRepo.existsById(id);
     }
 
-    public ResponseEntity<Address> updateAddress(Long id, Address updatedAddress) {
+    public Address updateAddress(Long id, AddressDTO addressDTO) {
         Address existingAddress = addressRepo.findById(id).orElse(null);
 
         if(existingAddress != null) {
 
-            existingAddress.setAddressStreet(updatedAddress.getAddressStreet());
-            existingAddress.setAddressCity(updatedAddress.getAddressCity());
-            existingAddress.setAddressZip(updatedAddress.getAddressZip());
-            return new ResponseEntity<>(addressRepo.save(existingAddress), HttpStatus.OK);
+            if(addressDTO.getAddressStreet() != null) {
+                existingAddress.setAddressStreet(addressDTO.getAddressStreet());
+            }
+
+            if(addressDTO.getAddressCity() != null) {
+                existingAddress.setAddressCity(addressDTO.getAddressCity());
+            }
+
+            if(addressDTO.getAddressZip() != null) {
+                existingAddress.setAddressZip(addressDTO.getAddressZip());
+            }
+
+            return addressRepo.save(existingAddress);
 
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
     }
 }
