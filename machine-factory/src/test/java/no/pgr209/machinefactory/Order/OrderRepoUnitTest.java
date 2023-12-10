@@ -1,6 +1,8 @@
 package no.pgr209.machinefactory.Order;
 
+import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.model.Order;
+import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.OrderRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @ActiveProfiles("dev") // Seperate CommandLine and Data Jpa test.
@@ -18,6 +21,9 @@ public class OrderRepoUnitTest {
 
     @Autowired
     private OrderRepo orderRepo;
+
+    @Autowired
+    private AddressRepo addressRepo;
 
     @Test
     public void save_shouldReturnSavedOrder() {
@@ -61,16 +67,42 @@ public class OrderRepoUnitTest {
     }
 
     @Test
+    public void update_shouldUpdateExistingOrder() {
+
+        // Create the order with address information.
+        Order createOrder = new Order();
+        Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", 2013));
+        createOrder.setAddress(address);
+        Order savedOrder = orderRepo.save(createOrder);
+
+        // Find the created order.
+        Optional<Order> findSavedOrder = orderRepo.findById(savedOrder.getOrderId());
+
+        // Check information before update.
+        assertThat(findSavedOrder).isPresent();
+        assertEquals("Karihaugsveien 78", findSavedOrder.get().getAddress().getAddressStreet());
+
+        // Update order with a new address:
+        Address newAddress = addressRepo.save(new Address("Kongens Gate 101", "Oslo", 5126));
+        savedOrder.setAddress(newAddress);
+
+        // Check order address after update.
+        assertThat(findSavedOrder).isPresent();
+        assertEquals("Kongens Gate 101", findSavedOrder.get().getAddress().getAddressStreet());
+    }
+
+    @Test
     public void deleteById_shouldRemoveOrder() {
         Order order = new Order();
         Order savedOrder = orderRepo.save(order);
-        Optional<Order> foundOrder = orderRepo.findById(savedOrder.getOrderId());
+        Optional<Order> findSavedOrder = orderRepo.findById(savedOrder.getOrderId());
 
-        assertThat(foundOrder).isPresent();
+        assertThat(findSavedOrder).isPresent();
 
         orderRepo.deleteById(savedOrder.getOrderId());
-        Optional<Order> deletedOrder = orderRepo.findById(savedOrder.getOrderId());
+        Optional<Order> findDeletedOrder = orderRepo.findById(savedOrder.getOrderId());
 
-        assertThat(deletedOrder).isNotPresent();
+        assertThat(findDeletedOrder).isNotPresent();
     }
+
 }
