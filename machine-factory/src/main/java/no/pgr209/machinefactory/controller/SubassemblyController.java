@@ -34,8 +34,13 @@ public class SubassemblyController {
 
     //Get subassemblies by page
     @GetMapping("/page/{pageNr}")
-    public List<Subassembly> getSubassembliesByPage(@PathVariable int pageNr) {
-        return subassemblyService.getSubassembliesByPage(pageNr);
+    public ResponseEntity<List<Subassembly>> getSubassembliesByPage(@PathVariable int pageNr) {
+        List<Subassembly> subassembliesByPage = subassemblyService.getSubassembliesByPage(pageNr);
+
+        if(!subassembliesByPage.isEmpty()) {
+            return new ResponseEntity<>(subassembliesByPage, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
