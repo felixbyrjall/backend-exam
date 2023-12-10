@@ -116,13 +116,11 @@ public class OrderServiceUnitTest {
         when(customerRepo.findById(1L)).thenReturn(Optional.of(mockCustomer));
         when(machineRepo.existsById(any())).thenReturn(true);
         when(machineRepo.findAllById(machineIds)).thenReturn(List.of(firstMachine, secondMachine));
-
         when(addressRepo.existsById(6516L)).thenReturn(false); // Address doesn't exist
 
         Order mockOrder = new Order();
         mockOrder.setCustomer(mockCustomer);
         mockOrder.setMachines(List.of(firstMachine, secondMachine));
-
         when(orderRepo.save(any())).thenReturn(mockOrder);
 
         Order createdOrder = orderService.createOrder(orderDTO);
