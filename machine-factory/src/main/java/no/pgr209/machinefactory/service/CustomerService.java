@@ -81,8 +81,8 @@ public class CustomerService {
             }
 
             if(customerDTO.getAddressId() != null) {
-                List<Address> address = addressRepo.findAllById(customerDTO.getAddressId());
-                existingCustomer.setAddresses(address);
+                List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
+                existingCustomer.setAddresses(addresses);
             }
 
             return customerRepo.save(existingCustomer);
