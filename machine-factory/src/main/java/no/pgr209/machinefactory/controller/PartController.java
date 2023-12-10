@@ -44,8 +44,13 @@ public class PartController {
     }
 
     @GetMapping("/{id}")
-    public Part getPartById(@PathVariable Long id) {
-        return partService.getPartById(id);
+    public ResponseEntity<Part> getPartById(@PathVariable Long id) {
+        Part partById = partService.getPartById(id);
+
+        if(partById != null){
+            return new ResponseEntity<>(partById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
