@@ -59,8 +59,12 @@ public class AddressController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAddressById(@PathVariable Long id) {
-        addressService.deleteAddressById(id);
+    public ResponseEntity<String> deleteAddressById(@PathVariable Long id) {
+        if (addressService.addressExists(id)) {
+            addressService.deleteAddressById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
