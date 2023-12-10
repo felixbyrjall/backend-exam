@@ -36,7 +36,7 @@ public class Order {
     // Where is order shipping to - An address can have many orders.
     @ManyToOne
     @JoinColumn(name = "address_id")
-    @JsonIgnoreProperties({"customers"})
+    @JsonIgnoreProperties({"customers", "orders"})
     private Address address;
 
     // What is ordered - An order has one or more machines
