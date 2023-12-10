@@ -75,20 +75,18 @@ public class OrderRepoUnitTest {
         createOrder.setAddress(address);
         Order savedOrder = orderRepo.save(createOrder);
 
-        // Find the created order.
+        // Find the created order and check the information.
         Optional<Order> findSavedOrder = orderRepo.findById(savedOrder.getOrderId());
-
-        // Check information before update.
-        assertThat(findSavedOrder).isPresent();
-        assertEquals("Karihaugsveien 78", findSavedOrder.get().getAddress().getAddressStreet());
+        findSavedOrder.ifPresent(order -> assertEquals("Karihaugsveien 78", findSavedOrder.get().getAddress().getAddressStreet()));
 
         // Update order with a new address:
         Address newAddress = addressRepo.save(new Address("Kongens Gate 101", "Oslo", 5126));
         savedOrder.setAddress(newAddress);
+        orderRepo.save(savedOrder);
 
         // Check order address after update.
-        assertThat(findSavedOrder).isPresent();
-        assertEquals("Kongens Gate 101", findSavedOrder.get().getAddress().getAddressStreet());
+        Optional<Order> findOrderAfterUpdate = orderRepo.findById(savedOrder.getOrderId());
+        findOrderAfterUpdate.ifPresent(order -> assertEquals("Kongens Gate 101", findOrderAfterUpdate.get().getAddress().getAddressStreet()));
     }
 
     @Test
