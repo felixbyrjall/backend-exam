@@ -40,7 +40,6 @@ public class OrderRepoUnitTest {
 
         assertNotNull(orders);
         assertThat(orders.size()).isGreaterThan(0);
-
     }
 
     @Test
