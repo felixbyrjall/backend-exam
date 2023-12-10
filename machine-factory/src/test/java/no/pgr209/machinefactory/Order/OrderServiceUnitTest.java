@@ -99,4 +99,35 @@ public class OrderServiceUnitTest {
         assertThat(createdOrder.getMachines()).containsExactlyInAnyOrderElementsOf(List.of(firstMachine, secondMachine));
     }
 
+    @Test
+    void shouldNotCreateOrderWithAddressNotFound() {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setCustomerId(1L);
+        orderDTO.setAddressId(6516L);
+        List<Long> machineIds = List.of(1L, 2L);
+        orderDTO.setMachineId(machineIds);
+        orderDTO.setOrderDate(LocalDateTime.now());
+
+        Customer mockCustomer = new Customer("Ola Nordmann", "ola@nordmann.no");
+        Machine firstMachine = new Machine("3D Printer", "Electronics");
+        Machine secondMachine = new Machine("Speaker", "Electronics");
+
+        when(customerRepo.existsById(1L)).thenReturn(true);
+        when(customerRepo.findById(1L)).thenReturn(Optional.of(mockCustomer));
+        when(machineRepo.existsById(any())).thenReturn(true);
+        when(machineRepo.findAllById(machineIds)).thenReturn(List.of(firstMachine, secondMachine));
+
+        when(addressRepo.existsById(6516L)).thenReturn(false); // Address doesn't exist
+
+        Order mockOrder = new Order();
+        mockOrder.setCustomer(mockCustomer);
+        mockOrder.setMachines(List.of(firstMachine, secondMachine));
+
+        when(orderRepo.save(any())).thenReturn(mockOrder);
+
+        Order createdOrder = orderService.createOrder(orderDTO);
+
+        assertThat(createdOrder).isNull();
+    }
+
 }
