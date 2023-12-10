@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.service.SubassemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,14 @@ public class SubassemblyController {
 
     //Get all subassembly
     @GetMapping()
-    public List<Subassembly> getAllSubassemblies() {
-        return subassemblyService.getAllSubassemblies();
+    public ResponseEntity<List<Subassembly>> getAllSubassemblies() {
+        List<Subassembly> allSubassemblies = subassemblyService.getAllSubassemblies();
+
+        if(!allSubassemblies.isEmpty()) {
+            return new ResponseEntity<>(allSubassemblies, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get subassemblies by page
