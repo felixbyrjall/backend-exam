@@ -78,7 +78,12 @@ public class PartController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Part> updatePart(@PathVariable Long id, @RequestBody Part updatedPart) {
-        return partService.updatePart(id, updatedPart);
+    public ResponseEntity<Part> updatePart(@PathVariable Long id, @RequestBody PartDTO partDTO) {
+        Part updatedPart = partService.updatePart(id, partDTO);
+
+        if(updatedPart != null) {
+            return new ResponseEntity<>(updatedPart, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
