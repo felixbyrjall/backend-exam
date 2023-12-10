@@ -1,11 +1,10 @@
 package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Part;
+import no.pgr209.machinefactory.model.PartDTO;
 import no.pgr209.machinefactory.repo.PartRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,24 +32,38 @@ public class PartService {
         return partRepo.findById(id).orElse(null);
     }
 
-    public Part createPart(Part part) {
-        return partRepo.save(part);
+    public Part createPart(PartDTO partDTO) {
+        Part newPart = new Part();
+
+        if(partDTO.getPartName() == null){
+            return null;
+        }
+        newPart.setPartName(partDTO.getPartName());
+
+        return partRepo.save(newPart);
     }
 
     public void deletePartById(Long id) {
         partRepo.deleteById(id);
     }
 
-    public ResponseEntity<Part> updatePart(Long id, Part updatedPart) {
+    public boolean partExists(Long id) {
+        return partRepo.existsById(id);
+    }
+
+    public Part updatePart(Long id, PartDTO partDTO) {
         Part existingPart = partRepo.findById(id).orElse(null);
 
         if(existingPart != null) {
 
-            existingPart.setPartName(updatedPart.getPartName());
-            return new ResponseEntity<>(partRepo.save(existingPart), HttpStatus.OK);
+            if(partDTO.getPartName() != null){
+                existingPart.setPartName(partDTO.getPartName());
+            }
+
+            return partRepo.save(existingPart);
 
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
     }
 }
