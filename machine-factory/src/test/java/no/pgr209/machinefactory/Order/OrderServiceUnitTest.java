@@ -25,6 +25,7 @@ public class OrderServiceUnitTest {
     @Mock
     private OrderRepo orderRepo;
 
+    /*
     @Mock
     private CustomerRepo customerRepo;
 
@@ -33,9 +34,11 @@ public class OrderServiceUnitTest {
 
     @Mock
     private MachineRepo machineRepo;
-
+     */
+    
     @InjectMocks
     private OrderService orderService;
+
 
     @Test
     void shouldReturnAllOrders() {
