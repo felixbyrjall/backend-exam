@@ -190,4 +190,15 @@ public class OrderIntegrationTest {
         mockMvc.perform(get("/api/order/2")) // Check if order is removed.
                 .andExpect(status().isNotFound());
     }
+
+    @Test // Test DELETE request.
+    void shouldNotDeleteNonExistentOrder() throws Exception {
+        mockMvc.perform(get("/api/order/23165"))
+                .andExpect(status().isNotFound());
+
+        mockMvc.perform(delete("/api/order/23165"))
+                .andExpect(status().isNotFound());
+    }
+
+
 }
