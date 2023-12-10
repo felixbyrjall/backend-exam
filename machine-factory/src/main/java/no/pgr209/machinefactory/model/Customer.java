@@ -34,12 +34,12 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "address_id")
     )
-    @JsonIgnoreProperties({"customers"})
+    @JsonIgnoreProperties({"customers", "orders"})
     private List<Address> addresses = new ArrayList<>();
 
     // A customer can have many orders
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties({"customers"})
+    @JsonIgnoreProperties({"customer", "address", "machines"})
     private List<Order> orders = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
