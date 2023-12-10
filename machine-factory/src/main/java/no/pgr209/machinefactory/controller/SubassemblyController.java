@@ -44,8 +44,13 @@ public class SubassemblyController {
     }
 
     @GetMapping("/{id}")
-    public Subassembly getSubassemblyById(@PathVariable Long id) {
-        return subassemblyService.getSubassemblyById(id);
+    public ResponseEntity<Subassembly> getSubassemblyById(@PathVariable Long id) {
+        Subassembly subassemblyById = subassemblyService.getSubassemblyById(id);
+
+        if(subassemblyById != null) {
+            return new ResponseEntity<>(subassemblyById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
