@@ -40,6 +40,11 @@ public class Address {
     @JsonIgnoreProperties({"addresses", "orders"})
     private List<Customer> customers = new ArrayList<>();
 
+    // A customer can have many orders
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"address"})
+    private List<Order> orders = new ArrayList<>();
+
     // Constructors, getters, setters, and methods below.
     public Address(String addressStreet, String addressCity, Integer addressZip) {
         this.addressStreet = addressStreet;
