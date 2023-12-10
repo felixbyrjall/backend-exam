@@ -191,7 +191,7 @@ public class OrderIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE request.
+    @Test // Test deleting an order that doesn't exist
     void shouldNotDeleteNonExistentOrder() throws Exception {
         mockMvc.perform(get("/api/order/23165"))
                 .andExpect(status().isNotFound());
