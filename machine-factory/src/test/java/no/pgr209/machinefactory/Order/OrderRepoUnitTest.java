@@ -50,4 +50,27 @@ public class OrderRepoUnitTest {
 
         assertThat(foundOrder).isPresent();
     }
+
+    @Test
+    public void findById_shouldNotReturnNonExistentOrder() {
+        Long nonExistentId = 65561L;
+
+        Optional<Order> foundOrder = orderRepo.findById(nonExistentId);
+
+        assertThat(foundOrder).isNotPresent();
+    }
+
+    @Test
+    public void deleteById_shouldRemoveOrder() {
+        Order order = new Order();
+        Order savedOrder = orderRepo.save(order);
+        Optional<Order> foundOrder = orderRepo.findById(savedOrder.getOrderId());
+
+        assertThat(foundOrder).isPresent();
+
+        orderRepo.deleteById(savedOrder.getOrderId());
+        Optional<Order> deletedOrder = orderRepo.findById(savedOrder.getOrderId());
+
+        assertThat(deletedOrder).isNotPresent();
+    }
 }
