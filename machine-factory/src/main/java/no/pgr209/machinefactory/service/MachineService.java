@@ -62,6 +62,23 @@ public class MachineService {
         machineRepo.deleteById(id);
     }
 
+    // Delete Orders connected to Machine
+    /*
+        @Transactional
+    public void deleteMachineById(Long id) {
+        List<Order> allOrders = orderService.getAllOrders();
+        List<Order> ordersContainingMachine = allOrders.stream()
+                .filter(order -> order.getMachines().stream().anyMatch(machine -> machine.getMachineId().equals(id)))
+                .toList();
+
+        for (Order order : ordersContainingMachine) { // Delete all orders that contain the machine
+            orderService.deleteOrderById(order.getOrderId());
+        }
+
+        machineRepo.deleteById(id); // Delete machine after orders are deleted.
+    }
+     */
+
     public boolean machineExists(Long id) {
         return machineRepo.existsById(id);
     }
