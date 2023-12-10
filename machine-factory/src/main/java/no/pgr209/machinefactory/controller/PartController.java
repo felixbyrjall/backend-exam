@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.service.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,14 @@ public class PartController {
 
     //Get all part
     @GetMapping()
-    public List<Part> getAllParts() {
-        return partService.getAllParts();
+    public ResponseEntity<List<Part>> getAllParts() {
+        List<Part> allParts = partService.getAllParts();
+
+        if(!allParts.isEmpty()){
+            return new ResponseEntity<>(allParts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get parts by page
