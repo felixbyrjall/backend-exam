@@ -1,14 +1,17 @@
 package no.pgr209.machinefactory.Order;
 
 import no.pgr209.machinefactory.model.Address;
+import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.AddressRepo;
+import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.OrderRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,9 @@ public class OrderRepoUnitTest {
     @Autowired
     private AddressRepo addressRepo;
 
+    @Autowired
+    private MachineRepo machineRepo;
+
     @Test
     public void save_shouldReturnSavedOrder() {
         Order order = new Order();
@@ -32,6 +38,20 @@ public class OrderRepoUnitTest {
 
         assertThat(savedOrder).isNotNull();
         assertThat(savedOrder.getOrderId()).isNotNull();
+    }
+
+    @Test // Testing One-to-Many machines.
+    public void save_shouldReturnSavedOrderWithMachines() {
+        Machine machineOne = machineRepo.save(new Machine("3D Printer", "Electronics"));
+        Machine machineTwo = machineRepo.save(new Machine("3D Scanner", "Electronics"));
+        List<Machine> allMachines = Arrays.asList(machineOne, machineTwo);
+
+        Order createOrder = new Order();
+        createOrder.setMachines(allMachines);
+        Order savedOrder = orderRepo.save(createOrder);
+
+        Optional<Order> findOrder = orderRepo.findById(savedOrder.getOrderId());
+        findOrder.ifPresent(order -> assertThat(findOrder.get().getMachines().containsAll(allMachines)));
     }
 
     @Test
