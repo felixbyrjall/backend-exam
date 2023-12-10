@@ -5,7 +5,6 @@ import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.model.CustomerDTO;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
-import no.pgr209.machinefactory.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,13 +14,12 @@ import java.util.List;
 @Service
 public class CustomerService {
     private final CustomerRepo customerRepo;
-    private final OrderRepo orderRepo;
+
     private final AddressRepo addressRepo;
 
     @Autowired
-    public CustomerService(CustomerRepo customerRepo, OrderRepo orderRepo, AddressRepo addressRepo) {
+    public CustomerService(CustomerRepo customerRepo, AddressRepo addressRepo) {
         this.customerRepo = customerRepo;
-        this.orderRepo = orderRepo;
         this.addressRepo = addressRepo;
     }
 
@@ -58,12 +56,6 @@ public class CustomerService {
         }
         newCustomer.setAddresses(addressRepo.findAllById(addressIds));
 
-        List<Long> orderIds = customerDTO.getOrderId();
-        if(!orderIds.stream().allMatch(orderRepo::existsById)) {
-            return null;
-        }
-        newCustomer.setOrders(orderRepo.findAllById(orderIds));
-
         return customerRepo.save(newCustomer);
     }
 
@@ -89,8 +81,8 @@ public class CustomerService {
             }
 
             if(customerDTO.getAddressId() != null) {
-                List<Address> address = addressRepo.findAllById(customerDTO.getAddressId());
-                existingCustomer.setAddresses(address);
+                List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
+                existingCustomer.setAddresses(addresses);
             }
 
             return customerRepo.save(existingCustomer);

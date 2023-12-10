@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.service.SubassemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,19 +22,35 @@ public class SubassemblyController {
 
     //Get all subassembly
     @GetMapping()
-    public List<Subassembly> getAllSubassemblies() {
-        return subassemblyService.getAllSubassemblies();
+    public ResponseEntity<List<Subassembly>> getAllSubassemblies() {
+        List<Subassembly> allSubassemblies = subassemblyService.getAllSubassemblies();
+
+        if(!allSubassemblies.isEmpty()) {
+            return new ResponseEntity<>(allSubassemblies, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get subassemblies by page
     @GetMapping("/page/{pageNr}")
-    public List<Subassembly> getSubassembliesByPage(@PathVariable int pageNr) {
-        return subassemblyService.getSubassembliesByPage(pageNr);
+    public ResponseEntity<List<Subassembly>> getSubassembliesByPage(@PathVariable int pageNr) {
+        List<Subassembly> subassembliesByPage = subassemblyService.getSubassembliesByPage(pageNr);
+
+        if(!subassembliesByPage.isEmpty()) {
+            return new ResponseEntity<>(subassembliesByPage, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
-    public Subassembly getSubassemblyById(@PathVariable Long id) {
-        return subassemblyService.getSubassemblyById(id);
+    public ResponseEntity<Subassembly> getSubassemblyById(@PathVariable Long id) {
+        Subassembly subassemblyById = subassemblyService.getSubassemblyById(id);
+
+        if(subassemblyById != null) {
+            return new ResponseEntity<>(subassemblyById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
@@ -42,8 +59,12 @@ public class SubassemblyController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSubassemblyById(@PathVariable Long id) {
-        subassemblyService.deleteSubassemblyById(id);
+    public ResponseEntity<String> deleteSubassemblyById(@PathVariable Long id) {
+        if (subassemblyService.subassemblyExists(id)) {
+            subassemblyService.deleteSubassemblyById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
