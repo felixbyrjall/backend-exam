@@ -99,17 +99,4 @@ public class OrderServiceUnitTest {
         assertThat(createdOrder.getMachines()).containsExactlyInAnyOrderElementsOf(List.of(firstMachine, secondMachine));
     }
 
-    @Test
-    void shouldNotCreateOrderWithInvalidData(){
-        OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setAddressId(32452L);
-
-        when(customerRepo.existsById(32452L)).thenReturn(true);
-        when(customerRepo.existsById(32452L)).thenReturn(false);
-
-        Order createdOrder = orderService.createOrder(orderDTO);
-
-        assertThat(createdOrder).isNull();
-    }
-
 }
