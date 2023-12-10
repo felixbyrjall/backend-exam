@@ -51,7 +51,7 @@ public class OrderRepoUnitTest {
         Order savedOrder = orderRepo.save(createOrder);
 
         Optional<Order> findOrder = orderRepo.findById(savedOrder.getOrderId());
-        findOrder.ifPresent(order -> assertThat(findOrder.get().getMachines().containsAll(allMachines)));
+        findOrder.ifPresent(order -> assertEquals(allMachines, findOrder.get().getMachines()));
     }
 
     @Test
