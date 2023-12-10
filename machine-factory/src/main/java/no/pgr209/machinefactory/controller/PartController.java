@@ -34,8 +34,13 @@ public class PartController {
 
     //Get parts by page
     @GetMapping("/page/{pageNr}")
-    public List<Part> getPartsByPage(@PathVariable int pageNr) {
-        return partService.getPartsByPage(pageNr);
+    public ResponseEntity<List<Part>> getPartsByPage(@PathVariable int pageNr) {
+        List<Part> partsByPage = partService.getPartsByPage(pageNr);
+
+        if(!partsByPage.isEmpty()){
+            return new ResponseEntity<>(partsByPage, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
