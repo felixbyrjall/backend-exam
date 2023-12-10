@@ -34,7 +34,6 @@ public class OrderServiceUnitTest {
     @InjectMocks
     private OrderService orderService;
 
-
     @Test
     void shouldReturnAllOrders() {
         List<Order> mockOrders = new ArrayList<>();
