@@ -1,8 +1,10 @@
 package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Part;
+import no.pgr209.machinefactory.model.PartDTO;
 import no.pgr209.machinefactory.service.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +56,16 @@ public class PartController {
     }
 
     @PostMapping
-    public Part createPart(@RequestBody Part part) {
-        return partService.createPart(part);
+    public ResponseEntity<Part> createPart(@RequestBody PartDTO partDTO) {
+        Part createdPart = partService.createPart(partDTO);
+
+        if(createdPart != null) {
+            return new ResponseEntity<>(createdPart, HttpStatus.CREATED);
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Error", "Some fields are invalid");
+            return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")

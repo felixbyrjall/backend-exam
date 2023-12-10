@@ -1,6 +1,7 @@
 package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Part;
+import no.pgr209.machinefactory.model.PartDTO;
 import no.pgr209.machinefactory.repo.PartRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -33,8 +34,15 @@ public class PartService {
         return partRepo.findById(id).orElse(null);
     }
 
-    public Part createPart(Part part) {
-        return partRepo.save(part);
+    public Part createPart(PartDTO partDTO) {
+        Part newPart = new Part();
+
+        if(partDTO.getPartName() == null){
+            return null;
+        }
+        newPart.setPartName(partDTO.getPartName());
+
+        return partRepo.save(newPart);
     }
 
     public void deletePartById(Long id) {
