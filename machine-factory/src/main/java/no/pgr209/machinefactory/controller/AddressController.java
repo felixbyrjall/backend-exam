@@ -3,6 +3,7 @@ package no.pgr209.machinefactory.controller;
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,14 @@ public class AddressController {
 
     //Get all addresses
     @GetMapping()
-    public List<Address> getAllAddresses() {
-        return addressService.getAllAddresses();
+    public ResponseEntity<List<Address>> getAllAddresses() {
+        List<Address> allAddresses = addressService.getAllAddresses();
+
+        if(!allAddresses.isEmpty()){
+            return new ResponseEntity<>(allAddresses, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get addresses by page
