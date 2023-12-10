@@ -100,10 +100,10 @@ public class OrderServiceUnitTest {
     }
 
     @Test
-    void shouldNotCreateOrderWithAddressNotFound() {
+    void shouldNotCreateOrderWithInputNotFound() {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setCustomerId(1L);
-        orderDTO.setAddressId(6516L);
+        orderDTO.setAddressId(6516L); // Non-existent Data
         List<Long> machineIds = List.of(1L, 2L);
         orderDTO.setMachineId(machineIds);
         orderDTO.setOrderDate(LocalDateTime.now());
