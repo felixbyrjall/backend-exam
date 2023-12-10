@@ -33,13 +33,23 @@ public class MachineController {
 
     //Get machines by page
     @GetMapping("/page/{pageNr}")
-    public List<Machine> getMachinesByPage(@PathVariable int pageNr) {
-        return machineService.getMachinesByPage(pageNr);
+    public ResponseEntity<List<Machine>> getMachinesByPage(@PathVariable int pageNr) {
+        List<Machine> machinesByPage = machineService.getMachinesByPage(pageNr);
+
+        if(!machinesByPage.isEmpty()) {
+            return new ResponseEntity<>(machinesByPage, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")
-    public Machine getMachineById(@PathVariable Long id) {
-        return machineService.getMachineById(id);
+    public ResponseEntity<Machine> getMachineById(@PathVariable Long id) {
+        Machine machineById = machineService.getMachineById(id);
+
+        if(machineById != null) {
+            return new ResponseEntity<>(machineById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
