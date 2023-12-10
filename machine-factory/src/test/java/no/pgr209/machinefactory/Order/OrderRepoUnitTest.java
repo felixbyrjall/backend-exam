@@ -21,12 +21,12 @@ public class OrderRepoUnitTest {
     private OrderRepo orderRepo;
 
     @Test
-    public void OrderRepo_Save_ReturnSavedOrder() {
+    public void save_shouldReturnSavedOrder() {
         Order order = new Order();
         Order savedOrder = orderRepo.save(order);
 
-        assertNotNull(savedOrder);
-        assertNotNull(savedOrder.getOrderId());
+        assertThat(savedOrder).isNotNull();
+        assertThat(savedOrder.getOrderId()).isNotNull();
     }
 
     @Test
