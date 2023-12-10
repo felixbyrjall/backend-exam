@@ -89,7 +89,7 @@ public class OrderServiceUnitTest {
         mockOrder.setCustomer(mockCustomer);
         mockOrder.setAddress(mockAddress);
         mockOrder.setMachines(List.of(firstMachine, secondMachine));
-        when(orderRepo.save(any(Order.class))).thenReturn(mockOrder);
+        when(orderRepo.save(any())).thenReturn(mockOrder);
 
         Order createdOrder = orderService.createOrder(orderDTO);
 
