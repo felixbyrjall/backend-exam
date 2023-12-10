@@ -59,8 +59,12 @@ public class PartController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePart(@PathVariable Long id) {
-        partService.deletePartById(id);
+    public ResponseEntity<String> deletePart(@PathVariable Long id) {
+        if (partService.partExists(id)) {
+            partService.deletePartById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
