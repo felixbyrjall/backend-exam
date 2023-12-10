@@ -31,7 +31,7 @@ public class OrderRepoUnitTest {
     @Autowired
     private MachineRepo machineRepo;
 
-    @Test
+    @Test // Test saving - creating an order in DB
     public void save_shouldReturnSavedOrder() {
         Order order = new Order();
         Order savedOrder = orderRepo.save(order);
@@ -40,7 +40,7 @@ public class OrderRepoUnitTest {
         assertThat(savedOrder.getOrderId()).isNotNull();
     }
 
-    @Test // Testing One-to-Many machines.
+    @Test // Testing the One-to-Many relationship with machines.
     public void save_shouldReturnSavedOrderWithMachines() {
         Machine machineOne = machineRepo.save(new Machine("3D Printer", "Electronics"));
         Machine machineTwo = machineRepo.save(new Machine("3D Scanner", "Electronics"));
@@ -54,7 +54,7 @@ public class OrderRepoUnitTest {
         findOrder.ifPresent(order -> assertEquals(allMachines, findOrder.get().getMachines()));
     }
 
-    @Test
+    @Test // Test fetching all orders
     public void findAll_shouldReturnNonEmptyList() {
         Order firstOrder = new Order();
         Order secondOrder = new Order();
@@ -67,7 +67,7 @@ public class OrderRepoUnitTest {
         assertThat(orders.size()).isGreaterThan(0);
     }
 
-    @Test
+    @Test // Test fetching order by id
     public void findById_shouldReturnOrder() {
         Order order = new Order();
         Order savedOrder = orderRepo.save(order);
@@ -77,7 +77,7 @@ public class OrderRepoUnitTest {
         assertThat(foundOrder).isPresent();
     }
 
-    @Test
+    @Test // Test fetching a non-existing order.
     public void findById_shouldNotReturnNonExistentOrder() {
         Long nonExistentId = 65561L;
 
@@ -86,7 +86,7 @@ public class OrderRepoUnitTest {
         assertThat(foundOrder).isNotPresent();
     }
 
-    @Test
+    @Test // Create and then update an order.
     public void update_shouldUpdateExistingOrder() {
 
         // Create the order with address information.
@@ -109,7 +109,7 @@ public class OrderRepoUnitTest {
         findOrderAfterUpdate.ifPresent(order -> assertEquals("Kongens Gate 101", findOrderAfterUpdate.get().getAddress().getAddressStreet()));
     }
 
-    @Test
+    @Test // Create an order, check if order exist, delete the order and then check if order still exist.
     public void deleteById_shouldRemoveOrder() {
         Order order = new Order();
         Order savedOrder = orderRepo.save(order);

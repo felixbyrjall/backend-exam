@@ -45,8 +45,7 @@ public class OrderServiceUnitTest {
     @InjectMocks
     private OrderService orderService;
 
-
-    @Test
+    @Test // Test fetching all orders
     void shouldReturnAllOrders() {
         List<Order> mockOrders = new ArrayList<>();
         when(orderRepo.findAll()).thenReturn(mockOrders);
@@ -55,7 +54,7 @@ public class OrderServiceUnitTest {
         assertEquals(mockOrders, orders);
     }
 
-    @Test
+    @Test // Test fetching order by id
     void shouldReturnOrderById() {
         Order mockOrder = new Order();
         when(orderRepo.findById(1L)).thenReturn(Optional.of(mockOrder));
@@ -64,7 +63,7 @@ public class OrderServiceUnitTest {
         assertEquals(mockOrder, order);
     }
 
-    @Test
+    @Test // Comprehensive unit-testing, creating an order
     void shouldCreateOrder() {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setCustomerId(1L);
