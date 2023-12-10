@@ -30,7 +30,7 @@ public class OrderRepoUnitTest {
     }
 
     @Test
-    public void OrderRepo_GetAll_ReturnNotEmpty() {
+    public void findAll_shouldReturnNonEmptyList() {
         Order firstOrder = new Order();
         Order secondOrder = new Order();
         orderRepo.save(firstOrder);
@@ -38,7 +38,7 @@ public class OrderRepoUnitTest {
 
         List<Order> orders = orderRepo.findAll();
 
-        assertNotNull(orders);
+        assertThat(orders).isNotNull();
         assertThat(orders.size()).isGreaterThan(0);
     }
 
