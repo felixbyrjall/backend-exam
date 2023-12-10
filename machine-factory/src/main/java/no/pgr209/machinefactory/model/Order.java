@@ -40,7 +40,7 @@ public class Order {
     private Address address;
 
     // What is ordered - An order has one or more machines
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JsonIgnoreProperties({"subassemblies"})
     private List<Machine> machines = new ArrayList<>();
 

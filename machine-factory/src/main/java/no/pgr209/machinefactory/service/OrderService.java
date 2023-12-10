@@ -7,10 +7,9 @@ import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -42,12 +41,32 @@ public class OrderService {
 
     //Get order by specific id
     public Order getOrderById(Long id) {
-        return orderRepo.findById(id).orElse(null);
+        return (orderRepo.findById(id).orElse(null));
     }
 
     //Create an order
-    public Order createOrder(Order order) {
-        return orderRepo.save(order);
+    public Order createOrder(OrderDTO orderDTO) {
+        Order newOrder = new Order(LocalDateTime.now());
+
+        if(!customerRepo.existsById(orderDTO.getCustomerId())) {
+            return null;
+        }
+        Customer customer = customerRepo.findById(orderDTO.getCustomerId()).orElse(null);
+        newOrder.setCustomer(customer);
+
+        if(!addressRepo.existsById(orderDTO.getAddressId())) {
+            return null;
+        }
+        Address address = addressRepo.findById(orderDTO.getAddressId()).orElse(null);
+        newOrder.setAddress(address);
+
+        List<Long> machineIds = orderDTO.getMachineId();
+        if(!machineIds.stream().allMatch(machineRepo::existsById)) {
+            return null;
+        }
+        newOrder.setMachines(machineRepo.findAllById(machineIds));
+
+        return orderRepo.save(newOrder);
     }
 
     //Delete an order
@@ -55,31 +74,36 @@ public class OrderService {
         orderRepo.deleteById(id);
     }
 
+    //Check if an order exists
+    public boolean orderExists(Long id) {
+        return orderRepo.existsById(id);
+    }
+
     //Update an order
-    public ResponseEntity<Order> updateOrder(Long id, UpdateOrderDTO updateOrderDTO) {
+    public Order updateOrder(Long id, OrderDTO orderDTO) {
         Order existingOrder = orderRepo.findById(id).orElse(null);
 
         if(existingOrder != null) {
 
-            if(updateOrderDTO.getCustomerId() != null) {
-                Customer customer = customerRepo.findById(updateOrderDTO.getCustomerId()).orElse(null);
+            if(orderDTO.getCustomerId() != null) {
+                Customer customer = customerRepo.findById(orderDTO.getCustomerId()).orElse(null);
                 existingOrder.setCustomer(customer);
             }
 
-            if(updateOrderDTO.getAddressId() != null) {
-                Address address = addressRepo.findById(updateOrderDTO.getAddressId()).orElse(null);
+            if(orderDTO.getAddressId() != null) {
+                Address address = addressRepo.findById(orderDTO.getAddressId()).orElse(null);
                 existingOrder.setAddress(address);
             }
 
-            if(updateOrderDTO.getMachineId() != null) {
-                List<Machine> machine = machineRepo.findAllById(updateOrderDTO.getMachineId());
+            if(orderDTO.getMachineId() != null) {
+                List<Machine> machine = machineRepo.findAllById(orderDTO.getMachineId());
                 existingOrder.setMachines(machine);
             }
 
-            return new ResponseEntity<>(orderRepo.save(existingOrder), HttpStatus.OK);
+            return orderRepo.save(existingOrder);
 
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
     }
 }

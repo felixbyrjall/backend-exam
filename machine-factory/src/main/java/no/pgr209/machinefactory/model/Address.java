@@ -33,7 +33,7 @@ public class Address {
     private Integer addressZip;
 
     // A customer can have many addresses, and an address has one or more customers.
-    @ManyToMany(mappedBy = "addresses", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "addresses")
     @JsonIgnoreProperties({"orders", "addresses"})
     private List<Customer> customers = new ArrayList<>();
 

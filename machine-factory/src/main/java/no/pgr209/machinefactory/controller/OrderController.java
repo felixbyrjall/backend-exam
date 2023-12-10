@@ -1,9 +1,11 @@
 package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Order;
-import no.pgr209.machinefactory.model.UpdateOrderDTO;
+import no.pgr209.machinefactory.model.OrderDTO;
 import no.pgr209.machinefactory.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,36 +25,69 @@ public class OrderController {
 
     //Get all orders
     @GetMapping()
-    public List<Order> getAllOrders() {
-        return orderService.getAllOrders();
+    public ResponseEntity<List<Order>> getAllOrders() {
+        List<Order> allOrders = orderService.getAllOrders();
+
+        if (!allOrders.isEmpty()){
+            return new ResponseEntity<>(allOrders, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get orders by page
     @GetMapping("/page/{pageNr}")
-    public List<Order> getOrdersByPage(@PathVariable int pageNr) {
-        return orderService.getOrdersByPage(pageNr);
+    public ResponseEntity<List<Order>> getOrdersByPage(@PathVariable int pageNr) {
+        List<Order> ordersByPage = orderService.getOrdersByPage(pageNr);
+
+        if(!ordersByPage.isEmpty()) {
+            return new ResponseEntity<>(ordersByPage, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Get order by id
     @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        Order orderById = orderService.getOrderById(id);
+
+        if(orderById != null) {
+            return new ResponseEntity<>(orderById, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //Create an order
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.createOrder(order);
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
+        Order createdOrder = orderService.createOrder(orderDTO);
+
+        if(createdOrder != null) {
+            return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Error", "One or more IDs not found");
+            return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
+        }
     }
 
     //Delete order by id
     @DeleteMapping("/{id}")
-    public void deleteOrderById(@PathVariable Long id) {
-        orderService.deleteOrderById(id);
+    public ResponseEntity<String> deleteOrderById(@PathVariable Long id) {
+        if (orderService.orderExists(id)) {
+            orderService.deleteOrderById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody UpdateOrderDTO updateOrderDTO) {
-        return orderService.updateOrder(id, updateOrderDTO);
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {
+        Order updatedOrder = orderService.updateOrder(id, orderDTO);
+
+        if (updatedOrder != null && updatedOrder.getCustomer() != null && updatedOrder.getMachines() != null && updatedOrder.getAddress() != null){
+            return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

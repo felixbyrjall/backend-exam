@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UpdateOrderDTO {
+public class OrderDTO {
     private Long customerId;
     private Long addressId;
     private List<Long> machineId;

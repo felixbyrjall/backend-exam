@@ -11,27 +11,25 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-@ActiveProfiles("test") // Seperate CommandLine and Testing.
+@ActiveProfiles("dev") // Seperate CommandLine and Data Jpa test.
 public class OrderRepoUnitTest {
 
     @Autowired
     private OrderRepo orderRepo;
 
     @Test
-    public void OrderRepo_Save_ReturnSavedOrder() {
+    public void save_shouldReturnSavedOrder() {
         Order order = new Order();
         Order savedOrder = orderRepo.save(order);
 
-        assertNotNull(savedOrder);
-        assertNotNull(savedOrder.getOrderId());
+        assertThat(savedOrder).isNotNull();
+        assertThat(savedOrder.getOrderId()).isNotNull();
     }
 
     @Test
-    public void OrderRepo_GetAll_ReturnNotEmpty() {
+    public void findAll_shouldReturnNonEmptyList() {
         Order firstOrder = new Order();
         Order secondOrder = new Order();
         orderRepo.save(firstOrder);
@@ -39,18 +37,40 @@ public class OrderRepoUnitTest {
 
         List<Order> orders = orderRepo.findAll();
 
-        assertNotNull(orders);
+        assertThat(orders).isNotNull();
         assertThat(orders.size()).isGreaterThan(0);
-
     }
 
     @Test
-    public void OrderRepo_FindById_ReturnOrder() {
+    public void findById_shouldReturnOrder() {
         Order order = new Order();
-        orderRepo.save(order);
+        Order savedOrder = orderRepo.save(order);
 
-        Optional<Order> foundOrder = orderRepo.findById(order.getOrderId());
+        Optional<Order> foundOrder = orderRepo.findById(savedOrder.getOrderId());
 
         assertThat(foundOrder).isPresent();
+    }
+
+    @Test
+    public void findById_shouldNotReturnNonExistentOrder() {
+        Long nonExistentId = 65561L;
+
+        Optional<Order> foundOrder = orderRepo.findById(nonExistentId);
+
+        assertThat(foundOrder).isNotPresent();
+    }
+
+    @Test
+    public void deleteById_shouldRemoveOrder() {
+        Order order = new Order();
+        Order savedOrder = orderRepo.save(order);
+        Optional<Order> foundOrder = orderRepo.findById(savedOrder.getOrderId());
+
+        assertThat(foundOrder).isPresent();
+
+        orderRepo.deleteById(savedOrder.getOrderId());
+        Optional<Order> deletedOrder = orderRepo.findById(savedOrder.getOrderId());
+
+        assertThat(deletedOrder).isNotPresent();
     }
 }

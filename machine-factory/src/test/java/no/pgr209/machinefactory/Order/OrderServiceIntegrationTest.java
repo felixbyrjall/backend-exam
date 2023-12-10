@@ -3,11 +3,10 @@ package no.pgr209.machinefactory.Order;
 import no.pgr209.machinefactory.repo.*;
 import no.pgr209.machinefactory.model.*;
 import no.pgr209.machinefactory.service.OrderService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ActiveProfiles("test") // Seperate CommandLine and Testing.
+@Transactional
 public class OrderServiceIntegrationTest {
 
     @Autowired
@@ -27,25 +26,39 @@ public class OrderServiceIntegrationTest {
     AddressRepo addressRepo;
 
     @Autowired
+    MachineRepo machineRepo;
+
+    @Autowired
+    OrderRepo orderRepo;
+
+    @Autowired
     CustomerRepo customerRepo;
 
+    @BeforeEach // Ensure clean DB.
+    void setUp() {
+        orderRepo.deleteAll();
+        customerRepo.deleteAll();
+        addressRepo.deleteAll();
+        machineRepo.deleteAll();
+    }
+
     @Test
-    @Transactional
     void shouldFetchOrders(){
         Customer customer = customerRepo.save(new Customer("James Jameson", "James@jameson.com"));
         Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", 2013));
-        var order = new Order(LocalDateTime.now());
+        OrderDTO order = new OrderDTO();
 
-        List<Machine> machines = new ArrayList<>();
-        var FirstMachine = new Machine("3D Printer", "Electronics");
-        var SecondMachine = new Machine("Speaker", "Electronics");
+        List<Long> machines = new ArrayList<>();
+        var FirstMachine = machineRepo.save(new Machine("3D Printer", "Electronics"));
+        var SecondMachine = machineRepo.save(new Machine("Speaker", "Electronics"));
 
-        machines.add(FirstMachine);
-        machines.add(SecondMachine);
+        machines.add(FirstMachine.getMachineId());
+        machines.add(SecondMachine.getMachineId());
 
-        order.setAddress(address);
-        order.setCustomer(customer);
-        order.setMachines(machines);
+        order.setAddressId(address.getAddressId());
+        order.setCustomerId(customer.getCustomerId());
+        order.setMachineId(machines);
+        order.setOrderDate(LocalDateTime.now());
         orderService.createOrder(order);
 
         var orders = orderService.getAllOrders();

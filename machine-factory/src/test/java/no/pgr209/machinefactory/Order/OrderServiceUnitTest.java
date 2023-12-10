@@ -1,6 +1,6 @@
 package no.pgr209.machinefactory.Order;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.OrderRepo;
@@ -47,6 +47,8 @@ public class OrderServiceUnitTest {
         when(orderRepo.findAll(any(PageRequest.class))).thenReturn(orderPage);
 
         List<Order> orders = orderService.getOrdersByPage(0);
-        assertTrue(orders.size() == 12);
+
+        assertEquals(12, orders.size());
     }
+
 }

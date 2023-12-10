@@ -24,7 +24,7 @@ public class Subassembly {
     private String subassemblyName;
 
     // A subassembly has one or more parts
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Part> parts = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
