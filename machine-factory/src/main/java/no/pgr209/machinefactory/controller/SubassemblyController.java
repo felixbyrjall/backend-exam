@@ -78,7 +78,12 @@ public class SubassemblyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Subassembly> updateSubassembly(@PathVariable Long id, @RequestBody Subassembly updatedSubassembly) {
-        return subassemblyService.updateSubassembly(id, updatedSubassembly);
+    public ResponseEntity<Subassembly> updateSubassembly(@PathVariable Long id, @RequestBody SubassemblyDTO subassemblyDTO) {
+        Subassembly updatedSubassembly = subassemblyService.updateSubassembly(id, subassemblyDTO);
+
+        if(updatedSubassembly != null && updatedSubassembly.getSubassemblyName() != null && updatedSubassembly.getParts() != null) {
+            return new ResponseEntity<>(updatedSubassembly, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

@@ -1,13 +1,12 @@
 package no.pgr209.machinefactory.service;
 
+import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.model.SubassemblyDTO;
 import no.pgr209.machinefactory.repo.PartRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,16 +61,24 @@ public class SubassemblyService {
         return subassemblyRepo.existsById(id);
     }
 
-    public ResponseEntity<Subassembly> updateSubassembly(Long id, Subassembly updatedSubassembly) {
+    public Subassembly updateSubassembly(Long id, SubassemblyDTO subassemblyDTO) {
         Subassembly existingSubassembly = subassemblyRepo.findById(id).orElse(null);
 
         if(existingSubassembly != null) {
 
-            existingSubassembly.setSubassemblyName(updatedSubassembly.getSubassemblyName());
-            return new ResponseEntity<>(subassemblyRepo.save(existingSubassembly), HttpStatus.OK);
+            if(subassemblyDTO.getSubassemblyName() != null) {
+                existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
+            }
+
+            if(existingSubassembly.getSubassemblyId() != null) {
+                List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
+                existingSubassembly.setParts(parts);
+            }
+
+            return subassemblyRepo.save(existingSubassembly);
 
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
     }
 }
