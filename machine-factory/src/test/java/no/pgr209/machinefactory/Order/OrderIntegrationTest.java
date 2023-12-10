@@ -184,10 +184,10 @@ public class OrderIntegrationTest {
         mockMvc.perform(get("/api/order/2")) // Check if order exist.
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/order/2")) // Delete
+        mockMvc.perform(delete("/api/order/2")) // Delete the order by id.
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/order/2")) // Check if it is removed.
+        mockMvc.perform(get("/api/order/2")) // Check if order is removed.
                 .andExpect(status().isNotFound());
     }
 }
