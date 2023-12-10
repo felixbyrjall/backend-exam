@@ -32,8 +32,25 @@ public class AddressService {
         return addressRepo.findById(id).orElse(null);
     }
 
-    public Address createAddress(Address address) {
-        return addressRepo.save(address);
+    public Address createAddress(AddressDTO addressDTO) {
+        Address newAddress = new Address();
+
+        if(addressDTO.getAddressStreet() == null){
+            return null;
+        }
+        newAddress.setAddressStreet(addressDTO.getAddressStreet());
+
+        if(addressDTO.getAddressCity() == null){
+            return null;
+        }
+        newAddress.setAddressCity(addressDTO.getAddressStreet());
+
+        if(addressDTO.getAddressZip() == null){
+            return null;
+        }
+        newAddress.setAddressZip(addressDTO.getAddressZip());
+
+        return addressRepo.save(newAddress);
     }
 
     public void deleteAddressById(Long id) {

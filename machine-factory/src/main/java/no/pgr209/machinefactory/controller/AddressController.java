@@ -4,6 +4,7 @@ import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.model.AddressDTO;
 import no.pgr209.machinefactory.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +56,16 @@ public class AddressController {
     }
 
     @PostMapping
-    public Address createAddress(Address address) {
-        return addressService.createAddress(address);
+    public ResponseEntity<Address> createAddress(@RequestBody AddressDTO addressDTO) {
+        Address createdAddress = addressService.createAddress(addressDTO);
+
+        if(createdAddress != null) {
+            return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Error", "One of more fields are invalid");
+            return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
