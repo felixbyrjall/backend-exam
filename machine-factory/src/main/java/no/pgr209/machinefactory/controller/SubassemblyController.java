@@ -1,8 +1,10 @@
 package no.pgr209.machinefactory.controller;
 
 import no.pgr209.machinefactory.model.Subassembly;
+import no.pgr209.machinefactory.model.SubassemblyDTO;
 import no.pgr209.machinefactory.service.SubassemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +56,16 @@ public class SubassemblyController {
     }
 
     @PostMapping
-    public Subassembly createSubassembly(Subassembly subassembly) {
-        return subassemblyService.createSubassembly(subassembly);
+    public ResponseEntity<Subassembly> createSubassembly(@RequestBody SubassemblyDTO subassemblyDTO) {
+        Subassembly createdSubassembly = subassemblyService.createSubassembly(subassemblyDTO);
+
+        if(createdSubassembly != null) {
+            return new ResponseEntity<>(createdSubassembly, HttpStatus.CREATED);
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Error", "One or more fields are invalid");
+            return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")

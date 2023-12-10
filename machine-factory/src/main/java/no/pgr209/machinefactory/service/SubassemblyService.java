@@ -1,6 +1,8 @@
 package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Subassembly;
+import no.pgr209.machinefactory.model.SubassemblyDTO;
+import no.pgr209.machinefactory.repo.PartRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -13,10 +15,12 @@ import java.util.List;
 @Service
 public class SubassemblyService {
     private final SubassemblyRepo subassemblyRepo;
+    private final PartRepo partRepo;
 
     @Autowired
-    public SubassemblyService(SubassemblyRepo subassemblyRepo) {
+    public SubassemblyService(SubassemblyRepo subassemblyRepo, PartRepo partRepo) {
         this.subassemblyRepo = subassemblyRepo;
+        this.partRepo = partRepo;
     }
 
     //Get ALL subassemblies
@@ -33,8 +37,21 @@ public class SubassemblyService {
         return subassemblyRepo.findById(id).orElse(null);
     }
 
-    public Subassembly createSubassembly(Subassembly subassembly) {
-        return subassemblyRepo.save(subassembly);
+    public Subassembly createSubassembly(SubassemblyDTO subassemblyDTO) {
+        Subassembly newSubassembly = new Subassembly();
+
+        if(subassemblyDTO.getSubassemblyName() == null) {
+            return null;
+        }
+        newSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
+
+        List<Long> partIds = subassemblyDTO.getPartId();
+        if(!partIds.stream().allMatch(partRepo::existsById)) {
+            return null;
+        }
+        newSubassembly.setParts(partRepo.findAllById(partIds));
+
+        return subassemblyRepo.save(newSubassembly);
     }
 
     public void deleteSubassemblyById(Long id) {
