@@ -59,8 +59,12 @@ public class SubassemblyController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSubassemblyById(@PathVariable Long id) {
-        subassemblyService.deleteSubassemblyById(id);
+    public ResponseEntity<String> deleteSubassemblyById(@PathVariable Long id) {
+        if (subassemblyService.subassemblyExists(id)) {
+            subassemblyService.deleteSubassemblyById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
