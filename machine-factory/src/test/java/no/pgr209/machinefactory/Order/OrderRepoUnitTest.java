@@ -42,11 +42,11 @@ public class OrderRepoUnitTest {
     }
 
     @Test
-    public void OrderRepo_FindById_ReturnOrder() {
+    public void findById_shouldReturnOrder() {
         Order order = new Order();
-        orderRepo.save(order);
+        Order savedOrder = orderRepo.save(order);
 
-        Optional<Order> foundOrder = orderRepo.findById(order.getOrderId());
+        Optional<Order> foundOrder = orderRepo.findById(savedOrder.getOrderId());
 
         assertThat(foundOrder).isPresent();
     }
