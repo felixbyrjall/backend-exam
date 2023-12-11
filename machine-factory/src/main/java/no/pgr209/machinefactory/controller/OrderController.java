@@ -62,7 +62,7 @@ public class OrderController {
     public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
         Order createdOrder = orderService.createOrder(orderDTO);
 
-        if(createdOrder != null) {
+        if(createdOrder != null && !createdOrder.getMachines().isEmpty()) {
             return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();

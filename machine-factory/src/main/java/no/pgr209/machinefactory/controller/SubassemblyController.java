@@ -59,7 +59,7 @@ public class SubassemblyController {
     public ResponseEntity<Subassembly> createSubassembly(@RequestBody SubassemblyDTO subassemblyDTO) {
         Subassembly createdSubassembly = subassemblyService.createSubassembly(subassemblyDTO);
 
-        if(createdSubassembly != null) {
+        if(createdSubassembly != null && !createdSubassembly.getParts().isEmpty()) {
             return new ResponseEntity<>(createdSubassembly, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
