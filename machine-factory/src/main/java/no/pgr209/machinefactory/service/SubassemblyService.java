@@ -16,14 +16,12 @@ public class SubassemblyService {
     private final SubassemblyRepo subassemblyRepo;
     private final PartRepo partRepo;
     private final MachineRepo machineRepo;
-    private final PartService partService;
 
     @Autowired
-    public SubassemblyService(SubassemblyRepo subassemblyRepo, PartRepo partRepo, MachineRepo machineRepo, PartService partService) {
+    public SubassemblyService(SubassemblyRepo subassemblyRepo, PartRepo partRepo, MachineRepo machineRepo) {
         this.subassemblyRepo = subassemblyRepo;
         this.partRepo = partRepo;
         this.machineRepo = machineRepo;
-        this.partService = partService;
     }
 
     //Get ALL subassemblies
@@ -87,16 +85,11 @@ public class SubassemblyService {
 
             List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
 
-            if (!(subassemblyDTO.getPartId()).isEmpty()) {
-                List<Part> allParts = partService.getAllParts();
-
-                boolean checkParts = parts.stream().allMatch(part -> allParts.contains(parts));
-
-                if (!checkParts) {
-                    existingSubassembly.setParts(parts);
-                } else {
+            if (!subassemblyDTO.getPartId().isEmpty()) {
+                if (parts.size() != subassemblyDTO.getPartId().size()) {
                     return null;
                 }
+                existingSubassembly.setParts(parts);
             } else {
                 existingSubassembly.setParts(Collections.emptyList());
             }
