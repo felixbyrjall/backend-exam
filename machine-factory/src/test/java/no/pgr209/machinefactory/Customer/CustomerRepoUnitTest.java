@@ -26,7 +26,7 @@ public class CustomerRepoUnitTest {
     @Autowired
     private AddressRepo addressRepo;
 
-    @Test
+    @Test // Test saving, creating a customer in the db.
     public void save_shouldReturnCustomer() {
         Customer customer = new Customer();
         Customer savedCustomer = customerRepo.save(customer);
@@ -35,7 +35,7 @@ public class CustomerRepoUnitTest {
         assertThat(savedCustomer.getCustomerId()).isNotNull();
     }
 
-    @Test
+    @Test // Test many-to-many relationship with address
     public void save_shouldReturnSavedCustomerWithAddress() {
         Address addressOne = addressRepo.save(new Address("Kongens Gate 15", "Oslo", 1350));
         Address addressTwo = addressRepo.save(new Address("Bjarnes Gate 23", "Viken", 2150));
@@ -49,7 +49,7 @@ public class CustomerRepoUnitTest {
         findCustomer.ifPresent(customer -> assertEquals(allAddresses, findCustomer.get().getAddresses()));
     }
 
-    @Test
+    @Test // Test fetching all orders.
     public void findAll_shouldReturnNonEmptyListOfCustomers() {
         Customer firstCustomer = new Customer();
         Customer secondCustomer = new Customer();
@@ -62,7 +62,7 @@ public class CustomerRepoUnitTest {
         assertThat(customers.size()).isGreaterThan(0);
     }
 
-    @Test
+    @Test // Test fetching customer by id
     public void findAll_shouldReturnCustomer() {
         Customer customer = customerRepo.save(new Customer());
 
@@ -71,7 +71,7 @@ public class CustomerRepoUnitTest {
         assertThat(foundCustomer).isPresent();
     }
 
-    @Test
+    @Test // Test fetching a non-existent customer
     public void findById_shouldNotReturnNonExistentCustomer() {
         Long nonExistentCustomer = 23413L;
 
@@ -80,7 +80,7 @@ public class CustomerRepoUnitTest {
         assertThat(findCustomer).isNotPresent();
     }
 
-    @Test // Create and then update customer
+    @Test // Create customer, update the name and check if name is updated.
     public void update_shouldUpdateExistingCustomer() {
 
         // Create Customer with information
@@ -97,7 +97,7 @@ public class CustomerRepoUnitTest {
         CustomerUpdated.ifPresent(customerMade -> assertEquals("Tom Hardy", CustomerUpdated.get().getCustomerName()));
     }
 
-    @Test
+    @Test // Create a customer, check if customer exist, delete the customer and then check if customer still exist.
     public void deleteById_shouldRemoveCustomer() {
         Customer customer = customerRepo.save(new Customer());
         Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());

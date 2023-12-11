@@ -31,7 +31,7 @@ public class OrderRepoUnitTest {
     @Autowired
     private MachineRepo machineRepo;
 
-    @Test // Test saving - creating an order in DB
+    @Test // Test saving, creating an order.
     public void save_shouldReturnSavedOrder() {
         Order order = new Order();
         Order savedOrder = orderRepo.save(order);
