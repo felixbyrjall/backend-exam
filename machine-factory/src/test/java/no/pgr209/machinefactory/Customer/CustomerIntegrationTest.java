@@ -38,11 +38,20 @@ public class CustomerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1));
     }
 
-    @Test // Ensure customer are return from pagination, returning the correct customers.
+    @Test // Ensure customer are returned from pagination, returning the correct customers.
     void shouldFetchCustomersOnPage() throws Exception {
         mockMvc.perform(get("/api/customer/page/0"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1));
+    }
+
+    @Test // Test GET - Customer by id, ensure correct customer information are returned.
+    void shouldFetchCustomerById() throws Exception {
+        mockMvc.perform(get("/api/customer/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Ola Nordmann"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("ola@nordmann.no"));
     }
 
 }
