@@ -1,15 +1,13 @@
 package no.pgr209.machinefactory.service;
 
-import no.pgr209.machinefactory.model.Machine;
-import no.pgr209.machinefactory.model.MachineDTO;
-import no.pgr209.machinefactory.model.Order;
-import no.pgr209.machinefactory.model.Subassembly;
+import no.pgr209.machinefactory.model.*;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,12 +15,14 @@ public class MachineService {
     private final MachineRepo machineRepo;
     private final SubassemblyRepo subassemblyRepo;
     private final OrderService orderService;
+    private final SubassemblyService subassemblyService;
 
     @Autowired
-    public MachineService(MachineRepo machineRepo, SubassemblyRepo subassemblyRepo, OrderService orderService) {
+    public MachineService(MachineRepo machineRepo, SubassemblyRepo subassemblyRepo, OrderService orderService, SubassemblyService subassemblyService) {
         this.machineRepo = machineRepo;
         this.subassemblyRepo = subassemblyRepo;
         this.orderService = orderService;
+        this.subassemblyService = subassemblyService;
     }
 
     //Get ALL machines
@@ -93,11 +93,20 @@ public class MachineService {
                 existingMachine.setMachineType(machineDTO.getMachineType());
             }
 
-            if(existingMachine.getSubassemblies() != null) {
-                List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
-                existingMachine.setSubassemblies(subassemblies);
+            List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
+
+            if (!(machineDTO.getSubassemblyId()).isEmpty()) {
+                List<Subassembly> allSubassemblies = subassemblyService.getAllSubassemblies();
+
+                boolean checkSubassemblies = subassemblies.stream().allMatch(subassembly -> allSubassemblies.contains(subassemblies));
+
+                if (!checkSubassemblies) {
+                    existingMachine.setSubassemblies(subassemblies);
+                } else {
+                    return null;
+                }
             } else {
-                return null;
+                existingMachine.setSubassemblies(Collections.emptyList());
             }
 
             return machineRepo.save(existingMachine);
