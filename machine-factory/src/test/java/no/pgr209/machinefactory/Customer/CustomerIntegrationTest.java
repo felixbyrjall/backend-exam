@@ -55,7 +55,7 @@ public class CustomerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("ola@nordmann.no"));
     }
 
-    @Test
+    @Test // Testing POST request, creating a customer.
     void shouldCreateCustomer() throws Exception {
         // Create customer, given that an address has also been created.
         String customerJson = String.format("""
@@ -85,5 +85,29 @@ public class CustomerIntegrationTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("James Brown"))
             .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("james@brown.com"))
             .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(1L));
+    }
+
+    @Test // Testing PUT request, updating a customer.
+    void shouldUpdateCustomer() throws Exception {
+        String customerJson = String.format("""
+        {
+            "customerName": "Tom Hardy",
+            "customerEmail": "tom@hardy.com",
+            "addressId": [%d]
+        }
+        """, 2L);
+
+        mockMvc.perform(put("/api/customer/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(customerJson))
+                .andExpect(status().isOk());
+
+        // Fetch the updated customer and check if details actually match.
+        mockMvc.perform(get("/api/customer/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tom Hardy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(2L));
     }
 }
