@@ -1,25 +1,27 @@
 package no.pgr209.machinefactory.service;
 
-import no.pgr209.machinefactory.model.Part;
-import no.pgr209.machinefactory.model.Subassembly;
-import no.pgr209.machinefactory.model.SubassemblyDTO;
+import no.pgr209.machinefactory.model.*;
+import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.PartRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class SubassemblyService {
     private final SubassemblyRepo subassemblyRepo;
     private final PartRepo partRepo;
+    private final MachineRepo machineRepo;
 
     @Autowired
-    public SubassemblyService(SubassemblyRepo subassemblyRepo, PartRepo partRepo) {
+    public SubassemblyService(SubassemblyRepo subassemblyRepo, PartRepo partRepo, MachineRepo machineRepo) {
         this.subassemblyRepo = subassemblyRepo;
         this.partRepo = partRepo;
+        this.machineRepo = machineRepo;
     }
 
     //Get ALL subassemblies
@@ -54,7 +56,18 @@ public class SubassemblyService {
     }
 
     public void deleteSubassemblyById(Long id) {
-        subassemblyRepo.deleteById(id);
+        Subassembly subassembly = subassemblyRepo.findById(id).orElse(null);
+
+        if(subassembly != null) {
+            for(Machine machine : machineRepo.findAll()) {
+                if(machine.getSubassemblies().contains(subassembly)) {
+                    machine.getSubassemblies().remove(subassembly);
+                    machineRepo.save(machine);
+                }
+            }
+
+            subassemblyRepo.delete(subassembly);
+        }
     }
 
     public boolean subassemblyExists(Long id) {
@@ -70,9 +83,15 @@ public class SubassemblyService {
                 existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
             }
 
-            if(existingSubassembly.getSubassemblyId() != null) {
-                List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
+            List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
+
+            if (!subassemblyDTO.getPartId().isEmpty()) {
+                if (parts.size() != subassemblyDTO.getPartId().size()) {
+                    return null;
+                }
                 existingSubassembly.setParts(parts);
+            } else {
+                existingSubassembly.setParts(Collections.emptyList());
             }
 
             return subassemblyRepo.save(existingSubassembly);

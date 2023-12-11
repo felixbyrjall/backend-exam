@@ -28,7 +28,7 @@ public class Address {
     private String addressCity;
 
     @Column(name = "address_zip")
-    private Integer addressZip;
+    private String addressZip;
 
     // A customer can have many addresses, and an address has one or more customers.
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -46,7 +46,7 @@ public class Address {
     private List<Order> orders = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.
-    public Address(String addressStreet, String addressCity, Integer addressZip) {
+    public Address(String addressStreet, String addressCity, String addressZip) {
         this.addressStreet = addressStreet;
         this.addressCity = addressCity;
         this.addressZip = addressZip;

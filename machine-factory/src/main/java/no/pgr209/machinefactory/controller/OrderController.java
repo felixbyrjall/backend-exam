@@ -62,7 +62,7 @@ public class OrderController {
     public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
         Order createdOrder = orderService.createOrder(orderDTO);
 
-        if(createdOrder != null) {
+        if(createdOrder != null && !createdOrder.getMachines().isEmpty()) {
             return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -85,7 +85,7 @@ public class OrderController {
     public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {
         Order updatedOrder = orderService.updateOrder(id, orderDTO);
 
-        if (updatedOrder != null && updatedOrder.getCustomer() != null && updatedOrder.getMachines() != null && updatedOrder.getAddress() != null){
+        if (updatedOrder != null && updatedOrder.getCustomer() != null && !updatedOrder.getMachines().isEmpty() && updatedOrder.getAddress() != null){
             return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

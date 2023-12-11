@@ -45,7 +45,7 @@ public class OrderServiceIntegrationTest {
     @Test // Comprehensive testing - The full cycle of creating an order and then validate information.
     void shouldCreateAndFetchOrders(){
         Customer customer = customerRepo.save(new Customer("James Jameson", "James@jameson.com"));
-        Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", 2013));
+        Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", "2013"));
         OrderDTO order = new OrderDTO();
 
         List<Long> machines = new ArrayList<>();
@@ -70,7 +70,7 @@ public class OrderServiceIntegrationTest {
 
         assertEquals("Skjetten", orders.get(0).getAddress().getAddressCity());
         assertEquals("Karihaugsveien 78", orders.get(0).getAddress().getAddressStreet());
-        assertEquals(2013, orders.get(0).getAddress().getAddressZip());
+        assertEquals("2013", orders.get(0).getAddress().getAddressZip());
 
         assertEquals("3D Printer", orders.get(0).getMachines().get(0).getMachineName());
         assertEquals("Electronics", orders.get(0).getMachines().get(0).getMachineType());

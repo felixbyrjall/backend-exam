@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -88,16 +89,26 @@ public class OrderService {
             if(orderDTO.getCustomerId() != null) {
                 Customer customer = customerRepo.findById(orderDTO.getCustomerId()).orElse(null);
                 existingOrder.setCustomer(customer);
+            } else {
+                return null;
             }
 
             if(orderDTO.getAddressId() != null) {
                 Address address = addressRepo.findById(orderDTO.getAddressId()).orElse(null);
                 existingOrder.setAddress(address);
+            } else {
+                return null;
             }
 
-            if(orderDTO.getMachineId() != null) {
-                List<Machine> machine = machineRepo.findAllById(orderDTO.getMachineId());
-                existingOrder.setMachines(machine);
+            List<Machine> machines = machineRepo.findAllById(orderDTO.getMachineId());
+
+            if (!orderDTO.getMachineId().isEmpty()) {
+                if (machines.size() != orderDTO.getMachineId().size()) {
+                    return null;
+                }
+                existingOrder.setMachines(machines);
+            } else {
+                existingOrder.setMachines(Collections.emptyList());
             }
 
             return orderRepo.save(existingOrder);

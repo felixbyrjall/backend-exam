@@ -1,15 +1,13 @@
 package no.pgr209.machinefactory.service;
 
-import no.pgr209.machinefactory.model.Machine;
-import no.pgr209.machinefactory.model.MachineDTO;
-import no.pgr209.machinefactory.model.Order;
-import no.pgr209.machinefactory.model.Subassembly;
+import no.pgr209.machinefactory.model.*;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -93,9 +91,15 @@ public class MachineService {
                 existingMachine.setMachineType(machineDTO.getMachineType());
             }
 
-            if(existingMachine.getMachineId() != null) {
-                List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
+            List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
+
+            if (!machineDTO.getSubassemblyId().isEmpty()) {
+                if (subassemblies.size() != machineDTO.getSubassemblyId().size()) {
+                    return null;
+                }
                 existingMachine.setSubassemblies(subassemblies);
+            } else {
+                existingMachine.setSubassemblies(Collections.emptyList());
             }
 
             return machineRepo.save(existingMachine);

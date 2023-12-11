@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -48,7 +49,7 @@ public class CustomerService {
         if(customerDTO.getCustomerEmail() == null){
             return null;
         }
-        newCustomer.setCustomerEmail(customerDTO.getCustomerName());
+        newCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
 
         List<Long> addressIds = customerDTO.getAddressId();
         if(!addressIds.stream().allMatch(addressRepo::existsById)) {
@@ -70,19 +71,25 @@ public class CustomerService {
     public Customer updateCustomer(Long id, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepo.findById(id).orElse(null);
 
-        if(existingCustomer != null){
+        if(existingCustomer != null) {
 
-            if(customerDTO.getCustomerName() != null){
+            if(customerDTO.getCustomerName() != null) {
                 existingCustomer.setCustomerName(customerDTO.getCustomerName());
             }
 
-            if(customerDTO.getCustomerEmail() != null){
+            if(customerDTO.getCustomerEmail() != null) {
                 existingCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
             }
 
-            if(customerDTO.getAddressId() != null) {
-                List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
+            List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
+
+            if (!customerDTO.getAddressId().isEmpty()) {
+                if (addresses.size() != customerDTO.getAddressId().size()) {
+                    return null;
+                }
                 existingCustomer.setAddresses(addresses);
+            } else {
+                existingCustomer.setAddresses(Collections.emptyList());
             }
 
             return customerRepo.save(existingCustomer);

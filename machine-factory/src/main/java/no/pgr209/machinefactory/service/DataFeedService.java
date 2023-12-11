@@ -34,14 +34,14 @@ public class DataFeedService {
     public void initializeData() {
         // Initialize First Customer and Address
         Customer customerOne = new Customer("Ola Nordmann", "ola@nordmann.no");
-        Address addressOne = new Address("Storgata 33", "Oslo", 2204);
+        Address addressOne = new Address("Storgata 33", "Oslo", "2204");
         customerOne.getAddresses().add(addressOne);
         customerOne = customerRepo.save(customerOne);
         addressOne = addressRepo.save(addressOne);
 
         // Initialize Second Customer and Address
         Customer customerTwo = new Customer("Kari Hansen", "kari@hansen.no");
-        Address addressTwo = new Address("Husmannsgate 14", "Oslo", 2232);
+        Address addressTwo = new Address("Husmannsgate 14", "Oslo", "2232");
         customerTwo.getAddresses().add(addressOne); // Add same address as first customer.
         customerTwo.getAddresses().add(addressTwo); // Add a second address
         customerTwo = customerRepo.save(customerTwo);

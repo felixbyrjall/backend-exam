@@ -31,7 +31,7 @@ public class OrderRepoUnitTest {
     @Autowired
     private MachineRepo machineRepo;
 
-    @Test // Test saving - creating an order in DB
+    @Test // Test saving, creating an order.
     public void save_shouldReturnSavedOrder() {
         Order order = new Order();
         Order savedOrder = orderRepo.save(order);
@@ -55,7 +55,7 @@ public class OrderRepoUnitTest {
     }
 
     @Test // Test fetching all orders
-    public void findAll_shouldReturnNonEmptyList() {
+    public void findAll_shouldReturnNonEmptyListOfOrders() {
         Order firstOrder = new Order();
         Order secondOrder = new Order();
         orderRepo.save(firstOrder);
@@ -81,9 +81,9 @@ public class OrderRepoUnitTest {
     public void findById_shouldNotReturnNonExistentOrder() {
         Long nonExistentId = 65561L;
 
-        Optional<Order> foundOrder = orderRepo.findById(nonExistentId);
+        Optional<Order> findOrder = orderRepo.findById(nonExistentId);
 
-        assertThat(foundOrder).isNotPresent();
+        assertThat(findOrder).isNotPresent();
     }
 
     @Test // Create and then update an order.
@@ -91,7 +91,7 @@ public class OrderRepoUnitTest {
 
         // Create the order with address information.
         Order createOrder = new Order();
-        Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", 2013));
+        Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", "2013"));
         createOrder.setAddress(address);
         Order savedOrder = orderRepo.save(createOrder);
 
@@ -100,7 +100,7 @@ public class OrderRepoUnitTest {
         findSavedOrder.ifPresent(order -> assertEquals("Karihaugsveien 78", findSavedOrder.get().getAddress().getAddressStreet()));
 
         // Update order with a new address:
-        Address newAddress = addressRepo.save(new Address("Kongens Gate 101", "Oslo", 5126));
+        Address newAddress = addressRepo.save(new Address("Kongens Gate 101", "Oslo", "5126"));
         savedOrder.setAddress(newAddress);
         orderRepo.save(savedOrder);
 
@@ -119,7 +119,6 @@ public class OrderRepoUnitTest {
 
         orderRepo.deleteById(savedOrder.getOrderId());
         Optional<Order> findDeletedOrder = orderRepo.findById(savedOrder.getOrderId());
-
         assertThat(findDeletedOrder).isNotPresent();
     }
 

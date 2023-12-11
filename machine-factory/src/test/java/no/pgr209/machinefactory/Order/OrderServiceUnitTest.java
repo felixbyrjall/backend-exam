@@ -45,7 +45,7 @@ public class OrderServiceUnitTest {
     @InjectMocks
     private OrderService orderService;
 
-    @Test // Test fetching all orders
+    @Test // Mock and test fetching all orders
     void shouldReturnAllOrders() {
         List<Order> mockOrders = new ArrayList<>();
         when(orderRepo.findAll()).thenReturn(mockOrders);
@@ -54,7 +54,7 @@ public class OrderServiceUnitTest {
         assertEquals(mockOrders, orders);
     }
 
-    @Test // Test fetching order by id
+    @Test // Mock and test fetching order by id
     void shouldReturnOrderById() {
         Order mockOrder = new Order();
         when(orderRepo.findById(1L)).thenReturn(Optional.of(mockOrder));
@@ -73,7 +73,7 @@ public class OrderServiceUnitTest {
         orderDTO.setOrderDate(LocalDateTime.now());
 
         Customer mockCustomer = new Customer("Ola Nordmann", "ola@nordmann.no");
-        Address mockAddress = new Address("Storgata 33", "Oslo", 2204);
+        Address mockAddress = new Address("Storgata 33", "Oslo", "2204");
         Machine firstMachine = new Machine("3D Printer", "Electronics");
         Machine secondMachine = new Machine("Speaker", "Electronics");
 
