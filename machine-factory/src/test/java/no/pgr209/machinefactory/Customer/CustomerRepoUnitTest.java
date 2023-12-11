@@ -64,10 +64,9 @@ public class CustomerRepoUnitTest {
 
     @Test
     public void findAll_shouldReturnCustomer() {
-        Customer customer = new Customer();
-        Customer savedCustomer = customerRepo.save(customer);
+        Customer customer = customerRepo.save(new Customer());
 
-        Optional<Customer> foundCustomer = customerRepo.findById(savedCustomer.getCustomerId());
+        Optional<Customer> foundCustomer = customerRepo.findById(customer.getCustomerId());
 
         assertThat(foundCustomer).isPresent();
     }
@@ -96,6 +95,17 @@ public class CustomerRepoUnitTest {
 
         Optional<Customer> CustomerUpdated = customerRepo.findById(customer.getCustomerId());
         CustomerUpdated.ifPresent(customerMade -> assertEquals("Tom Hardy", CustomerUpdated.get().getCustomerName()));
+    }
 
+    @Test
+    public void deleteById_shouldRemoveCustomer() {
+        Customer customer = customerRepo.save(new Customer());
+        Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());
+
+        assertThat(findCustomer).isPresent();
+
+        customerRepo.deleteById(customer.getCustomerId());
+        Optional<Customer> findDeletedCustomer = customerRepo.findById(customer.getCustomerId());
+        assertThat(findDeletedCustomer).isNotPresent();
     }
 }
