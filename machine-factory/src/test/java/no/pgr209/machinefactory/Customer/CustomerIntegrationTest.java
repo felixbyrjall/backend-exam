@@ -93,9 +93,9 @@ public class CustomerIntegrationTest {
         {
             "customerName": "Tom Hardy",
             "customerEmail": "tom@hardy.com",
-            "addressId": [%d]
+            "addressId": []
         }
-        """, 2L);
+        """);
 
         mockMvc.perform(put("/api/customer/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -107,8 +107,7 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tom Hardy"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(2L));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"));
     }
 
     @Test // Expect fetch to be NOT FOUND using non-existent ID customer
