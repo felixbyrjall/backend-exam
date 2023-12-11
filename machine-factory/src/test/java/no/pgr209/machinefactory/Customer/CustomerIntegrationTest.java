@@ -110,6 +110,31 @@ public class CustomerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"));
     }
 
+    @Test // Testing PUT request, updating a customer with another address.
+    void shouldUpdateCustomerWithAnotherAddress() throws Exception {
+        String customerJson = """
+        {
+            "customerName": "Tom Hardy",
+            "customerEmail": "tom@hardy.com",
+            "addressId": [2]
+        }
+        """;
+
+        mockMvc.perform(put("/api/customer/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(customerJson))
+                .andExpect(status().isOk());
+
+        // Fetch the updated customer and check if details actually match.
+        mockMvc.perform(get("/api/customer/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tom Hardy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(2L));
+
+    }
+
     @Test // Expect fetch to be NOT FOUND using non-existent ID customer
     void shouldNotFetchNonExistentCustomerById () throws Exception {
         mockMvc.perform(get("/api/customer/81561"))
