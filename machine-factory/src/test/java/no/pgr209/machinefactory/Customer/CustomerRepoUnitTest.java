@@ -80,4 +80,22 @@ public class CustomerRepoUnitTest {
 
         assertThat(findCustomer).isNotPresent();
     }
+
+    @Test // Create and then update customer
+    public void update_shouldUpdateExistingCustomer() {
+
+        // Create Customer with information
+        Customer customer = customerRepo.save(new Customer("James Brown", "james@brown.no"));
+
+        Optional<Customer> createdCustomer = customerRepo.findById(customer.getCustomerId());
+        createdCustomer.ifPresent(customerMade -> assertEquals("James Brown", createdCustomer.get().getCustomerName()));
+
+        // Update name
+        customer.setCustomerName("Tom Hardy");
+        customerRepo.save(customer);
+
+        Optional<Customer> CustomerUpdated = customerRepo.findById(customer.getCustomerId());
+        CustomerUpdated.ifPresent(customerMade -> assertEquals("Tom Hardy", CustomerUpdated.get().getCustomerName()));
+
+    }
 }
