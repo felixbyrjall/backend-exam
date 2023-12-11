@@ -93,7 +93,7 @@ public class MachineService {
                 existingMachine.setMachineType(machineDTO.getMachineType());
             }
 
-            if(existingMachine.getMachineId() != null) {
+            if(existingMachine.getSubassemblies() != null) {
                 List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
                 existingMachine.setSubassemblies(subassemblies);
             }

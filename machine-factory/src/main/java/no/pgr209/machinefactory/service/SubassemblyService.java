@@ -70,7 +70,7 @@ public class SubassemblyService {
                 existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
             }
 
-            if(existingSubassembly.getSubassemblyId() != null) {
+            if(existingSubassembly.getParts() != null) {
                 List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
                 existingSubassembly.setParts(parts);
             }
