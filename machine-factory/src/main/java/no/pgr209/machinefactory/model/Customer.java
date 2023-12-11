@@ -1,8 +1,6 @@
 package no.pgr209.machinefactory.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,13 +34,12 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "address_id")
     )
-    @JsonIgnoreProperties({"customers"})
+    @JsonIgnoreProperties({"customers", "orders"})
     private List<Address> addresses = new ArrayList<>();
 
     // A customer can have many orders
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id")
-    @JsonIgnoreProperties({"customers", "machines", "address", "customer"})
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"customer", "address", "machines"})
     private List<Order> orders = new ArrayList<>();
 
     // Constructors, getters, setters, and methods below.

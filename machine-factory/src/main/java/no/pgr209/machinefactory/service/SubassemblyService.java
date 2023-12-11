@@ -1,11 +1,12 @@
 package no.pgr209.machinefactory.service;
 
+import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.Subassembly;
+import no.pgr209.machinefactory.model.SubassemblyDTO;
+import no.pgr209.machinefactory.repo.PartRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +14,12 @@ import java.util.List;
 @Service
 public class SubassemblyService {
     private final SubassemblyRepo subassemblyRepo;
+    private final PartRepo partRepo;
 
     @Autowired
-    public SubassemblyService(SubassemblyRepo subassemblyRepo) {
+    public SubassemblyService(SubassemblyRepo subassemblyRepo, PartRepo partRepo) {
         this.subassemblyRepo = subassemblyRepo;
+        this.partRepo = partRepo;
     }
 
     //Get ALL subassemblies
@@ -33,24 +36,49 @@ public class SubassemblyService {
         return subassemblyRepo.findById(id).orElse(null);
     }
 
-    public Subassembly createSubassembly(Subassembly subassembly) {
-        return subassemblyRepo.save(subassembly);
+    public Subassembly createSubassembly(SubassemblyDTO subassemblyDTO) {
+        Subassembly newSubassembly = new Subassembly();
+
+        if(subassemblyDTO.getSubassemblyName() == null) {
+            return null;
+        }
+        newSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
+
+        List<Long> partIds = subassemblyDTO.getPartId();
+        if(!partIds.stream().allMatch(partRepo::existsById)) {
+            return null;
+        }
+        newSubassembly.setParts(partRepo.findAllById(partIds));
+
+        return subassemblyRepo.save(newSubassembly);
     }
 
     public void deleteSubassemblyById(Long id) {
         subassemblyRepo.deleteById(id);
     }
 
-    public ResponseEntity<Subassembly> updateSubassembly(Long id, Subassembly updatedSubassembly) {
+    public boolean subassemblyExists(Long id) {
+        return subassemblyRepo.existsById(id);
+    }
+
+    public Subassembly updateSubassembly(Long id, SubassemblyDTO subassemblyDTO) {
         Subassembly existingSubassembly = subassemblyRepo.findById(id).orElse(null);
 
         if(existingSubassembly != null) {
 
-            existingSubassembly.setSubassemblyName(updatedSubassembly.getSubassemblyName());
-            return new ResponseEntity<>(subassemblyRepo.save(existingSubassembly), HttpStatus.OK);
+            if(subassemblyDTO.getSubassemblyName() != null) {
+                existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
+            }
+
+            if(existingSubassembly.getSubassemblyId() != null) {
+                List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
+                existingSubassembly.setParts(parts);
+            }
+
+            return subassemblyRepo.save(existingSubassembly);
 
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
     }
 }
