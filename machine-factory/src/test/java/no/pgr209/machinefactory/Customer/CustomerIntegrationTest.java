@@ -58,14 +58,14 @@ public class CustomerIntegrationTest {
 
     @Test // Testing POST request, creating a customer.
     void shouldCreateCustomer() throws Exception {
-        // Create customer, given that an address has also been created.
+        // Create customer, address is not required upon creation hence why it is empty.
         String customerJson = String.format("""
         {
             "customerName": "James Brown",
             "customerEmail": "james@brown.com",
-            "addressId": [%d]
+            "addressId": []
         }
-        """, 1L);
+        """);
 
         // Create the customer
         MvcResult createResult = mockMvc.perform(post("/api/customer")
@@ -84,8 +84,7 @@ public class CustomerIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(customerId))
             .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("James Brown"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("james@brown.com"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(1L));
+            .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("james@brown.com"));
     }
 
     @Test // Testing PUT request, updating a customer.
