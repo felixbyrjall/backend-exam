@@ -45,7 +45,7 @@ public class OrderServiceUnitTest {
     @InjectMocks
     private OrderService orderService;
 
-    @Test // Test fetching all orders
+    @Test // Mock and test fetching all orders
     void shouldReturnAllOrders() {
         List<Order> mockOrders = new ArrayList<>();
         when(orderRepo.findAll()).thenReturn(mockOrders);
