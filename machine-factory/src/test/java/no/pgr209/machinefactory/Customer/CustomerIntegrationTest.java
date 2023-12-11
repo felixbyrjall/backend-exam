@@ -110,4 +110,35 @@ public class CustomerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(2L));
     }
+
+    @Test // Test DELETE request for customers.
+    void shouldDeleteCustomerById() throws Exception {
+        mockMvc.perform(get("/api/customer/2")) // Check if customer exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/customer/2")) // Delete the customer by id.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/customer/2")) // Check if order is removed.
+                .andExpect(status().isNotFound());
+    }
+
+    @Test // Test DELETE requests and that associated Orders are deleted.
+    void shouldDeleteCustomerByIdAndOrdersAssociated() throws Exception {
+        mockMvc.perform(get("/api/customer/1")) // Check if customer exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/order/1")) // Check if order exist and that this is the customer's order.
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerId").value(1L))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/customer/1")) // Delete the customer by id.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/customer/1")) // Check if customer is removed.
+                .andExpect(status().isNotFound());
+
+        mockMvc.perform(get("/api/order/1")) // Check if associated order is removed.
+                .andExpect(status().isNotFound());
+    }
 }
