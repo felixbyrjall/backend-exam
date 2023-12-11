@@ -15,14 +15,12 @@ public class MachineService {
     private final MachineRepo machineRepo;
     private final SubassemblyRepo subassemblyRepo;
     private final OrderService orderService;
-    private final SubassemblyService subassemblyService;
 
     @Autowired
-    public MachineService(MachineRepo machineRepo, SubassemblyRepo subassemblyRepo, OrderService orderService, SubassemblyService subassemblyService) {
+    public MachineService(MachineRepo machineRepo, SubassemblyRepo subassemblyRepo, OrderService orderService) {
         this.machineRepo = machineRepo;
         this.subassemblyRepo = subassemblyRepo;
         this.orderService = orderService;
-        this.subassemblyService = subassemblyService;
     }
 
     //Get ALL machines
@@ -95,16 +93,11 @@ public class MachineService {
 
             List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
 
-            if (!(machineDTO.getSubassemblyId()).isEmpty()) {
-                List<Subassembly> allSubassemblies = subassemblyService.getAllSubassemblies();
-
-                boolean checkSubassemblies = subassemblies.stream().allMatch(subassembly -> allSubassemblies.contains(subassemblies));
-
-                if (!checkSubassemblies) {
-                    existingMachine.setSubassemblies(subassemblies);
-                } else {
+            if (!machineDTO.getSubassemblyId().isEmpty()) {
+                if (subassemblies.size() != machineDTO.getSubassemblyId().size()) {
                     return null;
                 }
+                existingMachine.setSubassemblies(subassemblies);
             } else {
                 existingMachine.setSubassemblies(Collections.emptyList());
             }
