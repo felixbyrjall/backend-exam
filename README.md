@@ -26,9 +26,9 @@ The total file size of the entire exam paper/file must not exceed 5GB in zip for
 - [x] You should implement pagination for all endpoints that return lists
 - [ ] You may implement Flyway, but it is not required
 - [x] You should have the following tests, making use of @SpringBootTest, @DataJpaTest where necessary:
-- [ ] Unit tests of services and business logic using MockBean
+- [x] Unit tests of services and business logic using MockBean
 - [x] Integrations tests
-- [ ] End-to-end tests using MockMvc
+- [x] End-to-end tests using MockMvc
 
   
 You are building an order system for a factory that sells machines.
@@ -60,10 +60,10 @@ More model:
 Controllers, Services, Repositories should be implemented for all domain objects,<br/> 
 implementing the following functionality:</br>
 - [x] Get one by id</br>
-- [ ] Get all with pagination<br>
+- [x] Get all with pagination<br>
 - [x] Create one<br>
 - [x] Delete one<br>
-- [ ] Update one<br>
+- [x] Update one<br>
 
 <p>Additional functionality can be added, such as:<br/>
 - Create a customer, and add an address to it<br/>
@@ -89,7 +89,7 @@ repository, service, controller, or the application does not run.
 - [x] C - The application implements complete functionality,<br>
 some additional functionality and includes unit tests
 - [x] B - The application implements complete functionality,<br>
-- [ ] some additional functionality and includes both unit and integration tests
-- [ ] A - The application implements complete functionality, <br>
+      some additional functionality and includes both unit and integration tests
+- [x] A - The application implements complete functionality, <br>
 some additional functionality and includes unit, integration, <br>
 and end-to-end tests
