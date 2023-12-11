@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -16,11 +17,13 @@ public class CustomerService {
     private final CustomerRepo customerRepo;
 
     private final AddressRepo addressRepo;
+    private final AddressService addressService;
 
     @Autowired
-    public CustomerService(CustomerRepo customerRepo, AddressRepo addressRepo) {
+    public CustomerService(CustomerRepo customerRepo, AddressRepo addressRepo, AddressService addressService) {
         this.customerRepo = customerRepo;
         this.addressRepo = addressRepo;
+        this.addressService = addressService;
     }
 
     //Get ALL customers
@@ -81,10 +84,19 @@ public class CustomerService {
             }
 
             List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
-            if(!addresses.isEmpty()){
-                existingCustomer.setAddresses(addresses);
+
+            if (!(customerDTO.getAddressId()).isEmpty()) {
+                List<Address> allAddresses = addressService.getAllAddresses();
+
+                boolean checkAddresses = addresses.stream().allMatch(address -> allAddresses.contains(addresses));
+
+                if (!checkAddresses) {
+                    existingCustomer.setAddresses(addresses);
+                } else {
+                    return null;
+                }
             } else {
-                return null;
+                existingCustomer.setAddresses(Collections.emptyList());
             }
 
             return customerRepo.save(existingCustomer);
