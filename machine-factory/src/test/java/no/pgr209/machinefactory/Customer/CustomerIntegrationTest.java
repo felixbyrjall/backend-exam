@@ -37,4 +37,12 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1));
     }
+
+    @Test // Ensure customer are return from pagination, returning the correct customers.
+    void shouldFetchCustomersOnPage() throws Exception {
+        mockMvc.perform(get("/api/customer/page/0"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1));
+    }
+
 }
