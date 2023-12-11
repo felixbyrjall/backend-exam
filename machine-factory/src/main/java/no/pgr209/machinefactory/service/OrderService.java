@@ -88,16 +88,22 @@ public class OrderService {
             if(orderDTO.getCustomerId() != null) {
                 Customer customer = customerRepo.findById(orderDTO.getCustomerId()).orElse(null);
                 existingOrder.setCustomer(customer);
+            } else {
+                return null;
             }
 
             if(orderDTO.getAddressId() != null) {
                 Address address = addressRepo.findById(orderDTO.getAddressId()).orElse(null);
                 existingOrder.setAddress(address);
+            } else {
+                return null;
             }
 
             if(orderDTO.getMachineId() != null) {
                 List<Machine> machine = machineRepo.findAllById(orderDTO.getMachineId());
                 existingOrder.setMachines(machine);
+            } else {
+                return null;
             }
 
             return orderRepo.save(existingOrder);
