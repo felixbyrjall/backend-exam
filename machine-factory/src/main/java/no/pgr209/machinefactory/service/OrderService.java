@@ -99,7 +99,7 @@ public class OrderService {
                 return null;
             }
 
-            if(orderDTO.getMachineId() != null) {
+            if(!orderDTO.getMachineId().isEmpty()) {
                 List<Machine> machine = machineRepo.findAllById(orderDTO.getMachineId());
                 existingOrder.setMachines(machine);
             } else {
