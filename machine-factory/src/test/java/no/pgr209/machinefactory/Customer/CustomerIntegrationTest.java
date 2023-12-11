@@ -59,13 +59,13 @@ public class CustomerIntegrationTest {
     @Test // Testing POST request, creating a customer.
     void shouldCreateCustomer() throws Exception {
         // Create customer, address is not required upon creation hence why it is empty.
-        String customerJson = String.format("""
+        String customerJson = """
         {
             "customerName": "James Brown",
             "customerEmail": "james@brown.com",
             "addressId": []
         }
-        """);
+        """;
 
         // Create the customer
         MvcResult createResult = mockMvc.perform(post("/api/customer")
