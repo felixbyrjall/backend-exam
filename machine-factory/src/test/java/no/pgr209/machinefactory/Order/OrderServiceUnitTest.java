@@ -54,7 +54,7 @@ public class OrderServiceUnitTest {
         assertEquals(mockOrders, orders);
     }
 
-    @Test // Test fetching order by id
+    @Test // Mock and test fetching order by id
     void shouldReturnOrderById() {
         Order mockOrder = new Order();
         when(orderRepo.findById(1L)).thenReturn(Optional.of(mockOrder));

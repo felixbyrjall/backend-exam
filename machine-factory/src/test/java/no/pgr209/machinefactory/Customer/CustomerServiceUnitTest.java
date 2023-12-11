@@ -2,8 +2,8 @@ package no.pgr209.machinefactory.Customer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 import no.pgr209.machinefactory.model.Customer;
+import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import no.pgr209.machinefactory.service.CustomerService;
 import no.pgr209.machinefactory.service.DataFeedService;
@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class CustomerServiceUnitTest {
@@ -37,6 +38,15 @@ public class CustomerServiceUnitTest {
         List<Customer> customers = customerService.getAllCustomers();
 
         assertEquals(mockCustomers, customers);
+    }
+
+    @Test // Mock and test fetching customer by id
+    void shouldReturnCustomerById() {
+        Customer mockCustomer = new Customer();
+        when(customerRepo.findById(1L)).thenReturn(Optional.of(mockCustomer));
+        Customer customer = customerService.getCustomerById(1L);
+
+        assertEquals(mockCustomer, customer);
     }
 
 }
