@@ -59,7 +59,7 @@ public class CustomerController {
     public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDTO customerDTO) {
         Customer createdCustomer = customerService.createCustomer(customerDTO);
 
-        if(createdCustomer != null && !createdCustomer.getAddresses().isEmpty()) {
+        if(createdCustomer != null) {
             return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
