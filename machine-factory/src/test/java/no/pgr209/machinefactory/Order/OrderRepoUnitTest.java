@@ -55,7 +55,7 @@ public class OrderRepoUnitTest {
     }
 
     @Test // Test fetching all orders
-    public void findAll_shouldReturnNonEmptyList() {
+    public void findAll_shouldReturnNonEmptyListOfOrders() {
         Order firstOrder = new Order();
         Order secondOrder = new Order();
         orderRepo.save(firstOrder);
@@ -81,9 +81,9 @@ public class OrderRepoUnitTest {
     public void findById_shouldNotReturnNonExistentOrder() {
         Long nonExistentId = 65561L;
 
-        Optional<Order> foundOrder = orderRepo.findById(nonExistentId);
+        Optional<Order> findOrder = orderRepo.findById(nonExistentId);
 
-        assertThat(foundOrder).isNotPresent();
+        assertThat(findOrder).isNotPresent();
     }
 
     @Test // Create and then update an order.
