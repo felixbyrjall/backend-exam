@@ -38,7 +38,6 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].customerId").value(2));
-
     }
 
     @Test // Ensure customer are returned from pagination, returning the correct customers.
@@ -111,6 +110,12 @@ public class CustomerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tom Hardy"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(2L));
+    }
+
+    @Test // Expect fetch to be NOT FOUND using non-existent ID customer
+    void shouldNotFetchNonExistentCustomerById () throws Exception {
+        mockMvc.perform(get("/api/customer/81561"))
+                .andExpect(status().isNotFound());
     }
 
     @Test // Test DELETE request for customers.
