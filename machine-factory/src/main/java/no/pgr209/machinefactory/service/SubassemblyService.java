@@ -1,9 +1,6 @@
 package no.pgr209.machinefactory.service;
 
-import no.pgr209.machinefactory.model.Machine;
-import no.pgr209.machinefactory.model.Part;
-import no.pgr209.machinefactory.model.Subassembly;
-import no.pgr209.machinefactory.model.SubassemblyDTO;
+import no.pgr209.machinefactory.model.*;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.PartRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
@@ -11,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,12 +16,14 @@ public class SubassemblyService {
     private final SubassemblyRepo subassemblyRepo;
     private final PartRepo partRepo;
     private final MachineRepo machineRepo;
+    private final PartService partService;
 
     @Autowired
-    public SubassemblyService(SubassemblyRepo subassemblyRepo, PartRepo partRepo, MachineRepo machineRepo) {
+    public SubassemblyService(SubassemblyRepo subassemblyRepo, PartRepo partRepo, MachineRepo machineRepo, PartService partService) {
         this.subassemblyRepo = subassemblyRepo;
         this.partRepo = partRepo;
         this.machineRepo = machineRepo;
+        this.partService = partService;
     }
 
     //Get ALL subassemblies
@@ -85,11 +85,20 @@ public class SubassemblyService {
                 existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
             }
 
-            if(existingSubassembly.getParts() != null) {
-                List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
-                existingSubassembly.setParts(parts);
+            List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
+
+            if (!(subassemblyDTO.getPartId()).isEmpty()) {
+                List<Part> allParts = partService.getAllParts();
+
+                boolean checkParts = parts.stream().allMatch(part -> allParts.contains(parts));
+
+                if (!checkParts) {
+                    existingSubassembly.setParts(parts);
+                } else {
+                    return null;
+                }
             } else {
-                return null;
+                existingSubassembly.setParts(Collections.emptyList());
             }
 
             return subassemblyRepo.save(existingSubassembly);
