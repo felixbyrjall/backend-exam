@@ -3,7 +3,6 @@ package no.pgr209.machinefactory.Customer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import no.pgr209.machinefactory.model.Customer;
-import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import no.pgr209.machinefactory.service.CustomerService;
 import no.pgr209.machinefactory.service.DataFeedService;
@@ -48,5 +47,7 @@ public class CustomerServiceUnitTest {
 
         assertEquals(mockCustomer, customer);
     }
+
+
 
 }
