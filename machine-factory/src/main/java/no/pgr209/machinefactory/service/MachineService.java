@@ -2,6 +2,7 @@ package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.model.MachineDTO;
+import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
@@ -15,11 +16,13 @@ import java.util.List;
 public class MachineService {
     private final MachineRepo machineRepo;
     private final SubassemblyRepo subassemblyRepo;
+    private final OrderService orderService;
 
     @Autowired
-    public MachineService(MachineRepo machineRepo, SubassemblyRepo subassemblyRepo) {
+    public MachineService(MachineRepo machineRepo, SubassemblyRepo subassemblyRepo, OrderService orderService) {
         this.machineRepo = machineRepo;
         this.subassemblyRepo = subassemblyRepo;
+        this.orderService = orderService;
     }
 
     //Get ALL machines
@@ -58,13 +61,8 @@ public class MachineService {
         return machineRepo.save(newMachine);
     }
 
-    public void deleteMachineById(Long id) {
-        machineRepo.deleteById(id);
-    }
 
     // Delete Orders connected to Machine
-    /*
-        @Transactional
     public void deleteMachineById(Long id) {
         List<Order> allOrders = orderService.getAllOrders();
         List<Order> ordersContainingMachine = allOrders.stream()
@@ -77,7 +75,6 @@ public class MachineService {
 
         machineRepo.deleteById(id); // Delete machine after orders are deleted.
     }
-     */
 
     public boolean machineExists(Long id) {
         return machineRepo.existsById(id);
