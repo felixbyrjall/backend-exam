@@ -89,13 +89,13 @@ public class CustomerIntegrationTest {
 
     @Test // Testing PUT request, updating a customer.
     void shouldUpdateCustomer() throws Exception {
-        String customerJson = String.format("""
+        String customerJson = """
         {
             "customerName": "Tom Hardy",
             "customerEmail": "tom@hardy.com",
             "addressId": []
         }
-        """);
+        """;
 
         mockMvc.perform(put("/api/customer/1")
                         .contentType(MediaType.APPLICATION_JSON)

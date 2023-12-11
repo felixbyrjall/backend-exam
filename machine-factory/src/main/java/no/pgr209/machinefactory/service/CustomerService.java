@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -18,13 +17,11 @@ public class CustomerService {
     private final CustomerRepo customerRepo;
 
     private final AddressRepo addressRepo;
-    private final AddressService addressService;
 
     @Autowired
-    public CustomerService(CustomerRepo customerRepo, AddressRepo addressRepo, AddressService addressService) {
+    public CustomerService(CustomerRepo customerRepo, AddressRepo addressRepo) {
         this.customerRepo = customerRepo;
         this.addressRepo = addressRepo;
-        this.addressService = addressService;
     }
 
     //Get ALL customers
