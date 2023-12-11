@@ -48,7 +48,7 @@ public class CustomerService {
         if(customerDTO.getCustomerEmail() == null){
             return null;
         }
-        newCustomer.setCustomerEmail(customerDTO.getCustomerName());
+        newCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
 
         List<Long> addressIds = customerDTO.getAddressId();
         if(!addressIds.stream().allMatch(addressRepo::existsById)) {
