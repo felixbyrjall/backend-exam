@@ -80,8 +80,8 @@ public class CustomerService {
                 existingCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
             }
 
-            if(customerDTO.getAddressId() != null) {
-                List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
+            List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
+            if(!addresses.isEmpty()){
                 existingCustomer.setAddresses(addresses);
             } else {
                 return null;
