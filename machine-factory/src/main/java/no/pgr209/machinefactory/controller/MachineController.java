@@ -58,7 +58,7 @@ public class MachineController {
     public ResponseEntity<Machine> createMachine(@RequestBody MachineDTO machineDTO) {
         Machine createdMachine = machineService.createMachine(machineDTO);
 
-        if(createdMachine != null) {
+        if(createdMachine != null && !createdMachine.getSubassemblies().isEmpty()) {
             return new ResponseEntity<>(createdMachine, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
