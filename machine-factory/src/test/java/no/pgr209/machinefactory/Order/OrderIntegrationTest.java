@@ -160,7 +160,7 @@ public class OrderIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Testing PUT request, updating an order.
+    @Test // Testing PUT request on an order with data that do not exist.
     void shouldNotUpdateOrderWithInvalidData() throws Exception {
 
         String orderJson = String.format("""

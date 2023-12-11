@@ -134,6 +134,38 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test // Expect NOT FOUND when creating a customer with non-existent parameters and invalid data
+    void shouldNotUpdateNonExistentCustomer() throws Exception {
+        String customerJson = String.format("""
+        {
+            "customerName": "Tom Hardy",
+            "customerEmail": "tom@hardy.com",
+            "addressId": [%d]
+        }
+        """, 2L);
+
+        mockMvc.perform(put("/api/customer/234345")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(customerJson))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test // Expect NOT FOUND when creating a customer with data that do not exist.
+    void shouldNotUpdateCustomerWithInvalidData() throws Exception {
+        String customerJson = String.format("""
+        {
+            "customerName": "James Brown",
+            "customerEmail": "james@brown.com",
+            "addressId": [%d]
+        }
+        """, 54323L);
+
+        mockMvc.perform(put("/api/customer/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(customerJson))
+                .andExpect(status().isNotFound());
+    }
+
     @Test // Test DELETE request for customers.
     void shouldDeleteCustomerById() throws Exception {
         mockMvc.perform(get("/api/customer/2")) // Check if customer exist.
