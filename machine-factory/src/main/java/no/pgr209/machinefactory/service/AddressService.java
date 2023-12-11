@@ -43,7 +43,7 @@ public class AddressService {
         if(addressDTO.getAddressCity() == null){
             return null;
         }
-        newAddress.setAddressCity(addressDTO.getAddressStreet());
+        newAddress.setAddressCity(addressDTO.getAddressCity());
 
         if(addressDTO.getAddressZip() == null){
             return null;
