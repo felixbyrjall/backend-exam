@@ -141,4 +141,13 @@ public class CustomerIntegrationTest {
         mockMvc.perform(get("/api/order/1")) // Check if associated order is removed.
                 .andExpect(status().isNotFound());
     }
+
+    @Test // Test deleting a customer that doesn't exist
+    void shouldNotDeleteCustomerNotExist() throws Exception {
+        mockMvc.perform(get("/api/customer/23165"))
+                .andExpect(status().isNotFound());
+
+        mockMvc.perform(delete("/api/customer/23165"))
+                .andExpect(status().isNotFound());
+    }
 }
