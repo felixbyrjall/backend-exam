@@ -32,11 +32,13 @@ public class CustomerIntegrationTest {
         dataFeedService.initializeData(); // Feed in-memory DB with sample data from DataFeedService.
     }
 
-    @Test // Test connection is OK, fetch all customers.
+    @Test // Test connection is OK, fetch all customers, and ensure customers are returned.
     void shouldFetchCustomers() throws Exception {
         mockMvc.perform(get("/api/customer"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].customerId").value(2));
+
     }
 
     @Test // Ensure customer are returned from pagination, returning the correct customers.
