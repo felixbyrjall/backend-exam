@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -85,16 +86,11 @@ public class CustomerService {
 
             List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
 
-            if (!(customerDTO.getAddressId()).isEmpty()) {
-                List<Address> allAddresses = addressService.getAllAddresses();
-
-                boolean checkAddresses = addresses.stream().allMatch(address -> allAddresses.contains(addresses));
-
-                if (!checkAddresses) {
-                    existingCustomer.setAddresses(addresses);
-                } else {
+            if (!customerDTO.getAddressId().isEmpty()) {
+                if (addresses.size() != customerDTO.getAddressId().size()) {
                     return null;
                 }
+                existingCustomer.setAddresses(addresses);
             } else {
                 existingCustomer.setAddresses(Collections.emptyList());
             }
