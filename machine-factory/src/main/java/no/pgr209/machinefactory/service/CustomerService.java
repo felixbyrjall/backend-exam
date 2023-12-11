@@ -70,19 +70,23 @@ public class CustomerService {
     public Customer updateCustomer(Long id, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepo.findById(id).orElse(null);
 
-        if(existingCustomer != null){
+        if(existingCustomer != null) {
 
-            if(customerDTO.getCustomerName() != null){
+            if(customerDTO.getCustomerName() != null) {
                 existingCustomer.setCustomerName(customerDTO.getCustomerName());
             }
 
-            if(customerDTO.getCustomerEmail() != null){
+            if(customerDTO.getCustomerEmail() != null) {
                 existingCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
             }
 
             if(customerDTO.getAddressId() != null) {
-                List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
-                existingCustomer.setAddresses(addresses);
+                if(!addressRepo.findAllById(customerDTO.getAddressId()).isEmpty()) {
+                    List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
+                    existingCustomer.setAddresses(addresses);
+                } else {
+                    return null;
+                }
             }
 
             return customerRepo.save(existingCustomer);
