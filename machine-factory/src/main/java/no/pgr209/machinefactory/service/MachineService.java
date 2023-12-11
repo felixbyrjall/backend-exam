@@ -96,6 +96,8 @@ public class MachineService {
             if(existingMachine.getSubassemblies() != null) {
                 List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
                 existingMachine.setSubassemblies(subassemblies);
+            } else {
+                return null;
             }
 
             return machineRepo.save(existingMachine);

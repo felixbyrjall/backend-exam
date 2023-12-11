@@ -88,6 +88,8 @@ public class SubassemblyService {
             if(existingSubassembly.getParts() != null) {
                 List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
                 existingSubassembly.setParts(parts);
+            } else {
+                return null;
             }
 
             return subassemblyRepo.save(existingSubassembly);
