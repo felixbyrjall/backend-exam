@@ -119,7 +119,6 @@ public class OrderRepoUnitTest {
 
         orderRepo.deleteById(savedOrder.getOrderId());
         Optional<Order> findDeletedOrder = orderRepo.findById(savedOrder.getOrderId());
-
         assertThat(findDeletedOrder).isNotPresent();
     }
 
