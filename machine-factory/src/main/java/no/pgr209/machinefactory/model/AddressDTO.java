@@ -8,5 +8,5 @@ import lombok.Setter;
 public class AddressDTO {
     private String addressStreet;
     private String addressCity;
-    private Integer addressZip;
+    private String addressZip;
 }

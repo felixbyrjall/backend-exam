@@ -37,8 +37,8 @@ public class CustomerRepoUnitTest {
 
     @Test // Test many-to-many relationship with address
     public void save_shouldReturnSavedCustomerWithAddress() {
-        Address addressOne = addressRepo.save(new Address("Kongens Gate 15", "Oslo", 1350));
-        Address addressTwo = addressRepo.save(new Address("Bjarnes Gate 23", "Viken", 2150));
+        Address addressOne = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "1350"));
+        Address addressTwo = addressRepo.save(new Address("Bjarnes Gate 23", "Viken", "2150"));
         List<Address> allAddresses = Arrays.asList(addressOne, addressTwo);
 
         Customer createCustomer = new Customer();

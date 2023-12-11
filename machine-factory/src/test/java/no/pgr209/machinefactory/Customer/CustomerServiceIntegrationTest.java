@@ -37,8 +37,8 @@ public class CustomerServiceIntegrationTest {
     @Test // Comprehensive testing - The full cycle of creating a customer and then validate information.
     void shouldCreateAndFetchCustomers() {
         CustomerDTO customer = new CustomerDTO();
-        Address addressOne = addressRepo.save(new Address("Hans Petters Gate 13", "Oslo", 1342));
-        Address addressTwo = addressRepo.save(new Address("Peters vei 131", "Oslo", 1324));
+        Address addressOne = addressRepo.save(new Address("Hans Petters Gate 13", "Oslo", "1342"));
+        Address addressTwo = addressRepo.save(new Address("Peters vei 131", "Oslo", "1324"));
 
         List<Long> addresses = new ArrayList<>();
         addresses.add(addressOne.getAddressId());
@@ -56,9 +56,9 @@ public class CustomerServiceIntegrationTest {
         assertEquals("james@jameson.com", customers.get(0).getCustomerEmail());
         assertEquals("Hans Petters Gate 13", customers.get(0).getAddresses().get(0).getAddressStreet());
         assertEquals("Oslo", customers.get(0).getAddresses().get(0).getAddressCity());
-        assertEquals(1342, customers.get(0).getAddresses().get(0).getAddressZip());
+        assertEquals("1342", customers.get(0).getAddresses().get(0).getAddressZip());
         assertEquals("Peters vei 131", customers.get(0).getAddresses().get(1).getAddressStreet());
         assertEquals("Oslo", customers.get(0).getAddresses().get(1).getAddressCity());
-        assertEquals(1324, customers.get(0).getAddresses().get(1).getAddressZip());
+        assertEquals("1324", customers.get(0).getAddresses().get(1).getAddressZip());
     }
 }

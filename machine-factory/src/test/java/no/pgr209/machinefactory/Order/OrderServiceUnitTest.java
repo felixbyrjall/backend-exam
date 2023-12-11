@@ -73,7 +73,7 @@ public class OrderServiceUnitTest {
         orderDTO.setOrderDate(LocalDateTime.now());
 
         Customer mockCustomer = new Customer("Ola Nordmann", "ola@nordmann.no");
-        Address mockAddress = new Address("Storgata 33", "Oslo", 2204);
+        Address mockAddress = new Address("Storgata 33", "Oslo", "2204");
         Machine firstMachine = new Machine("3D Printer", "Electronics");
         Machine secondMachine = new Machine("Speaker", "Electronics");
 
