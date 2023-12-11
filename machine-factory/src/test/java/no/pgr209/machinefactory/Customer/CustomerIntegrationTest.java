@@ -87,7 +87,7 @@ public class CustomerIntegrationTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("james@brown.com"));
     }
 
-    @Test // Testing PUT request, updating a customer.
+    @Test // Testing PUT request, updating a customerName, customerEmail and making addresses empty.
     void shouldUpdateCustomer() throws Exception {
         String customerJson = """
         {
