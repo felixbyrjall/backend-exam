@@ -96,4 +96,16 @@ public class MachineRepoUnitTest {
         Optional<Machine> machineUpdated = machineRepo.findById(machine.getMachineId());
         machineUpdated.ifPresent(machineChanged -> assertEquals("Work Equipment", machineUpdated.get().getMachineType()));
     }
+
+    @Test // Create a machine, check if the machine exist, delete the machine and then check if machine still exist.
+    public void deleteById_shouldRemoveMachine() {
+        Machine machine = machineRepo.save(new Machine());
+        Optional<Machine> findMachine = machineRepo.findById(machine.getMachineId());
+
+        assertThat(findMachine).isPresent();
+
+        machineRepo.deleteById(machine.getMachineId());
+        Optional<Machine> findDeletedMachine = machineRepo.findById(machine.getMachineId());
+        assertThat(findDeletedMachine).isNotPresent();
+    }
 }
