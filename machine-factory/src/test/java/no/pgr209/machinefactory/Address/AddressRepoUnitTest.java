@@ -2,7 +2,6 @@ package no.pgr209.machinefactory.Address;
 
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.model.Customer;
-import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import org.assertj.core.api.AssertionsForClassTypes;
