@@ -64,10 +64,9 @@ public class CustomerService {
     public Customer updateCustomer(Long id, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepo.findById(id).orElse(null);
 
-        if (existingCustomer == null ||
-                customerDTO.getCustomerName() == null || customerDTO.getCustomerName().isEmpty() ||
-                customerDTO.getCustomerEmail() == null || customerDTO.getCustomerEmail().isEmpty() ||
-                customerDTO.getAddressId() == null) {
+        if (existingCustomer == null || customerDTO.getCustomerName() == null ||
+                customerDTO.getCustomerName().isEmpty() || customerDTO.getCustomerEmail() == null ||
+                customerDTO.getCustomerEmail().isEmpty() || customerDTO.getAddressId() == null) {
             return null;
         }
 

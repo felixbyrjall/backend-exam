@@ -73,8 +73,8 @@ public class SubassemblyService {
     public Subassembly updateSubassembly(Long id, SubassemblyDTO subassemblyDTO) {
         Subassembly existingSubassembly = subassemblyRepo.findById(id).orElse(null);
 
-        if (existingSubassembly == null || subassemblyDTO.getSubassemblyName() == null || subassemblyDTO.getSubassemblyName().isEmpty() ||
-                subassemblyDTO.getPartId() == null) {
+        if (existingSubassembly == null || subassemblyDTO.getSubassemblyName() == null ||
+                subassemblyDTO.getSubassemblyName().isEmpty() || subassemblyDTO.getPartId() == null) {
             return null;
         }
 

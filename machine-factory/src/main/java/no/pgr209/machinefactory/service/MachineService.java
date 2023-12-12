@@ -74,10 +74,9 @@ public class MachineService {
     public Machine updateMachine(Long id, MachineDTO machineDTO) {
         Machine existingMachine = machineRepo.findById(id).orElse(null);
 
-        if (existingMachine == null ||
-                machineDTO.getMachineName() == null || machineDTO.getMachineName().isEmpty() ||
-                machineDTO.getMachineType() == null || machineDTO.getMachineType().isEmpty() ||
-                machineDTO.getSubassemblyId() == null) {
+        if (existingMachine == null || machineDTO.getMachineName() == null ||
+                machineDTO.getMachineName().isEmpty() || machineDTO.getMachineType() == null ||
+                machineDTO.getMachineType().isEmpty() || machineDTO.getSubassemblyId() == null) {
             return null;
         }
 
