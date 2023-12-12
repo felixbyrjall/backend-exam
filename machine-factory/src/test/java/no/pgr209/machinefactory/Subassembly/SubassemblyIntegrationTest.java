@@ -210,4 +210,13 @@ public class SubassemblyIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0]").doesNotHaveJsonPath())
                 .andExpect(status().isOk()); // Making sure machine still exist.
     }
+
+    @Test // Test deleting a subassembly that doesn't exist
+    void shouldNotDeleteSubassemblyNotExist() throws Exception {
+        mockMvc.perform(get("/api/subassembly/75624"))
+                .andExpect(status().isNotFound());
+
+        mockMvc.perform(delete("/api/subassembly/75624"))
+                .andExpect(status().isNotFound());
+    }
 }
