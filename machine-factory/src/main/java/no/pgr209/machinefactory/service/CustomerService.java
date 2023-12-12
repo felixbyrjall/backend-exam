@@ -39,23 +39,16 @@ public class CustomerService {
     }
 
     public Customer createCustomer(CustomerDTO customerDTO) {
+        if (customerDTO.getCustomerName() == null || customerDTO.getCustomerName().isEmpty() ||
+                customerDTO.getCustomerEmail() == null || customerDTO.getCustomerEmail().isEmpty() ||
+                customerDTO.getAddressId() == null || !customerDTO.getAddressId().stream().allMatch(addressRepo::existsById)) {
+            return null;
+        }
+
         Customer newCustomer = new Customer();
-
-        if(customerDTO.getCustomerName() == null || customerDTO.getCustomerName().isEmpty()){
-            return null;
-        }
         newCustomer.setCustomerName(customerDTO.getCustomerName());
-
-        if(customerDTO.getCustomerEmail() == null || customerDTO.getCustomerEmail().isEmpty()){
-            return null;
-        }
         newCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
-
-        List<Long> addressIds = customerDTO.getAddressId();
-        if(!addressIds.stream().allMatch(addressRepo::existsById)) {
-            return null;
-        }
-        newCustomer.setAddresses(addressRepo.findAllById(addressIds));
+        newCustomer.setAddresses(addressRepo.findAllById(customerDTO.getAddressId()));
 
         return customerRepo.save(newCustomer);
     }
@@ -71,34 +64,32 @@ public class CustomerService {
     public Customer updateCustomer(Long id, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepo.findById(id).orElse(null);
 
-        if(existingCustomer != null) {
-
-            if(customerDTO.getCustomerName() != null && !customerDTO.getCustomerName().isEmpty()) {
-                existingCustomer.setCustomerName(customerDTO.getCustomerName());
-            } else {
-                return null;
-            }
-
-            if(customerDTO.getCustomerEmail() != null && !customerDTO.getCustomerEmail().isEmpty()) {
-                existingCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
-            } else {
-                return null;
-            }
-
-            List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());
-
-            if (!customerDTO.getAddressId().isEmpty()) {
-                if (addresses.size() != customerDTO.getAddressId().size()) {
-                    return null;
-                }
-                existingCustomer.setAddresses(addresses);
-            } else {
-                existingCustomer.setAddresses(Collections.emptyList());
-            }
-
-            return customerRepo.save(existingCustomer);
-        } else {
+        if (existingCustomer == null ||
+                customerDTO.getCustomerName() == null || customerDTO.getCustomerName().isEmpty() ||
+                customerDTO.getCustomerEmail() == null || customerDTO.getCustomerEmail().isEmpty() ||
+                customerDTO.getAddressId() == null) {
             return null;
         }
+
+        String newCustomerName = customerDTO.getCustomerName();
+        String newCustomerEmail = customerDTO.getCustomerEmail();
+        List<Long> addressIds = customerDTO.getAddressId();
+
+        existingCustomer.setCustomerName(newCustomerName);
+        existingCustomer.setCustomerEmail(newCustomerEmail);
+
+        if (!addressIds.isEmpty()) {
+            List<Address> addresses = addressRepo.findAllById(addressIds);
+
+            if (addresses.size() != addressIds.size()) {
+                return null;
+            }
+
+            existingCustomer.setAddresses(addresses);
+        } else {
+            existingCustomer.setAddresses(Collections.emptyList());
+        }
+
+        return customerRepo.save(existingCustomer);
     }
 }

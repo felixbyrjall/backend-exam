@@ -40,7 +40,7 @@ public class MachineService {
     public Machine createMachine(MachineDTO machineDTO) {
         if (machineDTO.getMachineName() == null || machineDTO.getMachineName().isEmpty() ||
                 machineDTO.getMachineType() == null || machineDTO.getMachineType().isEmpty() ||
-                !machineDTO.getSubassemblyId().stream().allMatch(subassemblyRepo::existsById)) {
+                machineDTO.getSubassemblyId() == null || !machineDTO.getSubassemblyId().stream().allMatch(subassemblyRepo::existsById)) {
             return null;
         }
 
