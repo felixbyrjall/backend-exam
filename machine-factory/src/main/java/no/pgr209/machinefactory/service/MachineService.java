@@ -40,12 +40,12 @@ public class MachineService {
     public Machine createMachine(MachineDTO machineDTO) {
         Machine newMachine = new Machine();
 
-        if(machineDTO.getMachineName() == null){
+        if(machineDTO.getMachineName() == null || machineDTO.getMachineName().isEmpty()){
             return null;
         }
         newMachine.setMachineName(machineDTO.getMachineName());
 
-        if(machineDTO.getMachineType() == null){
+        if(machineDTO.getMachineType() == null || machineDTO.getMachineType().isEmpty()){
             return null;
         }
         newMachine.setMachineType(machineDTO.getMachineType());
