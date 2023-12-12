@@ -2,8 +2,10 @@ package no.pgr209.machinefactory.Address;
 
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.model.Customer;
+import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
+import no.pgr209.machinefactory.repo.OrderRepo;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class AddressRepoUnitTest {
     @Autowired
     CustomerRepo customerRepo;
 
+    @Autowired
+    OrderRepo orderRepo;
+
     @Test
     public void save_shouldReturnAddress() {
         Address address = new Address();
@@ -48,6 +53,20 @@ public class AddressRepoUnitTest {
 
         Optional<Address> findAddress = addressRepo.findById(savedAddress.getAddressId());
         findAddress.ifPresent(address -> assertEquals(allCustomers, findAddress.get().getCustomers()));
+    }
+
+    @Test // Test one-to-many relationship with order
+    public void save_shouldReturnSavedAddressWithOrders() {
+        Order orderOne = orderRepo.save(new Order());
+        Order orderTwo = orderRepo.save(new Order());
+        List<Order> allOrders = Arrays.asList(orderOne, orderTwo);
+
+        Address createAddress = new Address();
+        createAddress.setOrders(allOrders);
+        Address savedAddress = addressRepo.save(createAddress);
+
+        Optional<Address> findAddress = addressRepo.findById(savedAddress.getAddressId());
+        findAddress.ifPresent(address -> assertEquals(allOrders, findAddress.get().getOrders()));
     }
 
     @Test // Test fetching all addresses.
