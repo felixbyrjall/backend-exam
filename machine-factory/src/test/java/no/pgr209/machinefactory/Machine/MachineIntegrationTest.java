@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -84,6 +83,30 @@ public class MachineIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineId").value(machineId))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Robot printer"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Electronics"));
+    }
+
+    @Test
+    void shouldUpdateMachineWithAddingSubassembly() throws Exception {
+        String machineJson = """
+        {
+            "machineName": "Robot printer",
+            "machineType":  "Electronics",
+            "subassemblyId": [1]
+        }
+        """;
+
+        // update the machine
+        mockMvc.perform(put("/api/machine/2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(machineJson))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/machine/2"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineId").value(2L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Robot printer"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Electronics"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0].subassemblyId").value(1L));
     }
 
 }
