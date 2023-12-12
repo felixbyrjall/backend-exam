@@ -58,7 +58,7 @@ public class MachineController {
     public ResponseEntity<Machine> createMachine(@RequestBody MachineDTO machineDTO) {
         Machine createdMachine = machineService.createMachine(machineDTO);
 
-        if(createdMachine != null && !createdMachine.getSubassemblies().isEmpty()) {
+        if(createdMachine != null && !createdMachine.getSubassemblies().isEmpty() && !createdMachine.getMachineName().isEmpty() && !createdMachine.getMachineType().isEmpty()) {
             return new ResponseEntity<>(createdMachine, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -80,7 +80,7 @@ public class MachineController {
     public ResponseEntity<Machine> updateMachine(@PathVariable Long id, @RequestBody MachineDTO machineDTO) {
         Machine updatedMachine = machineService.updateMachine(id, machineDTO);
 
-        if(updatedMachine != null && updatedMachine.getMachineName() != null && updatedMachine.getMachineType() != null && updatedMachine.getSubassemblies() != null) {
+        if(updatedMachine != null && !updatedMachine.getMachineName().isEmpty() && !updatedMachine.getMachineType().isEmpty()) {
             return new ResponseEntity<>(updatedMachine, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
