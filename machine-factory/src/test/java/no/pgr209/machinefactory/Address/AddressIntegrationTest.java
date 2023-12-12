@@ -137,4 +137,10 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0584"));
     }
 
+    @Test
+    void shouldNotFetchNonExistentAddressById() throws Exception {
+        mockMvc.perform(get("/api/address/24325"))
+                .andExpect(status().isNotFound());
+    }
+
 }
