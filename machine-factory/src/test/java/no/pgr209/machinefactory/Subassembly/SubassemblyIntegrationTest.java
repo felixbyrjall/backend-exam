@@ -208,6 +208,6 @@ public class SubassemblyIntegrationTest {
 
         mockMvc.perform(get("/api/machine/2")) // Check if subassembly is emptied in machine.
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0]").doesNotHaveJsonPath())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()); // Making sure machine still exist.
     }
 }
