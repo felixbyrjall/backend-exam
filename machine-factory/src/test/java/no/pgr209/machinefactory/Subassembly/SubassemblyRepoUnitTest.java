@@ -1,6 +1,5 @@
 package no.pgr209.machinefactory.Subassembly;
 
-import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.repo.PartRepo;
