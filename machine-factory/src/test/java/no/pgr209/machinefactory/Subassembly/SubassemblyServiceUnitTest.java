@@ -44,4 +44,13 @@ public class SubassemblyServiceUnitTest {
 
         assertEquals(mockSubassemblies, subassemblies);
     }
+
+    @Test
+    void shouldReturnSubassemblyById() {
+        Subassembly mockSubassembly = new Subassembly();
+        when(subassemblyRepo.findById(1L)).thenReturn(Optional.of(mockSubassembly));
+        Subassembly subassembly = subassemblyService.getSubassemblyById(1L);
+
+        assertEquals(mockSubassembly, subassembly);
+    }
 }
