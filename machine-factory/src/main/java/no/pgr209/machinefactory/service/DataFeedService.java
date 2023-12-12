@@ -49,7 +49,7 @@ public class DataFeedService {
 
         // Initialize Machines
         Machine machineOne = new Machine("3D printer", "Electronics");
-        Machine machineTwo = new Machine("Speaker", "Electronics");
+        Machine machineTwo = new Machine("Laser printer", "Electronics");
         machineOne = machineRepo.save(machineOne);
         machineTwo = machineRepo.save(machineTwo);
 
