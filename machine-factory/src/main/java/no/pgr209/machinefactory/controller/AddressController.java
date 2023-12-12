@@ -59,7 +59,7 @@ public class AddressController {
     public ResponseEntity<Address> createAddress(@RequestBody AddressDTO addressDTO) {
         Address createdAddress = addressService.createAddress(addressDTO);
 
-        if(createdAddress != null && !createdAddress.getAddressStreet().isEmpty() && !createdAddress.getAddressCity().isEmpty() && !createdAddress.getAddressZip().isEmpty()) {
+        if(createdAddress != null) {
             return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -81,7 +81,7 @@ public class AddressController {
     public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody AddressDTO addressDTO) {
         Address updatedAddress = addressService.updateAddress(id, addressDTO);
 
-        if(updatedAddress != null && !updatedAddress.getAddressCity().isEmpty() && !updatedAddress.getAddressStreet().isEmpty() && !updatedAddress.getAddressZip().isEmpty()) {
+        if(updatedAddress != null) {
             return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

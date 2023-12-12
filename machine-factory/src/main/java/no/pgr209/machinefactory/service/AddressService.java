@@ -40,17 +40,17 @@ public class AddressService {
     public Address createAddress(AddressDTO addressDTO) {
         Address newAddress = new Address();
 
-        if(addressDTO.getAddressStreet() == null){
+        if(addressDTO.getAddressStreet() == null || addressDTO.getAddressStreet().isEmpty()){
             return null;
         }
         newAddress.setAddressStreet(addressDTO.getAddressStreet());
 
-        if(addressDTO.getAddressCity() == null){
+        if(addressDTO.getAddressCity() == null || addressDTO.getAddressCity().isEmpty()){
             return null;
         }
         newAddress.setAddressCity(addressDTO.getAddressCity());
 
-        if(addressDTO.getAddressZip() == null){
+        if(addressDTO.getAddressZip() == null || addressDTO.getAddressZip().isEmpty()){
             return null;
         }
         newAddress.setAddressZip(addressDTO.getAddressZip());
@@ -77,16 +77,22 @@ public class AddressService {
 
         if(existingAddress != null) {
 
-            if(addressDTO.getAddressStreet() != null) {
+            if(addressDTO.getAddressStreet() != null && !addressDTO.getAddressStreet().isEmpty()) {
                 existingAddress.setAddressStreet(addressDTO.getAddressStreet());
+            } else {
+                return null;
             }
 
-            if(addressDTO.getAddressCity() != null) {
+            if(addressDTO.getAddressCity() != null && !addressDTO.getAddressCity().isEmpty()) {
                 existingAddress.setAddressCity(addressDTO.getAddressCity());
+            } else {
+                return null;
             }
 
-            if(addressDTO.getAddressZip() != null) {
+            if(addressDTO.getAddressZip() != null && !addressDTO.getAddressZip().isEmpty()) {
                 existingAddress.setAddressZip(addressDTO.getAddressZip());
+            } else {
+                return null;
             }
 
             List<Customer> customers = customerRepo.findAllById(addressDTO.getCustomerId());
