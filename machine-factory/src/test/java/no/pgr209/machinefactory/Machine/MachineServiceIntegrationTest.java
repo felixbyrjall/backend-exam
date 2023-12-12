@@ -1,9 +1,7 @@
 package no.pgr209.machinefactory.Machine;
 
 import no.pgr209.machinefactory.model.MachineDTO;
-import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.Subassembly;
-import no.pgr209.machinefactory.model.SubassemblyDTO;
 import no.pgr209.machinefactory.repo.*;
 import no.pgr209.machinefactory.service.MachineService;
 import no.pgr209.machinefactory.service.SubassemblyService;
