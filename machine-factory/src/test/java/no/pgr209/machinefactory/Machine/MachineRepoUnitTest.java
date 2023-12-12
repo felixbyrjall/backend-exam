@@ -48,4 +48,5 @@ public class MachineRepoUnitTest {
         findMachine.ifPresent(address -> assertEquals(allSubassemblies, findMachine.get().getSubassemblies()));
     }
 
+
 }

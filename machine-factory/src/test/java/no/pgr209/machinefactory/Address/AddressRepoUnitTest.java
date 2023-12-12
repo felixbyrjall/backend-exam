@@ -6,7 +6,6 @@ import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import no.pgr209.machinefactory.repo.OrderRepo;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -78,8 +77,8 @@ public class AddressRepoUnitTest {
 
         List<Address> addresses = addressRepo.findAll();
 
-        AssertionsForClassTypes.assertThat(addresses).isNotNull();
-        AssertionsForClassTypes.assertThat(addresses.size()).isGreaterThan(0);
+        assertThat(addresses).isNotNull();
+        assertThat(addresses.size()).isGreaterThan(0);
     }
 
     @Test // Test fetching address by id
