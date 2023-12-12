@@ -53,7 +53,7 @@ public class SubassemblyServiceUnitTest {
     }
 
     @Test // Comprehensive mock & unit-testing, creating a subassembly.
-    void shouldCreateMachine() {
+    void shouldCreateSubassembly() {
         SubassemblyDTO subassemblyDTO = new SubassemblyDTO();
         subassemblyDTO.setSubassemblyName("Voltage Regulator");
         List<Long> parts = List.of(1L, 2L);
