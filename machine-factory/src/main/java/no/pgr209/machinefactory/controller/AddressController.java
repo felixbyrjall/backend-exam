@@ -59,7 +59,7 @@ public class AddressController {
     public ResponseEntity<Address> createAddress(@RequestBody AddressDTO addressDTO) {
         Address createdAddress = addressService.createAddress(addressDTO);
 
-        if(createdAddress != null) {
+        if(createdAddress != null && !createdAddress.getAddressStreet().isEmpty() && !createdAddress.getAddressCity().isEmpty() && !createdAddress.getAddressZip().isEmpty()) {
             return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
