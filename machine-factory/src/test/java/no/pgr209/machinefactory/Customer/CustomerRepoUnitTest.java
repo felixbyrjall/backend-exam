@@ -49,7 +49,7 @@ public class CustomerRepoUnitTest {
         findCustomer.ifPresent(customer -> assertEquals(allAddresses, findCustomer.get().getAddresses()));
     }
 
-    @Test // Test fetching all orders.
+    @Test // Test fetching all customers.
     public void findAll_shouldReturnNonEmptyListOfCustomers() {
         Customer firstCustomer = new Customer();
         Customer secondCustomer = new Customer();

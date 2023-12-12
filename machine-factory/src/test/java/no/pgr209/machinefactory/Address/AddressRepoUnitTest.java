@@ -4,6 +4,7 @@ import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -47,5 +48,18 @@ public class AddressRepoUnitTest {
 
         Optional<Address> findAddress = addressRepo.findById(savedAddress.getAddressId());
         findAddress.ifPresent(customer -> assertEquals(allAddresses, findAddress.get().getCustomers()));
+    }
+
+    @Test // Test fetching all addresses.
+    public void findAll_shouldReturnNonEmptyListOfAddresses() {
+        Address firstAddress = new Address();
+        Address secondAddress = new Address();
+        addressRepo.save(firstAddress);
+        addressRepo.save(secondAddress);
+
+        List<Address> addresses = addressRepo.findAll();
+
+        AssertionsForClassTypes.assertThat(addresses).isNotNull();
+        AssertionsForClassTypes.assertThat(addresses.size()).isGreaterThan(0);
     }
 }
