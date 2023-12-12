@@ -86,4 +86,6 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressCity").value("Oslo"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0154"));
     }
+
+
 }
