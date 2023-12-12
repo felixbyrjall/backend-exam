@@ -21,7 +21,7 @@ public class AddressRepoUnitTest {
     CustomerRepo customerRepo;
 
     @Test
-    public void save_shouldReturnAddress() throws Exception{
+    public void save_shouldReturnAddress() {
         Address address = new Address();
         Address savedAddress = addressRepo.save(address);
 
