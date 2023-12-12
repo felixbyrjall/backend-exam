@@ -143,4 +143,21 @@ public class AddressIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void shouldNotCreateAddressWithInvalidCustomerId() throws Exception {
+        String addressJson = String.format("""
+        {
+            "addressStreet": "Drammens gate 24",
+            "addressCity": "Drammen",
+            "addressZip":  "0584",
+            "customerId": [%d]
+        }
+        """, 345245L);
+
+        mockMvc.perform(post("/api/address")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(addressJson))
+                .andExpect(status().isNotFound());
+    }
+
 }

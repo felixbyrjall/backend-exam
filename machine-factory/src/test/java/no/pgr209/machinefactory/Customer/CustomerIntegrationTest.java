@@ -142,7 +142,7 @@ public class CustomerIntegrationTest {
     }
 
     @Test // Expect NOT FOUND when creating a customer with non-existent parameters and invalid data
-    void shouldNotCreateCustomerWithInvalidData() throws Exception {
+    void shouldNotCreateCustomerWithInvalidAddressId() throws Exception {
         String customerJson = String.format("""
         {
             "customerName": "James Brown",
