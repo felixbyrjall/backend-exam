@@ -48,5 +48,17 @@ public class MachineRepoUnitTest {
         findMachine.ifPresent(address -> assertEquals(allSubassemblies, findMachine.get().getSubassemblies()));
     }
 
+    @Test // Test fetching all machines.
+    public void findAll_shouldReturnNonEmptyListOfMachines() {
+        Machine firstMachine = new Machine();
+        Machine secondMachine = new Machine();
+        machineRepo.save(firstMachine);
+        machineRepo.save(secondMachine);
+
+        List<Machine> machines = machineRepo.findAll();
+
+        assertThat(machines).isNotNull();
+        assertThat(machines.size()).isGreaterThan(0);
+    }
 
 }
