@@ -47,7 +47,7 @@ public class AddressRepoUnitTest {
         Address savedAddress = addressRepo.save(createAddress);
 
         Optional<Address> findAddress = addressRepo.findById(savedAddress.getAddressId());
-        findAddress.ifPresent(customer -> assertEquals(allAddresses, findAddress.get().getCustomers()));
+        findAddress.ifPresent(address -> assertEquals(allAddresses, findAddress.get().getCustomers()));
     }
 
     @Test // Test fetching all addresses.
@@ -61,5 +61,40 @@ public class AddressRepoUnitTest {
 
         AssertionsForClassTypes.assertThat(addresses).isNotNull();
         AssertionsForClassTypes.assertThat(addresses.size()).isGreaterThan(0);
+    }
+
+    @Test // Test fetching address by id
+    public void findById_shouldReturnAddress() {
+        Address address = addressRepo.save(new Address());
+
+        Optional<Address> foundAddress = addressRepo.findById(address.getAddressId());
+
+        assertThat(foundAddress).isPresent();
+    }
+
+    @Test // Test fetching a non-existent address
+    public void findById_shouldNotReturnNonExistentAddress() {
+        Long nonExistentAddress = 3341L;
+
+        Optional<Address> findAddress = addressRepo.findById(nonExistentAddress);
+
+        assertThat(findAddress).isNotPresent();
+    }
+
+    @Test // Create address, update the street and check if street is updated.
+    public void update_shouldUpdateExistingAddress() {
+
+        // Create address with information
+        Address address = addressRepo.save(new Address("Vollebekk 14", "Oslo", "0139"));
+
+        Optional<Address> createdAddress = addressRepo.findById(address.getAddressId());
+        createdAddress.ifPresent(addressMade -> assertEquals("Vollebekk 14", createdAddress.get().getAddressStreet()));
+
+        // Update street
+        address.setAddressStreet("Vollebekk 50");
+        addressRepo.save(address);
+
+        Optional<Address> addressUpdated = addressRepo.findById(address.getAddressId());
+        addressUpdated.ifPresent(addressChanged -> assertEquals("Vollebekk 50", addressUpdated.get().getAddressStreet()));
     }
 }

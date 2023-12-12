@@ -63,7 +63,7 @@ public class CustomerRepoUnitTest {
     }
 
     @Test // Test fetching customer by id
-    public void findAll_shouldReturnCustomer() {
+    public void findById_shouldReturnCustomer() {
         Customer customer = customerRepo.save(new Customer());
 
         Optional<Customer> foundCustomer = customerRepo.findById(customer.getCustomerId());
@@ -94,7 +94,7 @@ public class CustomerRepoUnitTest {
         customerRepo.save(customer);
 
         Optional<Customer> CustomerUpdated = customerRepo.findById(customer.getCustomerId());
-        CustomerUpdated.ifPresent(customerMade -> assertEquals("Tom Hardy", CustomerUpdated.get().getCustomerName()));
+        CustomerUpdated.ifPresent(customerChanged -> assertEquals("Tom Hardy", CustomerUpdated.get().getCustomerName()));
     }
 
     @Test // Create a customer, check if customer exist, delete the customer and then check if customer still exist.
