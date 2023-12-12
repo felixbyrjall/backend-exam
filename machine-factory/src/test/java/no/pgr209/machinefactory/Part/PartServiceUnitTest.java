@@ -17,7 +17,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -49,5 +48,25 @@ public class PartServiceUnitTest {
         Part part = partService.getPartById(1L);
 
         assertEquals(mockPart, part);
+    }
+
+    @Test // Comprehensive mock & unit-testing, creating a machine.
+    void shouldCreatePart() {
+        PartDTO partDTO = new PartDTO();
+        partDTO.setPartName("Light-Emitting Diode");
+
+        Part mockPart = new Part("Light-Emitting Diode");
+
+        when(partRepo.existsById(1L)).thenReturn(true);
+        when(partRepo.findById(1L)).thenReturn(Optional.of(mockPart));
+
+        Part createdPart = new Part();
+        createdPart.setPartName("Light-Emitting Diode");
+        when(partRepo.save(any())).thenReturn(createdPart);
+
+        Part resultPart = partService.createPart(partDTO);
+
+        assertThat(resultPart).isNotNull();
+        assertThat(resultPart.getPartName()).isEqualTo(mockPart.getPartName());
     }
 }
