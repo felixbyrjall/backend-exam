@@ -39,7 +39,7 @@ public class PartService {
     public Part createPart(PartDTO partDTO) {
         Part newPart = new Part();
 
-        if(partDTO.getPartName() == null){
+        if(partDTO.getPartName() == null || partDTO.getPartName().isEmpty()){
             return null;
         }
         newPart.setPartName(partDTO.getPartName());

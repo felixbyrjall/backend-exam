@@ -81,7 +81,7 @@ public class PartController {
     public ResponseEntity<Part> updatePart(@PathVariable Long id, @RequestBody PartDTO partDTO) {
         Part updatedPart = partService.updatePart(id, partDTO);
 
-        if(updatedPart != null) {
+        if(updatedPart != null && !updatedPart.getPartName().isEmpty()) {
             return new ResponseEntity<>(updatedPart, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
