@@ -2,6 +2,7 @@ package no.pgr209.machinefactory.Address;
 
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.model.Customer;
+import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import org.assertj.core.api.AssertionsForClassTypes;
@@ -40,14 +41,14 @@ public class AddressRepoUnitTest {
     public void save_shouldReturnSavedAddressWithCustomer() {
         Customer customerOne = customerRepo.save(new Customer("James Brown", "james@brown.no"));
         Customer customerTwo = customerRepo.save(new Customer("Tom Hardy", "tom@hardy.no"));
-        List<Customer> allAddresses = Arrays.asList(customerOne, customerTwo);
+        List<Customer> allCustomers = Arrays.asList(customerOne, customerTwo);
 
         Address createAddress = new Address();
-        createAddress.setCustomers(allAddresses);
+        createAddress.setCustomers(allCustomers);
         Address savedAddress = addressRepo.save(createAddress);
 
         Optional<Address> findAddress = addressRepo.findById(savedAddress.getAddressId());
-        findAddress.ifPresent(address -> assertEquals(allAddresses, findAddress.get().getCustomers()));
+        findAddress.ifPresent(address -> assertEquals(allCustomers, findAddress.get().getCustomers()));
     }
 
     @Test // Test fetching all addresses.
