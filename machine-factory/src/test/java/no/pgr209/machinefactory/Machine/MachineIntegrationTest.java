@@ -153,4 +153,20 @@ public class MachineIntegrationTest {
                         .content(machineJson))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldNotCreateMachineWithEmptyData() throws Exception {
+        String machineJson = """
+        {
+            "machineName": "",
+            "machineType":  "",
+            "subassemblyId": []
+        }
+        """;
+
+        mockMvc.perform(post("/api/machine")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(machineJson))
+                .andExpect(status().isNotFound());
+    }
 }
