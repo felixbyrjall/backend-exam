@@ -168,4 +168,16 @@ public class SubassemblyIntegrationTest {
                         .content(subassemblyJson))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldDeleteSubassemblyById() throws Exception {
+        mockMvc.perform(get("/api/subassembly/2")) // Check if subassembly exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/subassembly/2")) // Delete the subassembly by id.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/subassembly/2")) // Check if subassembly is removed.
+                .andExpect(status().isNotFound());
+    }
 }
