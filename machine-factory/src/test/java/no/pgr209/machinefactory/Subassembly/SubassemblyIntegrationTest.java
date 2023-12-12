@@ -138,4 +138,19 @@ public class SubassemblyIntegrationTest {
                         .content(subassemblyJson))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldNotCreateSubassemblyWithEmptyData() throws Exception {
+        String subassemblyJson = """
+        {
+            "subassemblyName": "",
+            "partId": []
+        }
+        """;
+
+        mockMvc.perform(post("/api/subassembly")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(subassemblyJson))
+                .andExpect(status().isNotFound());
+    }
 }
