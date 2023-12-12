@@ -74,4 +74,26 @@ public class SubassemblyIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyId").value(subassemblyId))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyName").value("Printer tags"));
     }
+
+    @Test
+    void shouldUpdateSubassemblyWithAddingPart() throws Exception {
+        String subassemblyJson = """
+        {
+            "subassemblyName": "Printer tags",
+            "partId": [4]
+        }
+        """;
+
+        // Update the subassembly
+        mockMvc.perform(put("/api/subassembly/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(subassemblyJson))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/subassembly/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyId").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyName").value("Printer tags"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.parts[0].partId").value(4L));
+    }
 }
