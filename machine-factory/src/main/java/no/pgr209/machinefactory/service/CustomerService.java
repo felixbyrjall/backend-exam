@@ -41,12 +41,12 @@ public class CustomerService {
     public Customer createCustomer(CustomerDTO customerDTO) {
         Customer newCustomer = new Customer();
 
-        if(customerDTO.getCustomerName() == null){
+        if(customerDTO.getCustomerName() == null || customerDTO.getCustomerName().isEmpty()){
             return null;
         }
         newCustomer.setCustomerName(customerDTO.getCustomerName());
 
-        if(customerDTO.getCustomerEmail() == null){
+        if(customerDTO.getCustomerEmail() == null || customerDTO.getCustomerEmail().isEmpty()){
             return null;
         }
         newCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
@@ -73,12 +73,16 @@ public class CustomerService {
 
         if(existingCustomer != null) {
 
-            if(customerDTO.getCustomerName() != null) {
+            if(customerDTO.getCustomerName() != null && !customerDTO.getCustomerName().isEmpty()) {
                 existingCustomer.setCustomerName(customerDTO.getCustomerName());
+            } else {
+                return null;
             }
 
-            if(customerDTO.getCustomerEmail() != null) {
+            if(customerDTO.getCustomerEmail() != null && !customerDTO.getCustomerEmail().isEmpty()) {
                 existingCustomer.setCustomerEmail(customerDTO.getCustomerEmail());
+            } else {
+                return null;
             }
 
             List<Address> addresses = addressRepo.findAllById(customerDTO.getAddressId());

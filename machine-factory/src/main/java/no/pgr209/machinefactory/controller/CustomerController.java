@@ -59,7 +59,7 @@ public class CustomerController {
     public ResponseEntity<Customer> createCustomer(@RequestBody CustomerDTO customerDTO) {
         Customer createdCustomer = customerService.createCustomer(customerDTO);
 
-        if(createdCustomer != null && !createdCustomer.getCustomerName().isEmpty() && !createdCustomer.getCustomerEmail().isEmpty()) {
+        if(createdCustomer != null) {
             return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -81,7 +81,7 @@ public class CustomerController {
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
         Customer updatedCustomer = customerService.updateCustomer(id, customerDTO);
 
-        if(updatedCustomer != null && !updatedCustomer.getCustomerName().isEmpty() && !updatedCustomer.getCustomerEmail().isEmpty()){
+        if(updatedCustomer != null){
             return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
