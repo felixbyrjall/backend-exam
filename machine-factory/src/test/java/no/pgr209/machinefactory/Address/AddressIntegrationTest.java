@@ -36,4 +36,11 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].addressId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].addressId").value(2));
     }
+
+    @Test
+    void shouldFetchAddressOnPage() throws Exception {
+        mockMvc.perform(get("/api/address/page/0"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].addressId").value(1));
+    }
 }
