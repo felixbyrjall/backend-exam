@@ -41,4 +41,13 @@ public class PartServiceUnitTest {
 
         assertEquals(mockParts, parts);
     }
+
+    @Test
+    void shouldReturnPartById() {
+        Part mockPart = new Part();
+        when(partRepo.findById(1L)).thenReturn(Optional.of(mockPart));
+        Part part = partService.getPartById(1L);
+
+        assertEquals(mockPart, part);
+    }
 }
