@@ -71,4 +71,12 @@ public class MachineRepoUnitTest {
         assertThat(foundMachine).isPresent();
     }
 
+    @Test // Test fetching a non-existent machine
+    public void findById_shouldNotReturnNonExistentMachine() {
+        Long nonExistentMachine = 3341L;
+
+        Optional<Machine> findMachine = machineRepo.findById(nonExistentMachine);
+
+        assertThat(findMachine).isNotPresent();
+    }
 }
