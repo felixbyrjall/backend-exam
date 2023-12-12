@@ -67,12 +67,6 @@ public class DataFeedService {
         subassemblyThree = subassemblyRepo.save(subassemblyThree);
         subassemblyFour = subassemblyRepo.save(subassemblyFour);
 
-        List<Subassembly> subassemblies = new ArrayList<>();
-        subassemblies.add(subassemblyOne);
-        subassemblies.add(subassemblyTwo);
-        subassemblies.add(subassemblyThree);
-        subassemblies.add(subassemblyFour);
-
         // Add Subassembly to Machine
         machineOne.getSubassemblies().add(subassemblyOne);
         machineOne.getSubassemblies().add(subassemblyTwo);
