@@ -2,8 +2,10 @@ package no.pgr209.machinefactory.Customer;
 
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.model.Customer;
+import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
+import no.pgr209.machinefactory.repo.OrderRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -26,6 +28,9 @@ public class CustomerRepoUnitTest {
     @Autowired
     private AddressRepo addressRepo;
 
+    @Autowired
+    private OrderRepo orderRepo;
+
     @Test // Test saving, creating a customer in the db.
     public void save_shouldReturnCustomer() {
         Customer customer = new Customer();
@@ -47,6 +52,20 @@ public class CustomerRepoUnitTest {
 
         Optional<Customer> findCustomer = customerRepo.findById(savedCustomer.getCustomerId());
         findCustomer.ifPresent(customer -> assertEquals(allAddresses, findCustomer.get().getAddresses()));
+    }
+
+    @Test // Test one-to-many relationship with order
+    public void save_shouldReturnSavedCustomerWithOrders() {
+        Order orderOne = orderRepo.save(new Order());
+        Order orderTwo = orderRepo.save(new Order());
+        List<Order> allOrders = Arrays.asList(orderOne, orderTwo);
+
+        Customer createCustomer = new Customer();
+        createCustomer.setOrders(allOrders);
+        Customer savedCustomer = customerRepo.save(createCustomer);
+
+        Optional<Customer> findCustomer = customerRepo.findById(savedCustomer.getCustomerId());
+        findCustomer.ifPresent(customer -> assertEquals(allOrders, findCustomer.get().getOrders()));
     }
 
     @Test // Test fetching all customers.
