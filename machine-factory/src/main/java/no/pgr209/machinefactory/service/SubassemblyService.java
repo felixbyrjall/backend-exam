@@ -40,7 +40,7 @@ public class SubassemblyService {
 
     public Subassembly createSubassembly(SubassemblyDTO subassemblyDTO) {
         if (subassemblyDTO.getSubassemblyName() == null || subassemblyDTO.getSubassemblyName().isEmpty() ||
-                !subassemblyDTO.getPartId().stream().allMatch(partRepo::existsById)) {
+                subassemblyDTO.getPartId() == null || !subassemblyDTO.getPartId().stream().allMatch(partRepo::existsById)) {
             return null;
         }
 
@@ -73,32 +73,27 @@ public class SubassemblyService {
     public Subassembly updateSubassembly(Long id, SubassemblyDTO subassemblyDTO) {
         Subassembly existingSubassembly = subassemblyRepo.findById(id).orElse(null);
 
-        if (existingSubassembly == null || subassemblyDTO.getPartId() == null) {
+        if (existingSubassembly == null || subassemblyDTO.getSubassemblyName() == null || subassemblyDTO.getSubassemblyName().isEmpty() ||
+                subassemblyDTO.getPartId() == null) {
             return null;
         }
 
-        String newSubassemblyName = subassemblyDTO.getSubassemblyName();
+        existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
+
         List<Long> partIds = subassemblyDTO.getPartId();
 
-        if (newSubassemblyName != null && !newSubassemblyName.isEmpty()) {
-            existingSubassembly.setSubassemblyName(newSubassemblyName);
+        if (!partIds.isEmpty()) {
+            List<Part> parts = partRepo.findAllById(partIds);
 
-            if (!partIds.isEmpty()) {
-                List<Part> parts = partRepo.findAllById(partIds);
-
-                if (parts.size() == partIds.size()) {
-                    existingSubassembly.setParts(parts);
-                } else {
-                    return null;
-                }
+            if (parts.size() == partIds.size()) {
+                existingSubassembly.setParts(parts);
             } else {
-                existingSubassembly.setParts(Collections.emptyList());
+                return null;
             }
-
-            // Move the save operation outside the conditional blocks
-            return subassemblyRepo.save(existingSubassembly);
+        } else {
+            existingSubassembly.setParts(Collections.emptyList());
         }
 
-        return null;
+        return subassemblyRepo.save(existingSubassembly);
     }
 }
