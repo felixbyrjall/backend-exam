@@ -41,7 +41,9 @@ public class SubassemblyService {
     public Subassembly createSubassembly(SubassemblyDTO subassemblyDTO) {
         Subassembly newSubassembly = new Subassembly();
 
-        if(subassemblyDTO.getSubassemblyName() == null) {
+        System.out.println(subassemblyDTO.getSubassemblyName());
+
+        if(subassemblyDTO.getSubassemblyName() == null || subassemblyDTO.getSubassemblyName().isEmpty()) {
             return null;
         }
         newSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
@@ -79,8 +81,10 @@ public class SubassemblyService {
 
         if(existingSubassembly != null) {
 
-            if(subassemblyDTO.getSubassemblyName() != null) {
+            if(subassemblyDTO.getSubassemblyName() != null && !subassemblyDTO.getSubassemblyName().isEmpty()) {
                 existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
+            } else {
+                return null;
             }
 
             List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
