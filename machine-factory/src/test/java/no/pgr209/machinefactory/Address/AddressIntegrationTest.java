@@ -242,12 +242,12 @@ public class AddressIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test deleting a address that doesn't exist
+    @Test // Test deleting an address that doesn't exist
     void shouldNotDeleteAddressNotExist() throws Exception {
-        mockMvc.perform(get("/api/customer/2435423"))
+        mockMvc.perform(get("/api/address/2435423"))
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(delete("/api/customer/245235"))
+        mockMvc.perform(delete("/api/address/245235"))
                 .andExpect(status().isNotFound());
     }
 }
