@@ -32,4 +32,17 @@ public class PartRepoUnitTest {
         assertThat(savedPart).isNotNull();
         assertThat(savedPart.getPartId()).isNotNull();
     }
+
+    @Test // Test fetching all parts.
+    public void findAll_shouldReturnNonEmptyListOfParts() {
+        Part firstPart = new Part();
+        Part secondPart = new Part();
+        partRepo.save(firstPart);
+        partRepo.save(secondPart);
+
+        List<Part> parts = partRepo.findAll();
+
+        assertThat(parts).isNotNull();
+        assertThat(parts.size()).isGreaterThan(0);
+    }
 }
