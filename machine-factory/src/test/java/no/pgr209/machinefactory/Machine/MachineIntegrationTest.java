@@ -109,4 +109,27 @@ public class MachineIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0].subassemblyId").value(1L));
     }
 
+    @Test
+    void shouldUpdateMachineWithNewInfo() throws Exception {
+        String machineJson = """
+        {
+            "machineName": "Quantum printer",
+            "machineType":  "Qubits",
+            "subassemblyId": []
+        }
+        """;
+
+        // update the machine
+        mockMvc.perform(put("/api/machine/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(machineJson))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/machine/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineId").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Quantum printer"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Qubits"));
+    }
+
 }
