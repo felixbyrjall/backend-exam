@@ -40,8 +40,6 @@ public class PartServiceIntegrationTest {
     @BeforeEach // Ensure clean DB.
     void setUp() {
         orderRepo.deleteAll();
-        customerRepo.deleteAll();
-        addressRepo.deleteAll();
         machineRepo.deleteAll();
         subassemblyRepo.deleteAll();
         partRepo.deleteAll();
