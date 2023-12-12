@@ -123,4 +123,19 @@ public class SubassemblyIntegrationTest {
         mockMvc.perform(get("/api/subassembly/5234"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldNotCreateSubassemblyWithInvalidPartId() throws Exception {
+        String subassemblyJson = String.format("""
+        {
+            "subassemblyName": "Super Laser Printer knobs",
+            "partId": [%d]
+        }
+        """, 345245L);
+
+        mockMvc.perform(post("/api/subassembly")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(subassemblyJson))
+                .andExpect(status().isNotFound());
+    }
 }
