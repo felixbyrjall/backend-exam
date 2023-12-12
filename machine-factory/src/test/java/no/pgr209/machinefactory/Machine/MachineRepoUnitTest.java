@@ -79,4 +79,21 @@ public class MachineRepoUnitTest {
 
         assertThat(findMachine).isNotPresent();
     }
+
+    @Test // Create machine, update the Machine type and check if Machine type is updated.
+    public void update_shouldUpdateExistingMachine() {
+
+        // Create Machine with information
+        Machine machine = machineRepo.save(new Machine("Robot Printer",  "Electronics"));
+
+        Optional<Machine> createdMachine = machineRepo.findById(machine.getMachineId());
+        createdMachine.ifPresent(machineMade -> assertEquals("Electronics", createdMachine.get().getMachineType()));
+
+        // Update machine type
+        machine.setMachineType("Work Equipment");
+        machineRepo.save(machine);
+
+        Optional<Machine> machineUpdated = machineRepo.findById(machine.getMachineId());
+        machineUpdated.ifPresent(machineChanged -> assertEquals("Work Equipment", machineUpdated.get().getMachineType()));
+    }
 }
