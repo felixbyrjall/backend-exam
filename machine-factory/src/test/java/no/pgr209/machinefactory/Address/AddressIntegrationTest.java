@@ -43,4 +43,14 @@ public class AddressIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].addressId").value(1));
     }
+
+    @Test
+    void shouldFetchAddressById() throws Exception {
+        mockMvc.perform(get("/api/address/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressStreet").value("Storgata 33"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressCity").value("Oslo"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("2204"));
+    }
 }
