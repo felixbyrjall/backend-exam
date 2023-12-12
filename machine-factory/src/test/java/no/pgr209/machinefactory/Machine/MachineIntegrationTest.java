@@ -132,4 +132,9 @@ public class MachineIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Qubits"));
     }
 
+    @Test
+    void shouldNotFetchNonExistentMachineById() throws Exception {
+        mockMvc.perform(get("/api/machine/45323"))
+                .andExpect(status().isNotFound());
+    }
 }
