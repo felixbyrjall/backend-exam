@@ -82,4 +82,16 @@ public class PartRepoUnitTest {
         Optional<Part> partUpdated = partRepo.findById(part.getPartId());
         partUpdated.ifPresent(partChanged -> assertEquals("Inductor", partUpdated.get().getPartName()));
     }
+
+    @Test // Create a part, check if the part exist, delete the part and then check if part still exist.
+    public void deleteById_shouldRemovePart() {
+        Part part = partRepo.save(new Part());
+        Optional<Part> findPart = partRepo.findById(part.getPartId());
+
+        assertThat(findPart).isPresent();
+
+        partRepo.deleteById(part.getPartId());
+        Optional<Part> findDeletedPart = partRepo.findById(part.getPartId());
+        assertThat(findDeletedPart).isNotPresent();
+    }
 }
