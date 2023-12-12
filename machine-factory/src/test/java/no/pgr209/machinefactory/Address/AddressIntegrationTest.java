@@ -161,23 +161,6 @@ public class AddressIntegrationTest {
     }
 
     @Test
-    void shouldNotUpdateAddressWithInvalidCustomerId() throws Exception {
-        String addressJson = String.format("""
-        {
-            "addressStreet": "Drammens gate 24",
-            "addressCity": "Drammen",
-            "addressZip":  "0584",
-            "customerId": [%d]
-        }
-        """, 4325L);
-
-        mockMvc.perform(put("/api/address/2")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(addressJson))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
     void shouldNotCreateAddressWithEmptyData() throws Exception {
         String addressJson = """
         {
@@ -189,6 +172,23 @@ public class AddressIntegrationTest {
         """;
 
         mockMvc.perform(post("/api/address")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(addressJson))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldNotUpdateAddressWithInvalidCustomerId() throws Exception {
+        String addressJson = String.format("""
+        {
+            "addressStreet": "Drammens gate 24",
+            "addressCity": "Drammen",
+            "addressZip":  "0584",
+            "customerId": [%d]
+        }
+        """, 4325L);
+
+        mockMvc.perform(put("/api/address/2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(addressJson))
                 .andExpect(status().isNotFound());
@@ -208,6 +208,18 @@ public class AddressIntegrationTest {
         mockMvc.perform(put("/api/address/2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(addressJson))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test // Test DELETE request for addresses.
+    void shouldDeleteAddressById() throws Exception {
+        mockMvc.perform(get("/api/address/2")) // Check if address exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/address/2")) // Delete the address by id.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/address/2")) // Check if address is removed.
                 .andExpect(status().isNotFound());
     }
 }

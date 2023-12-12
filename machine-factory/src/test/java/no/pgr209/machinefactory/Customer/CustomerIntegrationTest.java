@@ -229,7 +229,7 @@ public class CustomerIntegrationTest {
         mockMvc.perform(delete("/api/customer/2")) // Delete the customer by id.
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/customer/2")) // Check if order is removed.
+        mockMvc.perform(get("/api/customer/2")) // Check if customer is removed.
                 .andExpect(status().isNotFound());
     }
 
