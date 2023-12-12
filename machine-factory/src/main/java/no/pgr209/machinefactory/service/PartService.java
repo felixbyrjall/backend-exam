@@ -37,11 +37,12 @@ public class PartService {
     }
 
     public Part createPart(PartDTO partDTO) {
-        Part newPart = new Part();
-
         if(partDTO.getPartName() == null || partDTO.getPartName().isEmpty()){
             return null;
         }
+
+        Part newPart = new Part();
+
         newPart.setPartName(partDTO.getPartName());
 
         return partRepo.save(newPart);
@@ -69,13 +70,11 @@ public class PartService {
     public Part updatePart(Long id, PartDTO partDTO) {
         Part existingPart = partRepo.findById(id).orElse(null);
 
-        if(existingPart != null) {
-
-            if(partDTO.getPartName() != null && !partDTO.getPartName().isEmpty()){
-                existingPart.setPartName(partDTO.getPartName());
-                return partRepo.save(existingPart);
-            }
+        if (existingPart != null && partDTO.getPartName() != null && !partDTO.getPartName().isEmpty()) {
+            existingPart.setPartName(partDTO.getPartName());
+            return partRepo.save(existingPart);
         }
+
         return null;
     }
 }
