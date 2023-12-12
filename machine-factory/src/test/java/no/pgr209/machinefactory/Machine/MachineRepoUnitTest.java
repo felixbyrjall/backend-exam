@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.crypto.Mac;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,15 @@ public class MachineRepoUnitTest {
 
         assertThat(machines).isNotNull();
         assertThat(machines.size()).isGreaterThan(0);
+    }
+
+    @Test // Test fetching machine by id
+    public void findById_shouldReturnMachine() {
+        Machine machine = machineRepo.save(new Machine());
+
+        Optional<Machine> foundMachine = machineRepo.findById(machine.getMachineId());
+
+        assertThat(foundMachine).isPresent();
     }
 
 }
