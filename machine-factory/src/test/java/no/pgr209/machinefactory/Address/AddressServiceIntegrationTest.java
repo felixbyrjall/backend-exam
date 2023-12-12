@@ -4,6 +4,8 @@ import no.pgr209.machinefactory.model.AddressDTO;
 import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
+import no.pgr209.machinefactory.repo.MachineRepo;
+import no.pgr209.machinefactory.repo.OrderRepo;
 import no.pgr209.machinefactory.service.AddressService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,12 +29,20 @@ public class AddressServiceIntegrationTest {
     AddressRepo addressRepo;
 
     @Autowired
+    MachineRepo machineRepo;
+
+    @Autowired
+    OrderRepo orderRepo;
+
+    @Autowired
     CustomerRepo customerRepo;
 
     @BeforeEach // Ensure clean DB.
     void setUp() {
+        orderRepo.deleteAll();
         customerRepo.deleteAll();
         addressRepo.deleteAll();
+        machineRepo.deleteAll();
     }
 
     @Test // Comprehensive testing - The full cycle of creating an address and then validate information.
