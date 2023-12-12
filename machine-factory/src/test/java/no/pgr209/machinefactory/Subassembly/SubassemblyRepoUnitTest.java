@@ -49,4 +49,14 @@ public class SubassemblyRepoUnitTest {
         Optional<Subassembly> findSubassembly = subassemblyRepo.findById(savedSubassembly.getSubassemblyId());
         findSubassembly.ifPresent(subassembly -> assertEquals(allParts, findSubassembly.get().getParts()));
     }
+/*
+    @Test
+    public void findAll_shouldReturnNonEmptyListOfMachines() {
+        Subassembly subassemblyOne = new Subassembly();
+        Subassembly subassemblyTwo = new Subassembly();
+        subassemblyRepo.save(subassemblyOne);
+        subassemblyRepo.save(subassemblyTwo);
+    }
+
+ */
 }
