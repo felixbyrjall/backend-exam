@@ -109,7 +109,7 @@ public class PartIntegrationTest {
 
     @Test
     void shouldNotCreatePartWithEmptyData() throws Exception {
-        String machineJson = """
+        String partJson = """
         {
             "partName": ""
         }
@@ -117,7 +117,7 @@ public class PartIntegrationTest {
 
         mockMvc.perform(post("/api/part")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(machineJson))
+                        .content(partJson))
                 .andExpect(status().isNotFound());
     }
 
@@ -133,7 +133,7 @@ public class PartIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test deleting a machine that doesn't exist
+    @Test // Test deleting a part that doesn't exist
     void shouldNotDeletePartNotExist() throws Exception {
         mockMvc.perform(get("/api/part/12345"))
                 .andExpect(status().isNotFound());
