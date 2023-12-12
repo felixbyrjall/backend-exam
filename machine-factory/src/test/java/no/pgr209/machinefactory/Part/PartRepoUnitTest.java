@@ -63,4 +63,23 @@ public class PartRepoUnitTest {
 
         assertThat(findPart).isNotPresent();
     }
+
+    @Test // Create part, update the Part type and check if Part type is updated.
+    public void update_shouldUpdateExistingPart() {
+
+        // Create Part with information
+        Part part = partRepo.save(new Part("Diode"));
+
+        // Check if the part was created with the correct name
+        Optional<Part> createdPart = partRepo.findById(part.getPartId());
+        createdPart.ifPresent(partMade -> assertEquals("Diode", createdPart.get().getPartName()));
+
+        // Update part name
+        part.setPartName("Inductor");
+        partRepo.save(part);
+
+        // Check if the part name got updated
+        Optional<Part> partUpdated = partRepo.findById(part.getPartId());
+        partUpdated.ifPresent(partChanged -> assertEquals("Inductor", partUpdated.get().getPartName()));
+    }
 }
