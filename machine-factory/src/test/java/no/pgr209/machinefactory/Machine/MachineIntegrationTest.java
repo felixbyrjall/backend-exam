@@ -197,4 +197,23 @@ public class MachineIntegrationTest {
         mockMvc.perform(get("/api/machine/2")) // Check if machine is removed.
                 .andExpect(status().isNotFound());
     }
+
+    @Test // Test DELETE requests and that associated Orders are deleted.
+    void shouldDeleteMachineByIdAndOrdersAssociated() throws Exception {
+        mockMvc.perform(get("/api/machine/1")) // Check if machine exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/order/1")) // Check if order exist and that this is the machine order.
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineId").value(1L))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/machine/1")) // Delete the machine by id.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/machine/1")) // Check if machine is removed.
+                .andExpect(status().isNotFound());
+
+        mockMvc.perform(get("/api/order/1")) // Check if associated order is removed.
+                .andExpect(status().isNotFound());
+    }
 }
