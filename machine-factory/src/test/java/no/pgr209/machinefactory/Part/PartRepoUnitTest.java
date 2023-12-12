@@ -54,4 +54,13 @@ public class PartRepoUnitTest {
 
         assertThat(foundPart).isPresent();
     }
+
+    @Test // Test fetching a non-existent part
+    public void findById_shouldNotReturnNonExistentPart() {
+        Long nonExistentPart = 3555L;
+
+        Optional<Part> findPart = partRepo.findById(nonExistentPart);
+
+        assertThat(findPart).isNotPresent();
+    }
 }
