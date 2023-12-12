@@ -45,7 +45,7 @@ public class MachineRepoUnitTest {
         Machine savedMachine = machineRepo.save(createMachine);
 
         Optional<Machine> findMachine = machineRepo.findById(savedMachine.getMachineId());
-        findMachine.ifPresent(address -> assertEquals(allSubassemblies, findMachine.get().getSubassemblies()));
+        findMachine.ifPresent(machine -> assertEquals(allSubassemblies, findMachine.get().getSubassemblies()));
     }
 
     @Test // Test fetching all machines.
