@@ -99,7 +99,7 @@ public class AddressIntegrationTest {
         }
         """;
 
-        mockMvc.perform(put("/api/address/2") // Customer 2 has only addressId 1.
+        mockMvc.perform(put("/api/address/2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(addressJson))
                 .andExpect(status().isOk());
@@ -111,12 +111,30 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressCity").value("Oslo"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0154"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customers[0].customerId").value(2L));
+    }
 
-        mockMvc.perform(get("/api/customer/2")) // Check if customer have this now added address.
+    @Test
+    void shouldUpdateAddressWithNewInfo() throws Exception {
+        String addressJson = """
+        {
+            "addressStreet": "Drammens gate 24",
+            "addressCity": "Drammen",
+            "addressZip":  "0584",
+            "customerId": []
+        }
+        """;
+
+        mockMvc.perform(put("/api/address/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(addressJson))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/address/1"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[1].addressId").value(2L));
-
-
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressStreet").value("Drammens gate 24"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressCity").value("Drammen"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0584"));
     }
 
 }
