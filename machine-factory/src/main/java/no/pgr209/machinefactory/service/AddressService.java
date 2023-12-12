@@ -38,28 +38,18 @@ public class AddressService {
     }
 
     public Address createAddress(AddressDTO addressDTO) {
+        if (addressDTO.getAddressStreet() == null || addressDTO.getAddressStreet().isEmpty() ||
+                addressDTO.getAddressCity() == null || addressDTO.getAddressCity().isEmpty() ||
+                addressDTO.getAddressZip() == null || addressDTO.getAddressZip().isEmpty() ||
+                addressDTO.getCustomerId() == null || !addressDTO.getCustomerId().stream().allMatch(customerRepo::existsById)) {
+            return null;
+        }
+
         Address newAddress = new Address();
-
-        if(addressDTO.getAddressStreet() == null || addressDTO.getAddressStreet().isEmpty()){
-            return null;
-        }
         newAddress.setAddressStreet(addressDTO.getAddressStreet());
-
-        if(addressDTO.getAddressCity() == null || addressDTO.getAddressCity().isEmpty()){
-            return null;
-        }
         newAddress.setAddressCity(addressDTO.getAddressCity());
-
-        if(addressDTO.getAddressZip() == null || addressDTO.getAddressZip().isEmpty()){
-            return null;
-        }
         newAddress.setAddressZip(addressDTO.getAddressZip());
-
-        List<Long> customerIds = addressDTO.getCustomerId();
-        if(!customerIds.stream().allMatch(customerRepo::existsById)) {
-            return null;
-        }
-        newAddress.setCustomers(customerRepo.findAllById(customerIds));
+        newAddress.setCustomers(customerRepo.findAllById(addressDTO.getCustomerId()));
 
         return addressRepo.save(newAddress);
     }
@@ -75,41 +65,32 @@ public class AddressService {
     public Address updateAddress(Long id, AddressDTO addressDTO) {
         Address existingAddress = addressRepo.findById(id).orElse(null);
 
-        if(existingAddress != null) {
-
-            if(addressDTO.getAddressStreet() != null && !addressDTO.getAddressStreet().isEmpty()) {
-                existingAddress.setAddressStreet(addressDTO.getAddressStreet());
-            } else {
-                return null;
-            }
-
-            if(addressDTO.getAddressCity() != null && !addressDTO.getAddressCity().isEmpty()) {
-                existingAddress.setAddressCity(addressDTO.getAddressCity());
-            } else {
-                return null;
-            }
-
-            if(addressDTO.getAddressZip() != null && !addressDTO.getAddressZip().isEmpty()) {
-                existingAddress.setAddressZip(addressDTO.getAddressZip());
-            } else {
-                return null;
-            }
-
-            List<Customer> customers = customerRepo.findAllById(addressDTO.getCustomerId());
-
-            if (!addressDTO.getCustomerId().isEmpty()) {
-                if (customers.size() != addressDTO.getCustomerId().size()) {
-                    return null;
-                }
-                existingAddress.setCustomers(customers);
-            } else {
-                existingAddress.setCustomers(Collections.emptyList());
-            }
-
-            return addressRepo.save(existingAddress);
-
-        } else {
+        if (existingAddress == null ||
+                addressDTO.getAddressStreet() == null || addressDTO.getAddressStreet().isEmpty() ||
+                addressDTO.getAddressCity() == null || addressDTO.getAddressCity().isEmpty() ||
+                addressDTO.getAddressZip() == null || addressDTO.getAddressZip().isEmpty() ||
+                addressDTO.getCustomerId() == null) {
             return null;
         }
+
+        existingAddress.setAddressStreet(addressDTO.getAddressStreet());
+        existingAddress.setAddressCity(addressDTO.getAddressCity());
+        existingAddress.setAddressZip(addressDTO.getAddressZip());
+
+        List<Long> customerIds = addressDTO.getCustomerId();
+
+        if (!customerIds.isEmpty()) {
+            List<Customer> customers = customerRepo.findAllById(customerIds);
+
+            if (customers.size() != customerIds.size()) {
+                return null;
+            }
+
+            existingAddress.setCustomers(customers);
+        } else {
+            existingAddress.setCustomers(Collections.emptyList());
+        }
+
+        return addressRepo.save(existingAddress);
     }
 }
