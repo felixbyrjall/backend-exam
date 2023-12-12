@@ -45,4 +45,13 @@ public class PartRepoUnitTest {
         assertThat(parts).isNotNull();
         assertThat(parts.size()).isGreaterThan(0);
     }
+
+    @Test // Test fetching part by id
+    public void findById_shouldReturnPart() {
+        Part part = partRepo.save(new Part());
+
+        Optional<Part> foundPart = partRepo.findById(part.getPartId());
+
+        assertThat(foundPart).isPresent();
+    }
 }
