@@ -137,4 +137,20 @@ public class MachineIntegrationTest {
         mockMvc.perform(get("/api/machine/45323"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldNotCreateMachineWithInvalidSubassemblyId() throws Exception {
+        String machineJson = String.format("""
+        {
+            "machineName": "Robot printer",
+            "machineType":  "Electronics",
+            "subassemblyId": [%d]
+        }
+        """, 345245L);
+
+        mockMvc.perform(post("/api/machine")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(machineJson))
+                .andExpect(status().isNotFound());
+    }
 }
