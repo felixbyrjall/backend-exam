@@ -185,4 +185,16 @@ public class MachineIntegrationTest {
                         .content(machineJson))
                 .andExpect(status().isNotFound());
     }
+
+    @Test // Test DELETE request for machines.
+    void shouldDeleteMachineById() throws Exception {
+        mockMvc.perform(get("/api/machine/2")) // Check if machine exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/machine/2")) // Delete the machine by id.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/machine/2")) // Check if machine is removed.
+                .andExpect(status().isNotFound());
+    }
 }
