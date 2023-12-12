@@ -115,5 +115,12 @@ public class SubassemblyIntegrationTest {
         mockMvc.perform(get("/api/subassembly/1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyId").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyName").value("Super Laser Printer knobs"));    }
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyName").value("Super Laser Printer knobs"));
+    }
+
+    @Test
+    void shouldNotFetchNonExistentSubassemblyById() throws Exception {
+        mockMvc.perform(get("/api/subassembly/5234"))
+                .andExpect(status().isNotFound());
+    }
 }
