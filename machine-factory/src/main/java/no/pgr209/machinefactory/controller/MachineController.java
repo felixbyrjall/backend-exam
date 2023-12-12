@@ -80,7 +80,7 @@ public class MachineController {
     public ResponseEntity<Machine> updateMachine(@PathVariable Long id, @RequestBody MachineDTO machineDTO) {
         Machine updatedMachine = machineService.updateMachine(id, machineDTO);
 
-        if(updatedMachine != null && !updatedMachine.getMachineName().isEmpty() && !updatedMachine.getMachineType().isEmpty()) {
+        if(updatedMachine != null) {
             return new ResponseEntity<>(updatedMachine, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

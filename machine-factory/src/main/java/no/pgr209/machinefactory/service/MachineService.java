@@ -83,12 +83,16 @@ public class MachineService {
 
         if(existingMachine != null) {
 
-            if(machineDTO.getMachineName() != null){
+            if(machineDTO.getMachineName() != null && !machineDTO.getMachineName().isEmpty()){
                 existingMachine.setMachineName(machineDTO.getMachineName());
+            } else {
+                return null;
             }
 
-            if(machineDTO.getMachineType() != null){
+            if(machineDTO.getMachineType() != null && !machineDTO.getMachineType().isEmpty()){
                 existingMachine.setMachineType(machineDTO.getMachineType());
+            } else {
+                return null;
             }
 
             List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
