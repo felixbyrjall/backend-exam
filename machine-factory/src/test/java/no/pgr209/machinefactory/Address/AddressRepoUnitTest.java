@@ -97,4 +97,16 @@ public class AddressRepoUnitTest {
         Optional<Address> addressUpdated = addressRepo.findById(address.getAddressId());
         addressUpdated.ifPresent(addressChanged -> assertEquals("Vollebekk 50", addressUpdated.get().getAddressStreet()));
     }
+
+    @Test // Create an address, check if the address exist, delete the address and then check if address still exist.
+    public void deleteById_shouldRemoveAddress() {
+        Address address = addressRepo.save(new Address());
+        Optional<Address> findAddress = addressRepo.findById(address.getAddressId());
+
+        assertThat(findAddress).isPresent();
+
+        addressRepo.deleteById(address.getAddressId());
+        Optional<Address> findDeletedAddress = addressRepo.findById(address.getAddressId());
+        assertThat(findDeletedAddress).isNotPresent();
+    }
 }
