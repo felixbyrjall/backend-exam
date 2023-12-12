@@ -169,4 +169,20 @@ public class MachineIntegrationTest {
                         .content(machineJson))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldNotUpdateMachineWithInvalidCustomerId() throws Exception {
+        String machineJson = String.format("""
+        {
+            "machineName": "Robot printer",
+            "machineType":  "Electronics",
+            "subassemblyId": [%d]
+        }
+        """, 34234L);
+
+        mockMvc.perform(put("/api/machine/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(machineJson))
+                .andExpect(status().isNotFound());
+    }
 }
