@@ -116,7 +116,7 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressId").value(2L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressStreet").value("Husmannsgate 14"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineId").value(2L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineName").value("Speaker"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineName").value("Laser printer"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineType").value("Electronics"));
     }
 
