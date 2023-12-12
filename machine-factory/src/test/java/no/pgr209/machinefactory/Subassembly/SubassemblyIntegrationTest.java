@@ -36,8 +36,8 @@ public class SubassemblyIntegrationTest {
     void shouldFetchSubassemblies() throws Exception {
         mockMvc.perform(get("/api/subassembly"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subassembly").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].subassembly").value(2));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subassemblyId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].subassemblyId").value(2));
     }
 
     @Test
