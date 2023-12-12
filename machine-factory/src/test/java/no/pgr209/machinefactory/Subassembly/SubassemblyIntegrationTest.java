@@ -80,7 +80,7 @@ public class SubassemblyIntegrationTest {
         String subassemblyJson = """
         {
             "subassemblyName": "Printer tags",
-            "partId": [4]
+            "partId": [2]
         }
         """;
 
@@ -94,7 +94,7 @@ public class SubassemblyIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyName").value("Printer tags"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.parts[0].partId").value(4L));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.parts[0].partId").value(2L));
     }
 
     @Test

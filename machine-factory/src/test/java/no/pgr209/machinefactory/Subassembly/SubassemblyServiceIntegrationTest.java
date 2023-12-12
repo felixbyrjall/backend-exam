@@ -39,7 +39,6 @@ public class SubassemblyServiceIntegrationTest {
     PartRepo partRepo;
 
     @BeforeEach
-        // Ensure clean DB.
     void setUp() {
         orderRepo.deleteAll();
         machineRepo.deleteAll();

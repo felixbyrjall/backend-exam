@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @ActiveProfiles("dev")
-
 public class PartRepoUnitTest {
 
     @Autowired
