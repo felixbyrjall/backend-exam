@@ -171,7 +171,7 @@ public class MachineIntegrationTest {
     }
 
     @Test
-    void shouldNotUpdateMachineWithInvalidCustomerId() throws Exception {
+    void shouldNotUpdateMachineWithInvalidSubassemblyId() throws Exception {
         String machineJson = String.format("""
         {
             "machineName": "Robot printer",
