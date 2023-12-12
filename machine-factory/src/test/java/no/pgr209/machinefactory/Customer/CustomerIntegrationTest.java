@@ -141,8 +141,24 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test // Expect NOT FOUND when creating a customer with non-existent addressId
+    void shouldNotCreateCustomerWithInvalidCustomerId() throws Exception {
+        String customerJson = String.format("""
+        {
+            "customerName": "James Brown",
+            "customerEmail": "james@brown.com",
+            "addressId": [%d]
+        }
+        """, 3425L);
+
+        mockMvc.perform(post("/api/customer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(customerJson))
+                .andExpect(status().isNotFound());
+    }
+
     @Test // Expect NOT FOUND when creating a customer with non-existent parameters and invalid data
-    void shouldNotCreateCustomerWithInvalidAddressId() throws Exception {
+    void shouldNotCreateCustomerWithEmptyData() throws Exception {
         String customerJson = String.format("""
         {
             "customerName": "James Brown",
@@ -182,6 +198,22 @@ public class CustomerIntegrationTest {
             "addressId": [%d]
         }
         """, 54323L);
+
+        mockMvc.perform(put("/api/customer/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(customerJson))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test // Expect NOT FOUND when creating a customer with no data.
+    void shouldNotUpdateCustomerWithEmptyData() throws Exception {
+        String customerJson = """
+        {
+            "customerName": "",
+            "customerEmail": "",
+            "addressId": []
+        }
+        """;
 
         mockMvc.perform(put("/api/customer/1")
                         .contentType(MediaType.APPLICATION_JSON)

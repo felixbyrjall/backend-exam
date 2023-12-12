@@ -176,4 +176,38 @@ public class AddressIntegrationTest {
                         .content(addressJson))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void shouldNotCreateAddressWithEmptyData() throws Exception {
+        String addressJson = """
+        {
+            "addressStreet": "",
+            "addressCity": "",
+            "addressZip":  "",
+            "customerId": []
+        }
+        """;
+
+        mockMvc.perform(post("/api/address")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(addressJson))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldNotUpdateAddressWithNoData() throws Exception {
+        String addressJson = """
+        {
+            "addressStreet": "",
+            "addressCity": "",
+            "addressZip":  "",
+            "customerId": []
+        }
+        """;
+
+        mockMvc.perform(put("/api/address/2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(addressJson))
+                .andExpect(status().isNotFound());
+    }
 }
