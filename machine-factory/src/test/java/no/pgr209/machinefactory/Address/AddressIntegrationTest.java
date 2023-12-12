@@ -241,4 +241,13 @@ public class AddressIntegrationTest {
         mockMvc.perform(get("/api/order/1")) // Check if associated order is removed.
                 .andExpect(status().isNotFound());
     }
+
+    @Test // Test deleting a address that doesn't exist
+    void shouldNotDeleteAddressNotExist() throws Exception {
+        mockMvc.perform(get("/api/customer/2435423"))
+                .andExpect(status().isNotFound());
+
+        mockMvc.perform(delete("/api/customer/245235"))
+                .andExpect(status().isNotFound());
+    }
 }
