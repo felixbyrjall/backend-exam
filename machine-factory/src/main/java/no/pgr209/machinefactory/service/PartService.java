@@ -71,14 +71,11 @@ public class PartService {
 
         if(existingPart != null) {
 
-            if(partDTO.getPartName() != null){
+            if(partDTO.getPartName() != null && !partDTO.getPartName().isEmpty()){
                 existingPart.setPartName(partDTO.getPartName());
+                return partRepo.save(existingPart);
             }
-
-            return partRepo.save(existingPart);
-
-        } else {
-            return null;
         }
+        return null;
     }
 }
