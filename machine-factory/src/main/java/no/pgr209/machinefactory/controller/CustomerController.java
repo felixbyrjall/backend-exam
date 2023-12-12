@@ -81,7 +81,7 @@ public class CustomerController {
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
         Customer updatedCustomer = customerService.updateCustomer(id, customerDTO);
 
-        if(updatedCustomer != null && updatedCustomer.getCustomerName() != null && updatedCustomer.getCustomerEmail() != null){
+        if(updatedCustomer != null && !updatedCustomer.getCustomerName().isEmpty() && !updatedCustomer.getCustomerEmail().isEmpty()){
             return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
