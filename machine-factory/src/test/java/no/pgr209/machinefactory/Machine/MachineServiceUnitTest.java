@@ -3,13 +3,12 @@ package no.pgr209.machinefactory.Machine;
 import no.pgr209.machinefactory.model.*;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.SubassemblyRepo;
-import no.pgr209.machinefactory.service.DataFeedService;
 import no.pgr209.machinefactory.service.MachineService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +20,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@ActiveProfiles("dev")
 public class MachineServiceUnitTest {
 
     @Autowired
-    DataFeedService dataFeedService;
+    MachineService machineService;
 
-    @Mock
+    @MockBean
     private MachineRepo machineRepo;
 
-    @Mock
+    @MockBean
     private SubassemblyRepo subassemblyRepo;
-
-    @InjectMocks
-    private MachineService machineService;
 
     @Test
     void shouldReturnAllMachines() {

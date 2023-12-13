@@ -6,12 +6,11 @@ import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import no.pgr209.machinefactory.service.AddressService;
-import no.pgr209.machinefactory.service.DataFeedService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +22,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@ActiveProfiles("dev")
 public class AddressServiceUnitTest {
 
     @Autowired
-    DataFeedService dataFeedService;
+    AddressService addressService;
 
-    @Mock
+    @MockBean
     private CustomerRepo customerRepo;
 
-    @Mock
+    @MockBean
     private AddressRepo addressRepo;
-
-    @InjectMocks
-    private AddressService addressService;
 
     @Test // Mock and test fetching all addresses
     void shouldReturnAllAddresses() {
