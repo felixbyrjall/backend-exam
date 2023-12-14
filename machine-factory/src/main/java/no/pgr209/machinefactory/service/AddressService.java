@@ -23,12 +23,10 @@ public class AddressService {
         this.customerRepo = customerRepo;
     }
 
-    //Get ALL addresses
     public List<Address> getAllAddresses() {
         return addressRepo.findAll();
     }
 
-    //Get addresses by page
     public List<Address> getAddressesByPage(int pageNr) {
         return addressRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
