@@ -30,7 +30,7 @@ public class AddressRepoUnitTest {
     @Autowired
     OrderRepo orderRepo;
 
-    @Test
+    @Test // Ensure an address is created
     public void save_shouldReturnAddress() {
         Address address = addressRepo.save(new Address());
 
@@ -44,15 +44,14 @@ public class AddressRepoUnitTest {
         customerRepo.save(new Customer("Tom Hardy", "tom@hardy.no"));
         List<Customer> allCustomers = customerRepo.findAll();
 
-        Address createAddress = new Address();
-        createAddress.setCustomers(allCustomers);
-        Address savedAddress = addressRepo.save(createAddress);
+        Address address = addressRepo.save(new Address());
+        address.setCustomers(allCustomers);
 
-        Optional<Address> findAddress = addressRepo.findById(savedAddress.getAddressId());
-        findAddress.ifPresent(address -> assertEquals(allCustomers, findAddress.get().getCustomers()));
+        Optional<Address> findAddress = addressRepo.findById(address.getAddressId());
+        findAddress.ifPresent(checkAddress -> assertEquals(allCustomers, findAddress.get().getCustomers()));
     }
 
-    @Test // Test one-to-many relationship with order
+    @Test // Test one-to-many relationship with Order
     public void save_shouldReturnAddressWithOrders() {
         orderRepo.save(new Order());
         orderRepo.save(new Order());
@@ -69,7 +68,6 @@ public class AddressRepoUnitTest {
     public void findAll_shouldReturnNonEmptyListOfAddresses() {
         addressRepo.save(new Address());
         addressRepo.save(new Address());
-
         List<Address> addresses = addressRepo.findAll();
 
         assertThat(addresses).isNotNull();
@@ -81,7 +79,6 @@ public class AddressRepoUnitTest {
         Address address = addressRepo.save(new Address());
 
         Optional<Address> foundAddress = addressRepo.findById(address.getAddressId());
-
         assertThat(foundAddress).isPresent();
     }
 
@@ -90,28 +87,27 @@ public class AddressRepoUnitTest {
         Long nonExistentAddress = 3341L;
 
         Optional<Address> findAddress = addressRepo.findById(nonExistentAddress);
-
         assertThat(findAddress).isNotPresent();
     }
 
-    @Test // Create address, update the street and check if street is updated.
+    @Test // Create address, update the street and check if street is updated
     public void update_shouldUpdateExistingAddress() {
 
         // Create address with information
-        Address address = addressRepo.save(new Address("Vollebekk 14", "Oslo", "0139"));
+        Address address = addressRepo.save(new Address("Lunden 30", "Oslo", "0598"));
 
         Optional<Address> createdAddress = addressRepo.findById(address.getAddressId());
-        createdAddress.ifPresent(addressMade -> assertEquals("Vollebekk 14", createdAddress.get().getAddressStreet()));
+        createdAddress.ifPresent(addressMade -> assertEquals("Lunden 30", createdAddress.get().getAddressStreet()));
 
         // Update the street
-        address.setAddressStreet("Vollebekk 50");
+        address.setAddressStreet("Lunden 50");
 
         // Check address street
         Optional<Address> addressUpdated = addressRepo.findById(address.getAddressId());
-        addressUpdated.ifPresent(addressChanged -> assertEquals("Vollebekk 50", addressUpdated.get().getAddressStreet()));
+        addressUpdated.ifPresent(addressChanged -> assertEquals("Lunden 50", addressUpdated.get().getAddressStreet()));
     }
 
-    @Test // Create an address, check if the address exist, delete the address and then check if address still exist.
+    @Test // Create an address, check if the address exist, delete the address and then check if address still exist
     public void deleteById_shouldRemoveAddress() {
         Address address = addressRepo.save(new Address());
         Optional<Address> findAddress = addressRepo.findById(address.getAddressId());
