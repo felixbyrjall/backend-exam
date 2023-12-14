@@ -22,7 +22,6 @@ public class PartController {
         this.partService = partService;
     }
 
-    //Get all part
     @GetMapping()
     public ResponseEntity<List<Part>> getAllParts() {
         List<Part> allParts = partService.getAllParts();
@@ -34,7 +33,6 @@ public class PartController {
         }
     }
 
-    //Get parts by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Part>> getPartsByPage(@PathVariable int pageNr) {
         List<Part> partsByPage = partService.getPartsByPage(pageNr);
