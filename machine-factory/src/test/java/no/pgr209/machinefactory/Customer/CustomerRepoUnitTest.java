@@ -30,7 +30,7 @@ public class CustomerRepoUnitTest {
     @Autowired
     private OrderRepo orderRepo;
 
-    @Test // Test saving, creating a customer in the db.
+    @Test // Ensure a customer is created
     public void save_shouldReturnCustomer() {
         Customer customer = customerRepo.save(new Customer());
 
@@ -64,7 +64,7 @@ public class CustomerRepoUnitTest {
         findCustomer.ifPresent(checkCustomer -> assertEquals(allOrders, findCustomer.get().getOrders()));
     }
 
-    @Test // Test fetching all customers.
+    @Test // Test findAll and ensure count of customers
     public void findAll_shouldReturnNonEmptyListOfCustomers() {
         customerRepo.save(new Customer());
         customerRepo.save(new Customer());

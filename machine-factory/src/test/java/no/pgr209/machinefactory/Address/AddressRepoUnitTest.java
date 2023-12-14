@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,9 +40,9 @@ public class AddressRepoUnitTest {
 
     @Test // Test many-to-many relationship with customer
     public void save_shouldReturnAddressWithCustomer() {
-        Customer customerOne = customerRepo.save(new Customer("James Brown", "james@brown.no"));
-        Customer customerTwo = customerRepo.save(new Customer("Tom Hardy", "tom@hardy.no"));
-        List<Customer> allCustomers = Arrays.asList(customerOne, customerTwo);
+        customerRepo.save(new Customer("James Brown", "james@brown.no"));
+        customerRepo.save(new Customer("Tom Hardy", "tom@hardy.no"));
+        List<Customer> allCustomers = customerRepo.findAll();
 
         Address createAddress = new Address();
         createAddress.setCustomers(allCustomers);
@@ -55,29 +54,26 @@ public class AddressRepoUnitTest {
 
     @Test // Test one-to-many relationship with order
     public void save_shouldReturnAddressWithOrders() {
-        Order orderOne = orderRepo.save(new Order());
-        Order orderTwo = orderRepo.save(new Order());
-        List<Order> allOrders = Arrays.asList(orderOne, orderTwo);
+        orderRepo.save(new Order());
+        orderRepo.save(new Order());
+        List<Order> allOrders = orderRepo.findAll();
 
-        Address createAddress = new Address();
-        createAddress.setOrders(allOrders);
-        Address savedAddress = addressRepo.save(createAddress);
+        Address address = addressRepo.save(new Address());
+        address.setOrders(allOrders);
 
-        Optional<Address> findAddress = addressRepo.findById(savedAddress.getAddressId());
-        findAddress.ifPresent(address -> assertEquals(allOrders, findAddress.get().getOrders()));
+        Optional<Address> findAddress = addressRepo.findById(address.getAddressId());
+        findAddress.ifPresent(checkAddress -> assertEquals(allOrders, findAddress.get().getOrders()));
     }
 
     @Test // Test fetching all addresses.
     public void findAll_shouldReturnNonEmptyListOfAddresses() {
-        Address firstAddress = new Address();
-        Address secondAddress = new Address();
-        addressRepo.save(firstAddress);
-        addressRepo.save(secondAddress);
+        addressRepo.save(new Address());
+        addressRepo.save(new Address());
 
         List<Address> addresses = addressRepo.findAll();
 
         assertThat(addresses).isNotNull();
-        assertThat(addresses.size()).isGreaterThan(0);
+        assertThat(addresses.size()).isEqualTo(2);
     }
 
     @Test // Test fetching address by id
@@ -107,10 +103,10 @@ public class AddressRepoUnitTest {
         Optional<Address> createdAddress = addressRepo.findById(address.getAddressId());
         createdAddress.ifPresent(addressMade -> assertEquals("Vollebekk 14", createdAddress.get().getAddressStreet()));
 
-        // Update street
+        // Update the street
         address.setAddressStreet("Vollebekk 50");
-        addressRepo.save(address);
 
+        // Check address street
         Optional<Address> addressUpdated = addressRepo.findById(address.getAddressId());
         addressUpdated.ifPresent(addressChanged -> assertEquals("Vollebekk 50", addressUpdated.get().getAddressStreet()));
     }
@@ -123,6 +119,7 @@ public class AddressRepoUnitTest {
         assertThat(findAddress).isPresent();
 
         addressRepo.deleteById(address.getAddressId());
+
         Optional<Address> findDeletedAddress = addressRepo.findById(address.getAddressId());
         assertThat(findDeletedAddress).isNotPresent();
     }

@@ -35,7 +35,7 @@ public class OrderRepoUnitTest {
     @Autowired
     private MachineRepo machineRepo;
 
-    @Test // Ensure order is created
+    @Test // Ensure an order is created
     public void save_shouldReturnOrder() {
         Order order = orderRepo.save(new Order());
 
@@ -65,7 +65,7 @@ public class OrderRepoUnitTest {
         findOrder.ifPresent(checkOrder -> assertEquals(address, findOrder.get().getAddress()));
     }
 
-    @Test // Test many-to-many relationship with Machine
+    @Test // Test many-to-one relationship with Machine
     public void save_shouldReturnOrderWithMachines() {
         machineRepo.save(new Machine("3D Printer", "Electronics"));
         machineRepo.save(new Machine("Robot Scanner", "Electronics"));
@@ -78,7 +78,7 @@ public class OrderRepoUnitTest {
         findOrder.ifPresent(checkOrder -> assertEquals(allMachines, findOrder.get().getMachines()));
     }
 
-    @Test // Test findAll and ensure correct amount is returned
+    @Test // Test findAll and ensure count of orders
     public void findAll_shouldReturnNonEmptyListOfOrders() {
         orderRepo.save(new Order());
         orderRepo.save(new Order());
