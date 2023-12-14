@@ -22,7 +22,6 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    //Get all addresses
     @GetMapping()
     public ResponseEntity<List<Address>> getAllAddresses() {
         List<Address> allAddresses = addressService.getAllAddresses();
@@ -34,7 +33,6 @@ public class AddressController {
         }
     }
 
-    //Get addresses by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Address>> getAddressesByPage(@PathVariable int pageNr) {
         List<Address> addressesByPage = addressService.getAddressesByPage(pageNr);

@@ -11,6 +11,5 @@ public class AddressDTO {
     private String addressStreet;
     private String addressCity;
     private String addressZip;
-
     private List<Long> customerId;
 }
