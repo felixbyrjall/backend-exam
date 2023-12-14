@@ -22,7 +22,6 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    //Get all addresses
     @GetMapping()
     public ResponseEntity<List<Address>> getAllAddresses() {
         List<Address> allAddresses = addressService.getAllAddresses();
@@ -34,7 +33,6 @@ public class AddressController {
         }
     }
 
-    //Get addresses by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Address>> getAddressesByPage(@PathVariable int pageNr) {
         List<Address> addressesByPage = addressService.getAddressesByPage(pageNr);
@@ -45,7 +43,6 @@ public class AddressController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //Get addresses by id
     @GetMapping("/{id}")
     public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
         Address addressById = addressService.getAddressById(id);
@@ -56,7 +53,6 @@ public class AddressController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //Create an address with RequestBody
     @PostMapping
     public ResponseEntity<Address> createAddress(@RequestBody AddressDTO addressDTO) {
         Address createdAddress = addressService.createAddress(addressDTO);
@@ -70,7 +66,6 @@ public class AddressController {
         }
     }
 
-    //Delete an address by id
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAddressById(@PathVariable Long id) {
         if (addressService.addressExists(id)) {
@@ -80,7 +75,6 @@ public class AddressController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //Update an address with RequestBody
     @PutMapping("/{id}")
     public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody AddressDTO addressDTO) {
         Address updatedAddress = addressService.updateAddress(id, addressDTO);
