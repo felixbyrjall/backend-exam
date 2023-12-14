@@ -33,52 +33,46 @@ public class CustomerRepoUnitTest {
 
     @Test // Test saving, creating a customer in the db.
     public void save_shouldReturnCustomer() {
-        Customer customer = new Customer();
-        Customer savedCustomer = customerRepo.save(customer);
+        Customer customer = customerRepo.save(new Customer());
 
-        assertThat(savedCustomer).isNotNull();
-        assertThat(savedCustomer.getCustomerId()).isNotNull();
+        assertThat(customer).isNotNull();
+        assertThat(customer.getCustomerId()).isNotNull();
     }
 
     @Test // Test many-to-many relationship with address
     public void save_shouldReturnSavedCustomerWithAddress() {
-        Address addressOne = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "1350"));
-        Address addressTwo = addressRepo.save(new Address("Bjarnes Gate 23", "Viken", "2150"));
+        Address addressOne = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "0153"));
+        Address addressTwo = addressRepo.save(new Address("Dronningens Gate 21", "Oslo", "0154"));
         List<Address> allAddresses = Arrays.asList(addressOne, addressTwo);
 
-        Customer createCustomer = new Customer();
-        createCustomer.setAddresses(allAddresses);
-        Customer savedCustomer = customerRepo.save(createCustomer);
+        Customer customer = customerRepo.save(new Customer());
+        customer.setAddresses(allAddresses);
 
-        Optional<Customer> findCustomer = customerRepo.findById(savedCustomer.getCustomerId());
-        findCustomer.ifPresent(customer -> assertEquals(allAddresses, findCustomer.get().getAddresses()));
+        Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());
+        findCustomer.ifPresent(checkCustomer -> assertEquals(allAddresses, findCustomer.get().getAddresses()));
     }
 
     @Test // Test one-to-many relationship with order
     public void save_shouldReturnSavedCustomerWithOrders() {
-        Order orderOne = orderRepo.save(new Order());
-        Order orderTwo = orderRepo.save(new Order());
-        List<Order> allOrders = Arrays.asList(orderOne, orderTwo);
+        orderRepo.save(new Order());
+        orderRepo.save(new Order());
+        List<Order> allOrders = orderRepo.findAll();
 
-        Customer createCustomer = new Customer();
-        createCustomer.setOrders(allOrders);
-        Customer savedCustomer = customerRepo.save(createCustomer);
+        Customer customer = customerRepo.save(new Customer());
+        customer.setOrders(allOrders);
 
-        Optional<Customer> findCustomer = customerRepo.findById(savedCustomer.getCustomerId());
-        findCustomer.ifPresent(customer -> assertEquals(allOrders, findCustomer.get().getOrders()));
+        Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());
+        findCustomer.ifPresent(checkCustomer -> assertEquals(allOrders, findCustomer.get().getOrders()));
     }
 
     @Test // Test fetching all customers.
     public void findAll_shouldReturnNonEmptyListOfCustomers() {
-        Customer firstCustomer = new Customer();
-        Customer secondCustomer = new Customer();
-        customerRepo.save(firstCustomer);
-        customerRepo.save(secondCustomer);
-
+        customerRepo.save(new Customer());
+        customerRepo.save(new Customer());
         List<Customer> customers = customerRepo.findAll();
 
         assertThat(customers).isNotNull();
-        assertThat(customers.size()).isGreaterThan(0);
+        assertThat(customers.size()).isEqualTo(2);
     }
 
     @Test // Test fetching customer by id
@@ -86,7 +80,6 @@ public class CustomerRepoUnitTest {
         Customer customer = customerRepo.save(new Customer());
 
         Optional<Customer> foundCustomer = customerRepo.findById(customer.getCustomerId());
-
         assertThat(foundCustomer).isPresent();
     }
 
@@ -95,7 +88,6 @@ public class CustomerRepoUnitTest {
         Long nonExistentCustomer = 23413L;
 
         Optional<Customer> findCustomer = customerRepo.findById(nonExistentCustomer);
-
         assertThat(findCustomer).isNotPresent();
     }
 
@@ -110,7 +102,6 @@ public class CustomerRepoUnitTest {
 
         // Update name
         customer.setCustomerName("Tom Hardy");
-        customerRepo.save(customer);
 
         Optional<Customer> CustomerUpdated = customerRepo.findById(customer.getCustomerId());
         CustomerUpdated.ifPresent(customerChanged -> assertEquals("Tom Hardy", CustomerUpdated.get().getCustomerName()));
@@ -119,11 +110,12 @@ public class CustomerRepoUnitTest {
     @Test // Create a customer, check if customer exist, delete the customer and then check if customer still exist.
     public void deleteById_shouldRemoveCustomer() {
         Customer customer = customerRepo.save(new Customer());
-        Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());
 
+        Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());
         assertThat(findCustomer).isPresent();
 
         customerRepo.deleteById(customer.getCustomerId());
+
         Optional<Customer> findDeletedCustomer = customerRepo.findById(customer.getCustomerId());
         assertThat(findDeletedCustomer).isNotPresent();
     }

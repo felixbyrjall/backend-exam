@@ -46,6 +46,7 @@ public class OrderRepoUnitTest {
     @Test // Test many-to-one relationship with Customer
     public void save_shouldReturnSavedOrderWithCustomer() {
         Customer customer = customerRepo.save(new Customer("Harald Skog", "harald@skog.no"));
+
         Order order = orderRepo.save(new Order());
         order.setCustomer(customer);
 
@@ -56,6 +57,7 @@ public class OrderRepoUnitTest {
     @Test // Test many-to-one relationship with Address
     public void save_shouldReturnSavedOrderWithAddress() {
         Address address = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "0153"));
+
         Order order = orderRepo.save(new Order());
         order.setAddress(address);
 
@@ -68,6 +70,7 @@ public class OrderRepoUnitTest {
         machineRepo.save(new Machine("3D Printer", "Electronics"));
         machineRepo.save(new Machine("Robot Scanner", "Electronics"));
         List<Machine> allMachines = machineRepo.findAll();
+
         Order order = orderRepo.save(new Order());
         order.setMachines(allMachines);
 
@@ -88,16 +91,16 @@ public class OrderRepoUnitTest {
     @Test // Test finding order by id
     public void findById_shouldReturnOrder() {
         Order order = orderRepo.save(new Order());
-        Optional<Order> foundOrder = orderRepo.findById(order.getOrderId());
 
+        Optional<Order> foundOrder = orderRepo.findById(order.getOrderId());
         assertThat(foundOrder).isPresent();
     }
 
     @Test // Test finding a non-existing order.
     public void findById_shouldNotReturnNonExistentOrder() {
         Long nonExistentId = 65561L;
-        Optional<Order> findOrder = orderRepo.findById(nonExistentId);
 
+        Optional<Order> findOrder = orderRepo.findById(nonExistentId);
         assertThat(findOrder).isNotPresent();
     }
 
