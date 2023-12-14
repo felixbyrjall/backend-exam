@@ -31,7 +31,7 @@ public class SubassemblyService {
 
     //Get subassemblies by page
     public List<Subassembly> getSubassembliesByPage(int pageNr) {
-        return subassemblyRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+        return subassemblyRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
 
     public Subassembly getSubassemblyById(Long id) {

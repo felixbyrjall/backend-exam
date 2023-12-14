@@ -37,7 +37,7 @@ public class OrderService {
 
     //Get orders by page
     public List<Order> getOrdersByPage(int pageNr) {
-        return orderRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+        return orderRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
 
     //Get order by specific id

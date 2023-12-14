@@ -30,7 +30,7 @@ public class MachineService {
 
     //Get machines by page
     public List<Machine> getMachinesByPage(int pageNr) {
-        return machineRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+        return machineRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
 
     public Machine getMachineById(Long id) {

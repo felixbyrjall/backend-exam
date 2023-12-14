@@ -29,7 +29,7 @@ public class PartService {
 
     //Get parts by page
     public List<Part> getPartsByPage(int pageNr) {
-        return partRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+        return partRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
 
     public Part getPartById(Long id) {

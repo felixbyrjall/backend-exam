@@ -31,7 +31,7 @@ public class CustomerService {
 
     //Get customers by page
     public List<Customer> getCustomersByPage(int pageNr) {
-        return customerRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+        return customerRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
 
     public Customer getCustomerById(Long id) {
