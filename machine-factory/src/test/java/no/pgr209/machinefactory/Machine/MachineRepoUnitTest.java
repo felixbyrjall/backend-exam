@@ -56,7 +56,7 @@ public class MachineRepoUnitTest {
         assertThat(machines.size()).isEqualTo(2);
     }
 
-    @Test // Test fetching machine by id
+    @Test // Test finding a machine by id
     public void findById_shouldReturnMachine() {
         Machine machine = machineRepo.save(new Machine());
 
