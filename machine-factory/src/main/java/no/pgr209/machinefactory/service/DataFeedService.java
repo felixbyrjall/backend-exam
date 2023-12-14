@@ -68,6 +68,41 @@ public class DataFeedService {
         customerFive = customerRepo.save(customerFive);
         addressFive = addressRepo.save(addressFive);
 
+        // Customer Six
+        Customer customerSix = new Customer("Mona Johansen", "mona.j@gmail.com");
+        Address addressSix = new Address("Strandveien 10", "Bergen", "5020");
+        customerSix.getAddresses().add(addressSix);
+        customerSix = customerRepo.save(customerSix);
+        addressSix = addressRepo.save(addressSix);
+
+        // Customer Seven
+        Customer customerSeven = new Customer("Andreas Berg", "andreas.berg@yahoo.com");
+        Address addressSeven = new Address("Fossveien 5", "Oslo", "2010");
+        customerSeven.getAddresses().add(addressSeven);
+        customerSeven = customerRepo.save(customerSeven);
+        addressSeven = addressRepo.save(addressSeven);
+
+        // Customer Eight
+        Customer customerEight = new Customer("Camilla Larsen", "camilla_l@online.no");
+        Address addressEight = new Address("Bakkegata 15", "Stavanger", "4006");
+        customerEight.getAddresses().add(addressEight);
+        customerEight = customerRepo.save(customerEight);
+        addressEight = addressRepo.save(addressEight);
+
+        // Customer Nine
+        Customer customerNine = new Customer("Ole Kristiansen", "ole@kristiansenogco.com");
+        Address addressNine = new Address("Solsiden 8", "Trondheim", "7030");
+        customerNine.getAddresses().add(addressNine);
+        customerNine = customerRepo.save(customerNine);
+        addressNine = addressRepo.save(addressNine);
+
+        // Customer Ten
+        Customer customerTen = new Customer("Ingrid Nygaard", "ingrid@nygaard.no");
+        Address addressTen = new Address("Nedre Slottsgate 12", "Oslo", "2015");
+        customerTen.getAddresses().add(addressTen);
+        customerTen = customerRepo.save(customerTen);
+        addressTen = addressRepo.save(addressTen);
+
         // Initialize Machines
         Machine machineOne = new Machine("3D printer", "Electronics");
         Machine machineTwo = new Machine("Laser printer", "Electronics");
