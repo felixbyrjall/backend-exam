@@ -162,7 +162,6 @@ public class DataFeedService {
         List<Machine> machinesListSix = new ArrayList<>();
         machinesListSix.add(machineOne);
         machinesListSix.add(machineEight);
-        machinesListSix.add(machineOne);
         machinesListSix.add(machineFive);
 
         List<Machine> machinesListSeven = new ArrayList<>();
@@ -182,13 +181,34 @@ public class DataFeedService {
 
         // Initialize Subassembly
         Subassembly subassemblyOne = new Subassembly("Printer head");
-        Subassembly subassemblyTwo = new Subassembly("Paper feed");
-        Subassembly subassemblyThree = new Subassembly("Cartridge");
-        Subassembly subassemblyFour = new Subassembly("Power supply");
         subassemblyOne = subassemblyRepo.save(subassemblyOne);
+
+        Subassembly subassemblyTwo = new Subassembly("Paper feed");
         subassemblyTwo = subassemblyRepo.save(subassemblyTwo);
+
+        Subassembly subassemblyThree = new Subassembly("Cartridge");
         subassemblyThree = subassemblyRepo.save(subassemblyThree);
+
+        Subassembly subassemblyFour = new Subassembly("Power supply");
         subassemblyFour = subassemblyRepo.save(subassemblyFour);
+
+        Subassembly subassemblyFive = new Subassembly("Control panel");
+        subassemblyFive = subassemblyRepo.save(subassemblyFive);
+
+        Subassembly subassemblySix = new Subassembly("Frame assembly");
+        subassemblySix = subassemblyRepo.save(subassemblySix);
+
+        Subassembly subassemblySeven = new Subassembly("Sensor array");
+        subassemblySeven = subassemblyRepo.save(subassemblySeven);
+
+        Subassembly subassemblyEight = new Subassembly("Roller mechanism");
+        subassemblyEight = subassemblyRepo.save(subassemblyEight);
+
+        Subassembly subassemblyNine = new Subassembly("Print engine");
+        subassemblyNine = subassemblyRepo.save(subassemblyNine);
+
+        Subassembly subassemblyTen = new Subassembly("Memory module");
+        subassemblyTen = subassemblyRepo.save(subassemblyTen);
 
         // Add Subassembly to Machine
         machineOne.getSubassemblies().add(subassemblyOne);
