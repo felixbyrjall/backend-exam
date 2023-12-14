@@ -21,7 +21,6 @@ public class MachineController {
         this.machineService = machineService;
     }
 
-    //Get all machines
     @GetMapping()
     public ResponseEntity<List<Machine>> getAllMachines() {
         List<Machine> allMachines = machineService.getAllMachines();
@@ -33,7 +32,6 @@ public class MachineController {
         }
     }
 
-    //Get machines by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Machine>> getMachinesByPage(@PathVariable int pageNr) {
         List<Machine> machinesByPage = machineService.getMachinesByPage(pageNr);
