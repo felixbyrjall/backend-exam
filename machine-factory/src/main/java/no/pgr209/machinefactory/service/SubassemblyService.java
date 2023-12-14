@@ -39,18 +39,14 @@ public class SubassemblyService {
     }
 
     public Subassembly createSubassembly(SubassemblyDTO subassemblyDTO) {
+        if (subassemblyDTO.getSubassemblyName() == null || subassemblyDTO.getSubassemblyName().isEmpty() ||
+                subassemblyDTO.getPartId() == null || !subassemblyDTO.getPartId().stream().allMatch(partRepo::existsById)) {
+            return null;
+        }
+
         Subassembly newSubassembly = new Subassembly();
-
-        if(subassemblyDTO.getSubassemblyName() == null) {
-            return null;
-        }
         newSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
-
-        List<Long> partIds = subassemblyDTO.getPartId();
-        if(!partIds.stream().allMatch(partRepo::existsById)) {
-            return null;
-        }
-        newSubassembly.setParts(partRepo.findAllById(partIds));
+        newSubassembly.setParts(partRepo.findAllById(subassemblyDTO.getPartId()));
 
         return subassemblyRepo.save(newSubassembly);
     }
@@ -77,27 +73,27 @@ public class SubassemblyService {
     public Subassembly updateSubassembly(Long id, SubassemblyDTO subassemblyDTO) {
         Subassembly existingSubassembly = subassemblyRepo.findById(id).orElse(null);
 
-        if(existingSubassembly != null) {
-
-            if(subassemblyDTO.getSubassemblyName() != null) {
-                existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
-            }
-
-            List<Part> parts = partRepo.findAllById(subassemblyDTO.getPartId());
-
-            if (!subassemblyDTO.getPartId().isEmpty()) {
-                if (parts.size() != subassemblyDTO.getPartId().size()) {
-                    return null;
-                }
-                existingSubassembly.setParts(parts);
-            } else {
-                existingSubassembly.setParts(Collections.emptyList());
-            }
-
-            return subassemblyRepo.save(existingSubassembly);
-
-        } else {
+        if (existingSubassembly == null || subassemblyDTO.getSubassemblyName() == null ||
+                subassemblyDTO.getSubassemblyName().isEmpty() || subassemblyDTO.getPartId() == null) {
             return null;
         }
+
+        existingSubassembly.setSubassemblyName(subassemblyDTO.getSubassemblyName());
+
+        List<Long> partIds = subassemblyDTO.getPartId();
+
+        if (!partIds.isEmpty()) {
+            List<Part> parts = partRepo.findAllById(partIds);
+
+            if (parts.size() == partIds.size()) {
+                existingSubassembly.setParts(parts);
+            } else {
+                return null;
+            }
+        } else {
+            existingSubassembly.setParts(Collections.emptyList());
+        }
+
+        return subassemblyRepo.save(existingSubassembly);
     }
 }

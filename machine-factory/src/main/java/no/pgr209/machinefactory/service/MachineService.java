@@ -38,23 +38,16 @@ public class MachineService {
     }
 
     public Machine createMachine(MachineDTO machineDTO) {
+        if (machineDTO.getMachineName() == null || machineDTO.getMachineName().isEmpty() ||
+                machineDTO.getMachineType() == null || machineDTO.getMachineType().isEmpty() ||
+                machineDTO.getSubassemblyId() == null || !machineDTO.getSubassemblyId().stream().allMatch(subassemblyRepo::existsById)) {
+            return null;
+        }
+
         Machine newMachine = new Machine();
-
-        if(machineDTO.getMachineName() == null){
-            return null;
-        }
         newMachine.setMachineName(machineDTO.getMachineName());
-
-        if(machineDTO.getMachineType() == null){
-            return null;
-        }
         newMachine.setMachineType(machineDTO.getMachineType());
-
-        List<Long> subassemblyIds = machineDTO.getSubassemblyId();
-        if(!subassemblyIds.stream().allMatch(subassemblyRepo::existsById)) {
-            return null;
-        }
-        newMachine.setSubassemblies(subassemblyRepo.findAllById(subassemblyIds));
+        newMachine.setSubassemblies(subassemblyRepo.findAllById(machineDTO.getSubassemblyId()));
 
         return machineRepo.save(newMachine);
     }
@@ -81,31 +74,29 @@ public class MachineService {
     public Machine updateMachine(Long id, MachineDTO machineDTO) {
         Machine existingMachine = machineRepo.findById(id).orElse(null);
 
-        if(existingMachine != null) {
-
-            if(machineDTO.getMachineName() != null){
-                existingMachine.setMachineName(machineDTO.getMachineName());
-            }
-
-            if(machineDTO.getMachineType() != null){
-                existingMachine.setMachineType(machineDTO.getMachineType());
-            }
-
-            List<Subassembly> subassemblies = subassemblyRepo.findAllById(machineDTO.getSubassemblyId());
-
-            if (!machineDTO.getSubassemblyId().isEmpty()) {
-                if (subassemblies.size() != machineDTO.getSubassemblyId().size()) {
-                    return null;
-                }
-                existingMachine.setSubassemblies(subassemblies);
-            } else {
-                existingMachine.setSubassemblies(Collections.emptyList());
-            }
-
-            return machineRepo.save(existingMachine);
-
-        } else {
+        if (existingMachine == null || machineDTO.getMachineName() == null ||
+                machineDTO.getMachineName().isEmpty() || machineDTO.getMachineType() == null ||
+                machineDTO.getMachineType().isEmpty() || machineDTO.getSubassemblyId() == null) {
             return null;
         }
+
+        existingMachine.setMachineName(machineDTO.getMachineName());
+        existingMachine.setMachineType(machineDTO.getMachineType());
+
+        List<Long> subassemblyIds = machineDTO.getSubassemblyId();
+
+        if (subassemblyIds.isEmpty()) {
+            existingMachine.setSubassemblies(Collections.emptyList());
+            return machineRepo.save(existingMachine);
+        }
+
+        List<Subassembly> subassemblies = subassemblyRepo.findAllById(subassemblyIds);
+
+        if (subassemblies.size() != subassemblyIds.size()) {
+            return null;
+        }
+
+        existingMachine.setSubassemblies(subassemblies);
+        return machineRepo.save(existingMachine);
     }
 }

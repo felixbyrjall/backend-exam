@@ -1,9 +1,11 @@
 package no.pgr209.machinefactory.Order;
 
 import no.pgr209.machinefactory.model.Address;
+import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.model.Machine;
 import no.pgr209.machinefactory.model.Order;
 import no.pgr209.machinefactory.repo.AddressRepo;
+import no.pgr209.machinefactory.repo.CustomerRepo;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.OrderRepo;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,9 @@ public class OrderRepoUnitTest {
     private AddressRepo addressRepo;
 
     @Autowired
+    private CustomerRepo customerRepo;
+
+    @Autowired
     private MachineRepo machineRepo;
 
     @Test // Test saving, creating an order.
@@ -38,6 +43,29 @@ public class OrderRepoUnitTest {
 
         assertThat(savedOrder).isNotNull();
         assertThat(savedOrder.getOrderId()).isNotNull();
+    }
+    @Test // Testing the Many-to-one relationship with Customer.
+    public void save_shouldReturnSavedOrderWithCustomer() {
+        Customer customerOne = customerRepo.save(new Customer("James Brown", "james@brown.no"));
+
+        Order createOrder = new Order();
+        createOrder.setCustomer(customerOne);
+        Order savedOrder = orderRepo.save(createOrder);
+
+        Optional<Order> findOrder = orderRepo.findById(savedOrder.getOrderId());
+        findOrder.ifPresent(order -> assertEquals(customerOne, findOrder.get().getCustomer()));
+    }
+
+    @Test // Testing the Many-to-one relationship with Address.
+    public void save_shouldReturnSavedOrderWithAddress() {
+        Address address = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "1350"));
+
+        Order createOrder = new Order();
+        createOrder.setAddress(address);
+        Order savedOrder = orderRepo.save(createOrder);
+
+        Optional<Order> findOrder = orderRepo.findById(savedOrder.getOrderId());
+        findOrder.ifPresent(order -> assertEquals(address, findOrder.get().getAddress()));
     }
 
     @Test // Testing the One-to-Many relationship with machines.

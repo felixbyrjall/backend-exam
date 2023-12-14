@@ -2,20 +2,25 @@ package no.pgr209.machinefactory.service;
 
 import no.pgr209.machinefactory.model.Address;
 import no.pgr209.machinefactory.model.AddressDTO;
+import no.pgr209.machinefactory.model.Customer;
 import no.pgr209.machinefactory.repo.AddressRepo;
+import no.pgr209.machinefactory.repo.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class AddressService {
     private final AddressRepo addressRepo;
+    private final CustomerRepo customerRepo;
 
     @Autowired
-    public AddressService(AddressRepo addressRepo) {
+    public AddressService(AddressRepo addressRepo, CustomerRepo customerRepo) {
         this.addressRepo = addressRepo;
+        this.customerRepo = customerRepo;
     }
 
     //Get ALL addresses
@@ -33,22 +38,18 @@ public class AddressService {
     }
 
     public Address createAddress(AddressDTO addressDTO) {
+        if (addressDTO.getAddressStreet() == null || addressDTO.getAddressStreet().isEmpty() ||
+                addressDTO.getAddressCity() == null || addressDTO.getAddressCity().isEmpty() ||
+                addressDTO.getAddressZip() == null || addressDTO.getAddressZip().isEmpty() ||
+                addressDTO.getCustomerId() == null || !addressDTO.getCustomerId().stream().allMatch(customerRepo::existsById)) {
+            return null;
+        }
+
         Address newAddress = new Address();
-
-        if(addressDTO.getAddressStreet() == null){
-            return null;
-        }
         newAddress.setAddressStreet(addressDTO.getAddressStreet());
-
-        if(addressDTO.getAddressCity() == null){
-            return null;
-        }
         newAddress.setAddressCity(addressDTO.getAddressCity());
-
-        if(addressDTO.getAddressZip() == null){
-            return null;
-        }
         newAddress.setAddressZip(addressDTO.getAddressZip());
+        newAddress.setCustomers(customerRepo.findAllById(addressDTO.getCustomerId()));
 
         return addressRepo.save(newAddress);
     }
@@ -64,24 +65,32 @@ public class AddressService {
     public Address updateAddress(Long id, AddressDTO addressDTO) {
         Address existingAddress = addressRepo.findById(id).orElse(null);
 
-        if(existingAddress != null) {
-
-            if(addressDTO.getAddressStreet() != null) {
-                existingAddress.setAddressStreet(addressDTO.getAddressStreet());
-            }
-
-            if(addressDTO.getAddressCity() != null) {
-                existingAddress.setAddressCity(addressDTO.getAddressCity());
-            }
-
-            if(addressDTO.getAddressZip() != null) {
-                existingAddress.setAddressZip(addressDTO.getAddressZip());
-            }
-
-            return addressRepo.save(existingAddress);
-
-        } else {
+        if (existingAddress == null ||
+                addressDTO.getAddressStreet() == null || addressDTO.getAddressStreet().isEmpty() ||
+                addressDTO.getAddressCity() == null || addressDTO.getAddressCity().isEmpty() ||
+                addressDTO.getAddressZip() == null || addressDTO.getAddressZip().isEmpty() ||
+                addressDTO.getCustomerId() == null) {
             return null;
         }
+
+        existingAddress.setAddressStreet(addressDTO.getAddressStreet());
+        existingAddress.setAddressCity(addressDTO.getAddressCity());
+        existingAddress.setAddressZip(addressDTO.getAddressZip());
+
+        List<Long> customerIds = addressDTO.getCustomerId();
+
+        if (!customerIds.isEmpty()) {
+            List<Customer> customers = customerRepo.findAllById(customerIds);
+
+            if (customers.size() != customerIds.size()) {
+                return null;
+            }
+
+            existingAddress.setCustomers(customers);
+        } else {
+            existingAddress.setCustomers(Collections.emptyList());
+        }
+
+        return addressRepo.save(existingAddress);
     }
 }

@@ -49,7 +49,7 @@ public class DataFeedService {
 
         // Initialize Machines
         Machine machineOne = new Machine("3D printer", "Electronics");
-        Machine machineTwo = new Machine("Speaker", "Electronics");
+        Machine machineTwo = new Machine("Laser printer", "Electronics");
         machineOne = machineRepo.save(machineOne);
         machineTwo = machineRepo.save(machineTwo);
 
@@ -58,22 +58,41 @@ public class DataFeedService {
         machines.add(machineTwo);
 
         // Initialize Subassembly
-        Subassembly subassembly = new Subassembly("Printer head");
-        subassembly = subassemblyRepo.save(subassembly);
+        Subassembly subassemblyOne = new Subassembly("Printer head");
+        Subassembly subassemblyTwo = new Subassembly("Paper feed");
+        Subassembly subassemblyThree = new Subassembly("Cartridge");
+        Subassembly subassemblyFour = new Subassembly("Power supply");
+        subassemblyOne = subassemblyRepo.save(subassemblyOne);
+        subassemblyTwo = subassemblyRepo.save(subassemblyTwo);
+        subassemblyThree = subassemblyRepo.save(subassemblyThree);
+        subassemblyFour = subassemblyRepo.save(subassemblyFour);
 
         // Add Subassembly to Machine
-        machineOne.getSubassemblies().add(subassembly);
-        machineTwo.getSubassemblies().add(subassembly);
+        machineOne.getSubassemblies().add(subassemblyOne);
+        machineOne.getSubassemblies().add(subassemblyTwo);
+        machineOne.getSubassemblies().add(subassemblyThree);
+        machineTwo.getSubassemblies().add(subassemblyOne);
+        machineTwo.getSubassemblies().add(subassemblyFour);
         machineRepo.save(machineOne);
         machineRepo.save(machineOne);
 
         // Initialize Part and add to Subassembly
-        Part part = new Part("Printer nozzle");
-        part = partRepo.save(part);
-        subassembly.getParts().add(part);
+        Part partOne = new Part("Printer nozzle");
+        Part partTwo = new Part("Printer tag");
+        Part partThree = new Part("Printer hex socket");
+        partOne = partRepo.save(partOne);
+        partTwo = partRepo.save(partTwo);
+        partThree = partRepo.save(partThree);
+        subassemblyOne.getParts().add(partOne);
+        subassemblyOne.getParts().add(partTwo);
+        subassemblyTwo.getParts().add(partOne);
+        subassemblyTwo.getParts().add(partThree);
+        subassemblyThree.getParts().add(partOne);
+        subassemblyThree.getParts().add(partTwo);
+        subassemblyFour.getParts().add(partThree);
 
         // Update Subassembly with the Part
-        subassemblyRepo.save(subassembly);
+        subassemblyRepo.save(subassemblyOne);
 
         // Initialize and save Orders
         Order orderOne = new Order(LocalDateTime.now());

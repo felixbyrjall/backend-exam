@@ -49,23 +49,15 @@ public class OrderService {
     public Order createOrder(OrderDTO orderDTO) {
         Order newOrder = new Order(LocalDateTime.now());
 
-        if(!customerRepo.existsById(orderDTO.getCustomerId())) {
+        if (orderDTO.getCustomerId() == null || orderDTO.getAddressId() == null ||
+                orderDTO.getMachineId() == null || !orderDTO.getMachineId().stream().allMatch(machineRepo::existsById) ||
+                !customerRepo.existsById(orderDTO.getCustomerId()) || !addressRepo.existsById(orderDTO.getAddressId())) {
             return null;
         }
-        Customer customer = customerRepo.findById(orderDTO.getCustomerId()).orElse(null);
-        newOrder.setCustomer(customer);
 
-        if(!addressRepo.existsById(orderDTO.getAddressId())) {
-            return null;
-        }
-        Address address = addressRepo.findById(orderDTO.getAddressId()).orElse(null);
-        newOrder.setAddress(address);
-
-        List<Long> machineIds = orderDTO.getMachineId();
-        if(!machineIds.stream().allMatch(machineRepo::existsById)) {
-            return null;
-        }
-        newOrder.setMachines(machineRepo.findAllById(machineIds));
+        newOrder.setCustomer(customerRepo.findById(orderDTO.getCustomerId()).orElse(null));
+        newOrder.setAddress(addressRepo.findById(orderDTO.getAddressId()).orElse(null));
+        newOrder.setMachines(machineRepo.findAllById(orderDTO.getMachineId()));
 
         return orderRepo.save(newOrder);
     }
@@ -84,37 +76,28 @@ public class OrderService {
     public Order updateOrder(Long id, OrderDTO orderDTO) {
         Order existingOrder = orderRepo.findById(id).orElse(null);
 
-        if(existingOrder != null) {
-
-            if(orderDTO.getCustomerId() != null) {
-                Customer customer = customerRepo.findById(orderDTO.getCustomerId()).orElse(null);
-                existingOrder.setCustomer(customer);
-            } else {
-                return null;
-            }
-
-            if(orderDTO.getAddressId() != null) {
-                Address address = addressRepo.findById(orderDTO.getAddressId()).orElse(null);
-                existingOrder.setAddress(address);
-            } else {
-                return null;
-            }
-
-            List<Machine> machines = machineRepo.findAllById(orderDTO.getMachineId());
-
-            if (!orderDTO.getMachineId().isEmpty()) {
-                if (machines.size() != orderDTO.getMachineId().size()) {
-                    return null;
-                }
-                existingOrder.setMachines(machines);
-            } else {
-                existingOrder.setMachines(Collections.emptyList());
-            }
-
-            return orderRepo.save(existingOrder);
-
-        } else {
+        if (existingOrder == null || orderDTO.getCustomerId() == null ||
+                orderDTO.getAddressId() == null || orderDTO.getMachineId() == null) {
             return null;
         }
+
+        existingOrder.setCustomer(customerRepo.findById(orderDTO.getCustomerId()).orElse(null));
+        existingOrder.setAddress(addressRepo.findById(orderDTO.getAddressId()).orElse(null));
+
+        List<Long> machineIds = orderDTO.getMachineId();
+
+        if (machineIds.isEmpty()) {
+            existingOrder.setMachines(Collections.emptyList());
+            return orderRepo.save(existingOrder);
+        }
+
+        List<Machine> machines = machineRepo.findAllById(machineIds);
+
+        if (machines.size() != machineIds.size()) {
+            return null;
+        }
+
+        existingOrder.setMachines(machines);
+        return orderRepo.save(existingOrder);
     }
 }

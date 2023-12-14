@@ -26,16 +26,24 @@ public class CustomerServiceIntegrationTest {
     AddressRepo addressRepo;
 
     @Autowired
+    MachineRepo machineRepo;
+
+    @Autowired
+    OrderRepo orderRepo;
+
+    @Autowired
     CustomerRepo customerRepo;
 
     @BeforeEach // Ensure clean DB.
     void setUp() {
+        orderRepo.deleteAll();
         customerRepo.deleteAll();
         addressRepo.deleteAll();
+        machineRepo.deleteAll();
     }
 
     @Test // Comprehensive testing - The full cycle of creating a customer and then validate information.
-    void shouldCreateAndFetchCustomers() {
+    void shouldCreateAndFetchCustomer() {
         CustomerDTO customer = new CustomerDTO();
         Address addressOne = addressRepo.save(new Address("Hans Petters Gate 13", "Oslo", "1342"));
         Address addressTwo = addressRepo.save(new Address("Peters vei 131", "Oslo", "1324"));

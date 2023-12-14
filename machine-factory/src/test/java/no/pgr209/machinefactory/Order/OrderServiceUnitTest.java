@@ -8,13 +8,12 @@ import no.pgr209.machinefactory.repo.AddressRepo;
 import no.pgr209.machinefactory.repo.CustomerRepo;
 import no.pgr209.machinefactory.repo.MachineRepo;
 import no.pgr209.machinefactory.repo.OrderRepo;
-import no.pgr209.machinefactory.service.DataFeedService;
 import no.pgr209.machinefactory.service.OrderService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,25 +24,23 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@ActiveProfiles("dev")
 public class OrderServiceUnitTest {
 
     @Autowired
-    DataFeedService dataFeedService;
+    OrderService orderService;
 
-    @Mock
+    @MockBean
     private OrderRepo orderRepo;
 
-    @Mock
+    @MockBean
     private CustomerRepo customerRepo;
 
-    @Mock
+    @MockBean
     private AddressRepo addressRepo;
 
-    @Mock
+    @MockBean
     private MachineRepo machineRepo;
-
-    @InjectMocks
-    private OrderService orderService;
 
     @Test // Mock and test fetching all orders
     void shouldReturnAllOrders() {

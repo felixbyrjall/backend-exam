@@ -81,7 +81,7 @@ public class AddressController {
     public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody AddressDTO addressDTO) {
         Address updatedAddress = addressService.updateAddress(id, addressDTO);
 
-        if(updatedAddress != null && updatedAddress.getAddressCity() != null && updatedAddress.getAddressStreet() != null && updatedAddress.getAddressZip() != null) {
+        if(updatedAddress != null) {
             return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

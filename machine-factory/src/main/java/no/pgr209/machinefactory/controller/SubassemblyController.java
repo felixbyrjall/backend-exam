@@ -59,7 +59,7 @@ public class SubassemblyController {
     public ResponseEntity<Subassembly> createSubassembly(@RequestBody SubassemblyDTO subassemblyDTO) {
         Subassembly createdSubassembly = subassemblyService.createSubassembly(subassemblyDTO);
 
-        if(createdSubassembly != null && !createdSubassembly.getParts().isEmpty()) {
+        if(createdSubassembly != null) {
             return new ResponseEntity<>(createdSubassembly, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -81,7 +81,7 @@ public class SubassemblyController {
     public ResponseEntity<Subassembly> updateSubassembly(@PathVariable Long id, @RequestBody SubassemblyDTO subassemblyDTO) {
         Subassembly updatedSubassembly = subassemblyService.updateSubassembly(id, subassemblyDTO);
 
-        if(updatedSubassembly != null && updatedSubassembly.getSubassemblyName() != null && updatedSubassembly.getParts() != null) {
+        if(updatedSubassembly != null) {
             return new ResponseEntity<>(updatedSubassembly, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
