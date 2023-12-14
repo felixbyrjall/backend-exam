@@ -142,7 +142,7 @@ public class OrderIntegrationTest {
             "machineId": [%d],
             "orderDate": "2023-01-01T00:00:00"
         }
-        """, 12L, 4L, 16L);
+        """, 77L, 91L, 86L);
 
         mockMvc.perform(post("/api/order")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -177,7 +177,7 @@ public class OrderIntegrationTest {
             "machineId": [%d],
             "orderDate": "2023-01-01T00:00:00"
         }
-        """, 15L, 16L, 5L);
+        """, 91L, 63L, 87L);
 
         mockMvc.perform(put("/api/order/1")
                         .contentType(MediaType.APPLICATION_JSON)
