@@ -36,7 +36,7 @@ public class OrderRepoUnitTest {
     private MachineRepo machineRepo;
 
     @Test // Ensure order is created
-    public void save_shouldReturnSavedOrder() {
+    public void save_shouldReturnOrder() {
         Order order = orderRepo.save(new Order());
 
         assertThat(order).isNotNull();
@@ -44,7 +44,7 @@ public class OrderRepoUnitTest {
     }
 
     @Test // Test many-to-one relationship with Customer
-    public void save_shouldReturnSavedOrderWithCustomer() {
+    public void save_shouldReturnOrderWithCustomer() {
         Customer customer = customerRepo.save(new Customer("Harald Skog", "harald@skog.no"));
 
         Order order = orderRepo.save(new Order());
@@ -55,7 +55,7 @@ public class OrderRepoUnitTest {
     }
 
     @Test // Test many-to-one relationship with Address
-    public void save_shouldReturnSavedOrderWithAddress() {
+    public void save_shouldReturnOrderWithAddress() {
         Address address = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "0153"));
 
         Order order = orderRepo.save(new Order());
@@ -66,7 +66,7 @@ public class OrderRepoUnitTest {
     }
 
     @Test // Test many-to-many relationship with Machine
-    public void save_shouldReturnSavedOrderWithMachines() {
+    public void save_shouldReturnOrderWithMachines() {
         machineRepo.save(new Machine("3D Printer", "Electronics"));
         machineRepo.save(new Machine("Robot Scanner", "Electronics"));
         List<Machine> allMachines = machineRepo.findAll();

@@ -33,15 +33,14 @@ public class AddressRepoUnitTest {
 
     @Test
     public void save_shouldReturnAddress() {
-        Address address = new Address();
-        Address savedAddress = addressRepo.save(address);
+        Address address = addressRepo.save(new Address());
 
-        assertThat(savedAddress).isNotNull();
-        assertThat(savedAddress.getAddressId()).isNotNull();
+        assertThat(address).isNotNull();
+        assertThat(address.getAddressId()).isNotNull();
     }
 
     @Test // Test many-to-many relationship with customer
-    public void save_shouldReturnSavedAddressWithCustomer() {
+    public void save_shouldReturnAddressWithCustomer() {
         Customer customerOne = customerRepo.save(new Customer("James Brown", "james@brown.no"));
         Customer customerTwo = customerRepo.save(new Customer("Tom Hardy", "tom@hardy.no"));
         List<Customer> allCustomers = Arrays.asList(customerOne, customerTwo);
@@ -55,7 +54,7 @@ public class AddressRepoUnitTest {
     }
 
     @Test // Test one-to-many relationship with order
-    public void save_shouldReturnSavedAddressWithOrders() {
+    public void save_shouldReturnAddressWithOrders() {
         Order orderOne = orderRepo.save(new Order());
         Order orderTwo = orderRepo.save(new Order());
         List<Order> allOrders = Arrays.asList(orderOne, orderTwo);

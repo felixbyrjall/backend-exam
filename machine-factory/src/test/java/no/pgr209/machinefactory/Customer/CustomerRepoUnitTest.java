@@ -39,7 +39,7 @@ public class CustomerRepoUnitTest {
     }
 
     @Test // Test many-to-many relationship with Address
-    public void save_shouldReturnSavedCustomerWithAddress() {
+    public void save_shouldReturnCustomerWithAddresses() {
         addressRepo.save(new Address("Kongens Gate 15", "Oslo", "0153"));
         addressRepo.save(new Address("Dronningens Gate 21", "Oslo", "0154"));
         List<Address> allAddresses = addressRepo.findAll();
@@ -52,7 +52,7 @@ public class CustomerRepoUnitTest {
     }
 
     @Test // Test one-to-many relationship with Order
-    public void save_shouldReturnSavedCustomerWithOrders() {
+    public void save_shouldReturnCustomerWithOrders() {
         orderRepo.save(new Order());
         orderRepo.save(new Order());
         List<Order> allOrders = orderRepo.findAll();
