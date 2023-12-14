@@ -70,9 +70,9 @@ public class OrderServiceUnitTest {
         orderDTO.setOrderDate(LocalDateTime.now());
 
         Customer mockCustomer = new Customer("Ola Nordmann", "ola@nordmann.no");
-        Address mockAddress = new Address("Storgata 33", "Oslo", "2204");
-        Machine firstMachine = new Machine("3D Printer", "Electronics");
-        Machine secondMachine = new Machine("Speaker", "Electronics");
+        Address mockAddress = new Address("Storgata 33", "Oslo", "0154");
+        Machine firstMachine = new Machine("Surface Mount Technology Machine", "Electronics");
+        Machine secondMachine = new Machine("Pick and Place Machine", "Assembly");
 
         when(customerRepo.existsById(1L)).thenReturn(true);
         when(customerRepo.findById(1L)).thenReturn(Optional.of(mockCustomer));

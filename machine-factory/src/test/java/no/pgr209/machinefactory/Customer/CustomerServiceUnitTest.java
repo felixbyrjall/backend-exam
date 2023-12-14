@@ -56,14 +56,14 @@ public class CustomerServiceUnitTest {
     @Test // Comprehensive mock & unit-testing, creating a customer.
     void shouldCreateCustomer() {
         CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setCustomerName("Tom Hardy");
-        customerDTO.setCustomerEmail("tom@hardy.com");
+        customerDTO.setCustomerName("Lars Olsen");
+        customerDTO.setCustomerEmail("lars@olsen.no");
         List<Long> addressIds = List.of(1L, 2L);
         customerDTO.setAddressId(addressIds);
 
-        Customer mockCustomer = new Customer("Tom Hardy", "tom@hardy.com");
-        Address firstAddress = new Address("Asker Gate 4", "Asker", "0152");
-        Address secondAddress = new Address("Georg Gate 12", "Oslo", "1350");
+        Customer mockCustomer = new Customer("Lars Olsen", "lars@olsen.no");
+        Address firstAddress = new Address("Bakkegata 7", "Bergen", "5015");
+        Address secondAddress = new Address("Fjellveien 22", "Stavanger", "4021");
 
         when(customerRepo.existsById(1L)).thenReturn(true);
         when(customerRepo.findById(1L)).thenReturn(Optional.of(mockCustomer));
@@ -71,8 +71,8 @@ public class CustomerServiceUnitTest {
         when(addressRepo.findAllById(addressIds)).thenReturn(List.of(firstAddress, secondAddress));
 
         Customer createdCustomer = new Customer();
-        createdCustomer.setCustomerName("Tom Hardy");
-        createdCustomer.setCustomerEmail("tom@hardy.com");
+        createdCustomer.setCustomerName("Lars Olsen");
+        createdCustomer.setCustomerEmail("lars@olsen.no");
         createdCustomer.setAddresses(List.of(firstAddress, secondAddress));
         when(customerRepo.save(any())).thenReturn(createdCustomer);
 

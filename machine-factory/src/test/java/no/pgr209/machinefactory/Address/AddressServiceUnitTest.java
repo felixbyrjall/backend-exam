@@ -55,15 +55,15 @@ public class AddressServiceUnitTest {
     @Test // Comprehensive mock & unit-testing, creating an address.
     void shouldCreateAddress() {
         AddressDTO addressDTO = new AddressDTO();
-        addressDTO.setAddressStreet("Kongens Gate 14");
-        addressDTO.setAddressCity("Oslo");
-        addressDTO.setAddressZip("0154");
+        addressDTO.setAddressStreet("Fjellveien 22");
+        addressDTO.setAddressCity("Stavanger");
+        addressDTO.setAddressZip("4021");
         List<Long> customerIds = List.of(1L, 2L);
         addressDTO.setCustomerId(customerIds);
 
-        Address mockAddress = new Address("Kongens Gate 14", "Oslo", "0154");
-        Customer customerOne = new Customer("James Brown", "james@brown.no");
-        Customer customerTwo = new Customer("Tom Hardy", "tom@hardy.no");
+        Address mockAddress = new Address("Fjellveien 22", "Stavanger", "4021");
+        Customer customerOne = new Customer("Ola Nordmann", "ola@nordmann.no");
+        Customer customerTwo = new Customer("Ingrid Solberg", "ingrid@solberg.no");
 
         when(addressRepo.existsById(1L)).thenReturn(true);
         when(addressRepo.findById(1L)).thenReturn(Optional.of(mockAddress));
@@ -71,9 +71,9 @@ public class AddressServiceUnitTest {
         when(customerRepo.findAllById(customerIds)).thenReturn(List.of(customerOne, customerTwo));
 
         Address createdAddress = new Address();
-        createdAddress.setAddressStreet("Kongens Gate 14");
-        createdAddress.setAddressCity("Oslo");
-        createdAddress.setAddressZip("0154");
+        createdAddress.setAddressStreet("Fjellveien 22");
+        createdAddress.setAddressCity("Stavanger");
+        createdAddress.setAddressZip("4021");
         createdAddress.setCustomers(List.of(customerOne, customerTwo));
         when(addressRepo.save(any())).thenReturn(createdAddress);
 
