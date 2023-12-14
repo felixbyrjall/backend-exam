@@ -38,10 +38,10 @@ public class AddressRepoUnitTest {
         assertThat(address.getAddressId()).isNotNull();
     }
 
-    @Test // Test many-to-many relationship with customer
+    @Test // Test many-to-many relationship with Customer
     public void save_shouldReturnAddressWithCustomer() {
-        customerRepo.save(new Customer("James Brown", "james@brown.no"));
-        customerRepo.save(new Customer("Tom Hardy", "tom@hardy.no"));
+        customerRepo.save(new Customer("Halvard Lund", "halvard@lund.no"));
+        customerRepo.save(new Customer("Tom Petter", "tom@petter.no"));
         List<Customer> allCustomers = customerRepo.findAll();
 
         Address address = addressRepo.save(new Address());
@@ -64,7 +64,7 @@ public class AddressRepoUnitTest {
         findAddress.ifPresent(checkAddress -> assertEquals(allOrders, findAddress.get().getOrders()));
     }
 
-    @Test // Test fetching all addresses.
+    @Test // Test findAll and ensure count of addresses
     public void findAll_shouldReturnNonEmptyListOfAddresses() {
         addressRepo.save(new Address());
         addressRepo.save(new Address());
@@ -74,7 +74,7 @@ public class AddressRepoUnitTest {
         assertThat(addresses.size()).isEqualTo(2);
     }
 
-    @Test // Test fetching address by id
+    @Test // Test finding an address by id
     public void findById_shouldReturnAddress() {
         Address address = addressRepo.save(new Address());
 
@@ -82,7 +82,7 @@ public class AddressRepoUnitTest {
         assertThat(foundAddress).isPresent();
     }
 
-    @Test // Test fetching a non-existent address
+    @Test // Test finding a non-existent address by id
     public void findById_shouldNotReturnNonExistentAddress() {
         Long nonExistentAddress = 3341L;
 
@@ -90,7 +90,7 @@ public class AddressRepoUnitTest {
         assertThat(findAddress).isNotPresent();
     }
 
-    @Test // Create address, update the street and check if street is updated
+    @Test // Create and then update an address
     public void update_shouldUpdateExistingAddress() {
 
         // Create address with information

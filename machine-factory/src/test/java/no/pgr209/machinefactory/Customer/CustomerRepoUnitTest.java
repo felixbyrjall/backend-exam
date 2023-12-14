@@ -74,7 +74,7 @@ public class CustomerRepoUnitTest {
         assertThat(customers.size()).isEqualTo(2);
     }
 
-    @Test // Test fetching customer by id
+    @Test // Test finding a customer by id
     public void findById_shouldReturnCustomer() {
         Customer customer = customerRepo.save(new Customer());
 
