@@ -69,13 +69,13 @@ public class OrderRepoUnitTest {
     public void save_shouldReturnOrderWithMachines() {
         machineRepo.save(new Machine("3D Printer", "Electronics"));
         machineRepo.save(new Machine("Robot Scanner", "Electronics"));
-        List<Machine> allMachines = machineRepo.findAll();
+        List<Machine> machines = machineRepo.findAll();
 
         Order order = orderRepo.save(new Order());
-        order.setMachines(allMachines);
+        order.setMachines(machines);
 
         Optional<Order> findOrder = orderRepo.findById(order.getOrderId());
-        findOrder.ifPresent(checkOrder -> assertEquals(allMachines, findOrder.get().getMachines()));
+        findOrder.ifPresent(checkOrder -> assertEquals(machines, findOrder.get().getMachines()));
     }
 
     @Test // Test findAll and ensure count of orders

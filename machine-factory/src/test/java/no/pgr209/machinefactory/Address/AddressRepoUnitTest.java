@@ -42,13 +42,13 @@ public class AddressRepoUnitTest {
     public void save_shouldReturnAddressWithCustomer() {
         customerRepo.save(new Customer("Halvard Lund", "halvard@lund.no"));
         customerRepo.save(new Customer("Tom Petter", "tom@petter.no"));
-        List<Customer> allCustomers = customerRepo.findAll();
+        List<Customer> customers = customerRepo.findAll();
 
         Address address = addressRepo.save(new Address());
-        address.setCustomers(allCustomers);
+        address.setCustomers(customers);
 
         Optional<Address> findAddress = addressRepo.findById(address.getAddressId());
-        findAddress.ifPresent(checkAddress -> assertEquals(allCustomers, findAddress.get().getCustomers()));
+        findAddress.ifPresent(checkAddress -> assertEquals(customers, findAddress.get().getCustomers()));
     }
 
     @Test // Test one-to-many relationship with Order

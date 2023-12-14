@@ -42,26 +42,26 @@ public class CustomerRepoUnitTest {
     public void save_shouldReturnCustomerWithAddresses() {
         addressRepo.save(new Address("Kongens Gate 15", "Oslo", "0153"));
         addressRepo.save(new Address("Dronningens Gate 21", "Oslo", "0154"));
-        List<Address> allAddresses = addressRepo.findAll();
+        List<Address> addresses = addressRepo.findAll();
 
         Customer customer = customerRepo.save(new Customer());
-        customer.setAddresses(allAddresses);
+        customer.setAddresses(addresses);
 
         Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());
-        findCustomer.ifPresent(checkCustomer -> assertEquals(allAddresses, findCustomer.get().getAddresses()));
+        findCustomer.ifPresent(checkCustomer -> assertEquals(addresses, findCustomer.get().getAddresses()));
     }
 
     @Test // Test one-to-many relationship with Order
     public void save_shouldReturnCustomerWithOrders() {
         orderRepo.save(new Order());
         orderRepo.save(new Order());
-        List<Order> allOrders = orderRepo.findAll();
+        List<Order> orders = orderRepo.findAll();
 
         Customer customer = customerRepo.save(new Customer());
-        customer.setOrders(allOrders);
+        customer.setOrders(orders);
 
         Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());
-        findCustomer.ifPresent(checkCustomer -> assertEquals(allOrders, findCustomer.get().getOrders()));
+        findCustomer.ifPresent(checkCustomer -> assertEquals(orders, findCustomer.get().getOrders()));
     }
 
     @Test // Test findAll and ensure count of customers

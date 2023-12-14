@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,43 +26,39 @@ public class SubassemblyRepoUnitTest {
     @Autowired
     PartRepo partRepo;
 
-    @Test
+    @Test // Ensure a subassembly is created
     public void save_shouldReturnSubassembly() {
-        Subassembly subassembly = new Subassembly();
-        Subassembly savedSubassembly = subassemblyRepo.save(subassembly);
+        Subassembly subassembly = subassemblyRepo.save(new Subassembly());
 
-        assertThat(savedSubassembly).isNotNull();
-        assertThat(savedSubassembly.getSubassemblyId()).isNotNull();
+        assertThat(subassembly).isNotNull();
+        assertThat(subassembly.getSubassemblyId()).isNotNull();
     }
 
-    @Test // Test many-to-many relationship with Subassembly
+    @Test // Test many-to-many relationship with Part
     public void save_shouldReturnSavedSubassemblyWithParts() {
-        Part partOne = partRepo.save(new Part("Printer nozzle"));
-        Part partTwo = partRepo.save(new Part("Printer tag"));
-        List<Part> allParts = Arrays.asList(partOne, partTwo);
+        partRepo.save(new Part("LED indicator"));
+        partRepo.save(new Part("Cables and connectors"));
+        List<Part> Parts = partRepo.findAll();
 
-        Subassembly createSubassembly = new Subassembly();
-        createSubassembly.setParts(allParts);
-        Subassembly savedSubassembly = subassemblyRepo.save(createSubassembly);
+        Subassembly subassembly = subassemblyRepo.save(new Subassembly());
+        subassembly.setParts(Parts);
 
-        Optional<Subassembly> findSubassembly = subassemblyRepo.findById(savedSubassembly.getSubassemblyId());
-        findSubassembly.ifPresent(subassembly -> assertEquals(allParts, findSubassembly.get().getParts()));
+        Optional<Subassembly> findSubassembly = subassemblyRepo.findById(subassembly.getSubassemblyId());
+        findSubassembly.ifPresent(checkSubassembly -> assertEquals(Parts, findSubassembly.get().getParts()));
     }
 
-    @Test
+    @Test // Test findAll and ensure count of subassemblies
     public void findAll_shouldReturnNonEmptyListOfMachines() {
-        Subassembly subassemblyOne = new Subassembly();
-        Subassembly subassemblyTwo = new Subassembly();
-        subassemblyRepo.save(subassemblyOne);
-        subassemblyRepo.save(subassemblyTwo);
+        subassemblyRepo.save(new Subassembly());
+        subassemblyRepo.save(new Subassembly());
 
         List<Subassembly> subassemblies = subassemblyRepo.findAll();
 
         assertThat(subassemblies).isNotNull();
-        assertThat(subassemblies.size()).isGreaterThan(0);
+        assertThat(subassemblies.size()).isEqualTo(2);
     }
 
-    @Test // Test fetching subassembly by id
+    @Test // Test finding a subassembly by id
     public void findById_shouldReturnSubassembly() {
         Subassembly subassembly = subassemblyRepo.save(new Subassembly());
 
@@ -72,7 +67,7 @@ public class SubassemblyRepoUnitTest {
         assertThat(foundSubassembly).isPresent();
     }
 
-    @Test // Test fetching a non-existent subassembly
+    @Test // Test finding a non-existent machine
     public void findById_shouldNotReturnNonExistentSubassembly() {
         Long nonExistentSubassembly = 23214L;
 
@@ -81,24 +76,24 @@ public class SubassemblyRepoUnitTest {
         assertThat(findSubassembly).isNotPresent();
     }
 
-    @Test // Create Subassembly, update the Subassembly name and check if Subassembly name is updated.
-    public void update_shouldUpdateExistingMachine() {
+    @Test // Create and then update a subassembly
+    public void update_shouldUpdateExistingSubassembly() {
 
         // Create Subassembly with information
-        Subassembly subassembly = subassemblyRepo.save(new Subassembly("Printer head"));
+        Subassembly subassembly = subassemblyRepo.save(new Subassembly("Robotic Arm System"));
 
         Optional<Subassembly> createdSubassembly = subassemblyRepo.findById(subassembly.getSubassemblyId());
-        createdSubassembly.ifPresent(subassemblyMade -> assertEquals("Printer head", createdSubassembly.get().getSubassemblyName()));
+        createdSubassembly.ifPresent(subassemblyMade -> assertEquals("Robotic Arm System", createdSubassembly.get().getSubassemblyName()));
 
-        // Update Subassembly name
-        subassembly.setSubassemblyName("Printer tags");
-        subassemblyRepo.save(subassembly);
+        // Update subassembly name
+        subassembly.setSubassemblyName("Robotic Leg System");
 
+        // Check the name
         Optional<Subassembly> subassemblyUpdated = subassemblyRepo.findById(subassembly.getSubassemblyId());
-        subassemblyUpdated.ifPresent(subassemblyChanged -> assertEquals("Printer tags", subassemblyUpdated.get().getSubassemblyName()));
+        subassemblyUpdated.ifPresent(subassemblyChanged -> assertEquals("Robotic Leg System", subassemblyUpdated.get().getSubassemblyName()));
     }
 
-    @Test // Create a Subassembly, check if the Subassembly exist, delete the Subassembly and then check if Subassembly still exist.
+    @Test // Create a Subassembly, check if the subassembly exist, delete the subassembly and then check if subassembly still exist.
     public void deleteById_shouldRemoveSubassembly() {
         Subassembly subassembly = subassemblyRepo.save(new Subassembly());
         Optional<Subassembly> findSubassembly = subassemblyRepo.findById(subassembly.getSubassemblyId());
@@ -106,6 +101,7 @@ public class SubassemblyRepoUnitTest {
         assertThat(findSubassembly).isPresent();
 
         subassemblyRepo.deleteById(subassembly.getSubassemblyId());
+
         Optional<Subassembly> findDeletedSubassembly = subassemblyRepo.findById(subassembly.getSubassemblyId());
         assertThat(findDeletedSubassembly).isNotPresent();
     }

@@ -36,13 +36,13 @@ public class MachineRepoUnitTest {
     public void save_shouldReturnMachineWithSubassemblies() {
         subassemblyRepo.save(new Subassembly("Switches"));
         subassemblyRepo.save(new Subassembly("Fasteners"));
-        List<Subassembly> allSubassemblies = subassemblyRepo.findAll();
+        List<Subassembly> subassemblies = subassemblyRepo.findAll();
 
         Machine machine = machineRepo.save(new Machine());
-        machine.setSubassemblies(allSubassemblies);
+        machine.setSubassemblies(subassemblies);
 
         Optional<Machine> findMachine = machineRepo.findById(machine.getMachineId());
-        findMachine.ifPresent(checkMachine -> assertEquals(allSubassemblies, findMachine.get().getSubassemblies()));
+        findMachine.ifPresent(checkMachine -> assertEquals(subassemblies, findMachine.get().getSubassemblies()));
     }
 
     @Test // Test findAll and ensure count of machines
