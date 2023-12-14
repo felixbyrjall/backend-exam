@@ -335,18 +335,74 @@ public class DataFeedService {
         subassemblyRepo.save(subassemblyTen);
 
         // Initialize and save Orders
-        Order orderOne = new Order(LocalDateTime.now());
+        Order orderOne = new Order(LocalDateTime.parse("2023-01-19T08:45:21.123456"));
         orderOne.setAddress(addressOne);
         orderOne.setCustomer(customerOne);
-        orderOne.getMachines().add(machineOne);
+        orderOne.getMachines().addAll(machinesListOne);
 
-        Order orderTwo = new Order(LocalDateTime.now());
-        orderTwo.setAddress(addressTwo);
+        Order orderTwo = new Order(LocalDateTime.parse("2023-03-07T14:22:59.987654"));
+        orderTwo.setAddress(addressEight);
         orderTwo.setCustomer(customerTwo);
-        orderTwo.setMachines(machinesListOne);
+        orderTwo.getMachines().addAll(machinesListTwo);
+
+        // Order Three
+        Order orderThree = new Order(LocalDateTime.parse("2023-05-15T18:37:44.567890"));
+        orderThree.setAddress(addressThree);
+        orderThree.setCustomer(customerThree);
+        orderThree.getMachines().addAll(machinesListThree);
+
+// Order Four
+        Order orderFour = new Order(LocalDateTime.parse("2023-07-02T22:11:33.456789"));
+        orderFour.setAddress(addressFour);
+        orderFour.setCustomer(customerFour);
+        orderFour.getMachines().addAll(machinesListFour);
+
+// Order Five
+        Order orderFive = new Order(LocalDateTime.parse("2023-09-11T11:55:27.345678"));
+        orderFive.setAddress(addressFive);
+        orderFive.setCustomer(customerFive);
+        orderFive.getMachines().addAll(machinesListFive);
+
+// Order Six
+        Order orderSix = new Order(LocalDateTime.parse("2023-11-23T05:30:15.678901"));
+        orderSix.setAddress(addressNine);
+        orderSix.setCustomer(customerSix);
+        orderSix.getMachines().addAll(machinesListSix);
+
+// Order Seven
+        Order orderSeven = new Order(LocalDateTime.parse("2023-12-31T19:48:02.234567"));
+        orderSeven.setAddress(addressSeven);
+        orderSeven.setCustomer(customerSeven);
+        orderSeven.getMachines().addAll(machinesListSeven);
+
+// Order Eight
+        Order orderEight = new Order(LocalDateTime.parse("2023-06-04T03:14:58.876543"));
+        orderEight.setAddress(addressEight);
+        orderEight.setCustomer(customerEight);
+        orderEight.getMachines().addAll(machinesListEight);
+
+// Order Nine
+        Order orderNine = new Order(LocalDateTime.parse("2023-08-28T21:09:37.345678"));
+        orderNine.setAddress(addressTen);
+        orderNine.setCustomer(customerNine);
+        orderNine.getMachines().addAll(machinesListNine);
+
+// Order Ten
+        Order orderTen = new Order(LocalDateTime.parse("2023-02-10T09:26:47.901234"));
+        orderTen.setAddress(addressTen);
+        orderTen.setCustomer(customerTen);
+        orderTen.getMachines().addAll(machinesListTen);
 
 
         orderRepo.save(orderOne);
         orderRepo.save(orderTwo);
+        orderRepo.save(orderThree);
+        orderRepo.save(orderFour);
+        orderRepo.save(orderFive);
+        orderRepo.save(orderSix);
+        orderRepo.save(orderSeven);
+        orderRepo.save(orderEight);
+        orderRepo.save(orderNine);
+        orderRepo.save(orderTen);
     }
 }
