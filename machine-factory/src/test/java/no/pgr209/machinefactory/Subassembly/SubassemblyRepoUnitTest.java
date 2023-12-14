@@ -48,7 +48,7 @@ public class SubassemblyRepoUnitTest {
     }
 
     @Test // Test findAll and ensure count of subassemblies
-    public void findAll_shouldReturnNonEmptyListOfMachines() {
+    public void findAll_shouldReturnNonEmptyListOfSubassemblies() {
         subassemblyRepo.save(new Subassembly());
         subassemblyRepo.save(new Subassembly());
 
