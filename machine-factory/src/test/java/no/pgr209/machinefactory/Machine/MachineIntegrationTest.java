@@ -1,6 +1,5 @@
 package no.pgr209.machinefactory.Machine;
 
-import no.pgr209.machinefactory.service.DataFeedService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 public class MachineIntegrationTest {
-
-    @Autowired
-    DataFeedService dataFeedService;
 
     @Autowired
     MockMvc mockMvc;

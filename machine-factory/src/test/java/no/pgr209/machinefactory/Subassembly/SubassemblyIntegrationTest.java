@@ -1,6 +1,5 @@
 package no.pgr209.machinefactory.Subassembly;
 
-import no.pgr209.machinefactory.service.DataFeedService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
