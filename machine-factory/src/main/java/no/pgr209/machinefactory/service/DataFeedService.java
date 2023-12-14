@@ -276,6 +276,14 @@ public class DataFeedService {
         partOne = partRepo.save(partOne);
         partTwo = partRepo.save(partTwo);
         partThree = partRepo.save(partThree);
+        partFour = partRepo.save(partFour);
+        partFive = partRepo.save(partFive);
+        partSix = partRepo.save(partSix);
+        partSeven = partRepo.save(partSeven);
+        partEight = partRepo.save(partEight);
+        partNine = partRepo.save(partNine);
+        partTen = partRepo.save(partTen);
+
         subassemblyOne.getParts().add(partOne);
         subassemblyOne.getParts().add(partTwo);
         subassemblyTwo.getParts().add(partOne);
