@@ -98,34 +98,34 @@ public class OrderRepoUnitTest {
 
     @Test // Test finding a non-existing order.
     public void findById_shouldNotReturnNonExistentOrder() {
-        Long nonExistentId = 65561L;
+        Long nonExistentOrder = 65561L;
 
-        Optional<Order> findOrder = orderRepo.findById(nonExistentId);
+        Optional<Order> findOrder = orderRepo.findById(nonExistentOrder);
         assertThat(findOrder).isNotPresent();
     }
 
     @Test // Create and then update an order
     public void update_shouldUpdateExistingOrder() {
 
-        // Create the order with address information.
+        // Create the order with address information
         Order order = orderRepo.save(new Order());
         Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", "2013"));
         order.setAddress(address);
 
-        // Find the created order and check the information.
+        // Find the created order and check the address
         Optional<Order> findOrder = orderRepo.findById(order.getOrderId());
         findOrder.ifPresent(checkOrder -> assertEquals("Karihaugsveien 78", findOrder.get().getAddress().getAddressStreet()));
 
-        // Update order with a new address:
+        // Update order with a new address
         Address newAddress = addressRepo.save(new Address("Kongens Gate 101", "Oslo", "5126"));
         order.setAddress(newAddress);
 
-        // Check order address after update.
+        // Check order address after update
         Optional<Order> findOrderAfterUpdate = orderRepo.findById(order.getOrderId());
         findOrderAfterUpdate.ifPresent(checkOrder -> assertEquals("Kongens Gate 101", findOrderAfterUpdate.get().getAddress().getAddressStreet()));
     }
 
-    @Test // Create an order, check if order exist, delete the order and then check if order still exist.
+    @Test // Create an order, check if order exist, delete the order and then check if order still exist
     public void deleteById_shouldRemoveOrder() {
         Order order = orderRepo.save(new Order());
         Optional<Order> findOrder = orderRepo.findById(order.getOrderId());
@@ -133,6 +133,7 @@ public class OrderRepoUnitTest {
         assertThat(findOrder).isPresent();
 
         orderRepo.deleteById(order.getOrderId());
+
         Optional<Order> findDeletedOrder = orderRepo.findById(order.getOrderId());
         assertThat(findDeletedOrder).isNotPresent();
     }

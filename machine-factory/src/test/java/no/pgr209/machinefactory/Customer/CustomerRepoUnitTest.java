@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,11 +38,11 @@ public class CustomerRepoUnitTest {
         assertThat(customer.getCustomerId()).isNotNull();
     }
 
-    @Test // Test many-to-many relationship with address
+    @Test // Test many-to-many relationship with Address
     public void save_shouldReturnSavedCustomerWithAddress() {
-        Address addressOne = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "0153"));
-        Address addressTwo = addressRepo.save(new Address("Dronningens Gate 21", "Oslo", "0154"));
-        List<Address> allAddresses = Arrays.asList(addressOne, addressTwo);
+        addressRepo.save(new Address("Kongens Gate 15", "Oslo", "0153"));
+        addressRepo.save(new Address("Dronningens Gate 21", "Oslo", "0154"));
+        List<Address> allAddresses = addressRepo.findAll();
 
         Customer customer = customerRepo.save(new Customer());
         customer.setAddresses(allAddresses);
@@ -52,7 +51,7 @@ public class CustomerRepoUnitTest {
         findCustomer.ifPresent(checkCustomer -> assertEquals(allAddresses, findCustomer.get().getAddresses()));
     }
 
-    @Test // Test one-to-many relationship with order
+    @Test // Test one-to-many relationship with Order
     public void save_shouldReturnSavedCustomerWithOrders() {
         orderRepo.save(new Order());
         orderRepo.save(new Order());
@@ -91,27 +90,28 @@ public class CustomerRepoUnitTest {
         assertThat(findCustomer).isNotPresent();
     }
 
-    @Test // Create customer, update the name and check if name is updated.
+    @Test // Create and then update a customer
     public void update_shouldUpdateExistingCustomer() {
 
-        // Create Customer with information
-        Customer customer = customerRepo.save(new Customer("James Brown", "james@brown.no"));
+        // Create a customer with information
+        Customer customer = customerRepo.save(new Customer("Olav Hagen", "olav@hagen.no"));
 
         Optional<Customer> createdCustomer = customerRepo.findById(customer.getCustomerId());
-        createdCustomer.ifPresent(customerMade -> assertEquals("James Brown", createdCustomer.get().getCustomerName()));
+        createdCustomer.ifPresent(customerMade -> assertEquals("Olav Hagen", createdCustomer.get().getCustomerName()));
 
-        // Update name
-        customer.setCustomerName("Tom Hardy");
+        // Update the name of the customer
+        customer.setCustomerName("Tim Olsen");
 
+        // Check the name after update
         Optional<Customer> CustomerUpdated = customerRepo.findById(customer.getCustomerId());
-        CustomerUpdated.ifPresent(customerChanged -> assertEquals("Tom Hardy", CustomerUpdated.get().getCustomerName()));
+        CustomerUpdated.ifPresent(customerChanged -> assertEquals("Tim Olsen", CustomerUpdated.get().getCustomerName()));
     }
 
-    @Test // Create a customer, check if customer exist, delete the customer and then check if customer still exist.
+    @Test // Create a customer, check if customer exist, delete the customer and then check if customer still exist
     public void deleteById_shouldRemoveCustomer() {
         Customer customer = customerRepo.save(new Customer());
-
         Optional<Customer> findCustomer = customerRepo.findById(customer.getCustomerId());
+
         assertThat(findCustomer).isPresent();
 
         customerRepo.deleteById(customer.getCustomerId());
