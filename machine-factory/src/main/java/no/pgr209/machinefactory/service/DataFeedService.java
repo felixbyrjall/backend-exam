@@ -138,6 +138,47 @@ public class DataFeedService {
         List<Machine> machinesListOne = new ArrayList<>();
         machinesListOne.add(machineOne);
         machinesListOne.add(machineTwo);
+        machinesListOne.add(machineFour);
+
+        List<Machine> machinesListTwo = new ArrayList<>();
+        machinesListTwo.add(machineThree);
+
+        List<Machine> machinesListThree = new ArrayList<>();
+        machinesListThree.add(machineFive);
+        machinesListThree.add(machineSix);
+        machinesListThree.add(machineOne);
+        machinesListThree.add(machineTen);
+        machinesListThree.add(machineSeven);
+
+        List<Machine> machinesListFour = new ArrayList<>();
+        machinesListFour.add(machineSeven);
+        machinesListFour.add(machineFive);
+
+        List<Machine> machinesListFive = new ArrayList<>();
+        machinesListFive.add(machineNine);
+        machinesListFive.add(machineTen);
+        machinesListFive.add(machineEight);
+
+        List<Machine> machinesListSix = new ArrayList<>();
+        machinesListSix.add(machineOne);
+        machinesListSix.add(machineEight);
+        machinesListSix.add(machineOne);
+        machinesListSix.add(machineFive);
+
+        List<Machine> machinesListSeven = new ArrayList<>();
+        machinesListSeven.add(machineFive);
+        machinesListSeven.add(machineOne);
+        machinesListSeven.add(machineTwo);
+
+        List<Machine> machinesListEight = new ArrayList<>();
+        machinesListEight.add(machineTen);
+
+        List<Machine> machinesListNine = new ArrayList<>();
+        machinesListNine.add(machineEight);
+
+        List<Machine> machinesListTen = new ArrayList<>();
+        machinesListTen.add(machineThree);
+        machinesListTen.add(machineTen);
 
         // Initialize Subassembly
         Subassembly subassemblyOne = new Subassembly("Printer head");
