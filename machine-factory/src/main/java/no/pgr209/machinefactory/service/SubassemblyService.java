@@ -24,12 +24,10 @@ public class SubassemblyService {
         this.machineRepo = machineRepo;
     }
 
-    //Get ALL subassemblies
     public List<Subassembly> getAllSubassemblies() {
         return subassemblyRepo.findAll();
     }
 
-    //Get subassemblies by page
     public List<Subassembly> getSubassembliesByPage(int pageNr) {
         return subassemblyRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }

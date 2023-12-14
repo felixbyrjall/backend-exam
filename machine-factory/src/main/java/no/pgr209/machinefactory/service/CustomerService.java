@@ -23,12 +23,10 @@ public class CustomerService {
         this.addressRepo = addressRepo;
     }
 
-    //Get ALL customers
     public List<Customer> getAllCustomers() {
         return customerRepo.findAll();
     }
 
-    //Get customers by page
     public List<Customer> getCustomersByPage(int pageNr) {
         return customerRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
@@ -82,12 +80,11 @@ public class CustomerService {
             if (addresses.size() != addressIds.size()) {
                 return null;
             }
-
             existingCustomer.setAddresses(addresses);
+
         } else {
             existingCustomer.setAddresses(Collections.emptyList());
         }
-
         return customerRepo.save(existingCustomer);
     }
 }
