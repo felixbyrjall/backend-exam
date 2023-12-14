@@ -22,7 +22,7 @@ public class PartIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Test
+    @Test // Fetch all parts, ensure they are returned
     void shouldFetchParts() throws Exception {
         mockMvc.perform(get("/api/part"))
                 .andExpect(status().isOk())
@@ -30,14 +30,17 @@ public class PartIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].partId").value(2));
     }
 
-    @Test
+    @Test // Check that parts are returned from pagination, returning the correct amount (Max: 3 per page)
     void shouldFetchPartsOnPage() throws Exception {
         mockMvc.perform(get("/api/part/page/0"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].partId").value(1));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].partId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].partId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].partId").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3].partId").doesNotExist());
     }
 
-    @Test
+    @Test // Fetch a part by id and ensure correct values are returned from it
     void shouldFetchPartById() throws Exception {
         mockMvc.perform(get("/api/part/1"))
                 .andExpect(status().isOk())
@@ -45,7 +48,7 @@ public class PartIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.partName").value("Fasteners"));
     }
 
-    @Test
+    @Test // Test creating a part
     void shouldCreatePart() throws Exception {
         String partJson = """
         {
@@ -53,7 +56,6 @@ public class PartIntegrationTest {
         }
         """;
 
-        // Create the part
         MvcResult createResult = mockMvc.perform(post("/api/part")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(partJson))
@@ -71,15 +73,14 @@ public class PartIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.partName").value("Capacitor"));
     }
 
-    @Test
-    void shouldUpdatePartWithNewInfo() throws Exception {
+    @Test // Test updating a part
+    void shouldUpdatePart() throws Exception {
         String partJson = """
         {
             "partName": "Resistor"
         }
         """;
 
-        // update the part
         mockMvc.perform(put("/api/part/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(partJson))
@@ -91,13 +92,13 @@ public class PartIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.partName").value("Resistor"));
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when fetching a non-existent id
     void shouldNotFetchNonExistentPartById() throws Exception {
-        mockMvc.perform(get("/api/part/12345"))
+        mockMvc.perform(get("/api/part/16589"))
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when creating a part without required data
     void shouldNotCreatePartWithEmptyData() throws Exception {
         String partJson = """
         {
@@ -111,44 +112,44 @@ public class PartIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE request for parts.
+    @Test // Test deleting a part and confirm it is removed
     void shouldDeletePartById() throws Exception {
-        mockMvc.perform(get("/api/part/2")) // Check if part exist.
+        mockMvc.perform(get("/api/part/2")) // Check if part exist
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/part/2")) // Delete the part by id.
+        mockMvc.perform(delete("/api/part/2")) // Delete the part by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/part/2")) // Check if part is removed.
+        mockMvc.perform(get("/api/part/2")) // Check if part is deleted
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE requests and that associated subassemblies are updated.
+    @Test // Test deleting a machine and check if associated orders are also deleted
     void shouldDeletePartByIdAndMakePartsNullInSubassembly() throws Exception {
-        mockMvc.perform(get("/api/part/1")) // Check if part exist.
+        mockMvc.perform(get("/api/part/1")) // Check if part exist
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/subassembly/5")) // Check if machine exist and that the subassemblies in the order.
+        mockMvc.perform(get("/api/subassembly/5")) // Check if subassembly exist and that the part is in it
                 .andExpect(MockMvcResultMatchers.jsonPath("$.parts[0].partId").value(1L))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/part/1")) // Delete the part by id.
+        mockMvc.perform(delete("/api/part/1")) // Delete the part by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/part/1")) // Check if part is deleted.
+        mockMvc.perform(get("/api/part/1")) // Check if part is deleted
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(get("/api/subassembly/5")) // Check if parts is emptied in subassembly.
+        mockMvc.perform(get("/api/subassembly/5")) // Check if parts is emptied in subassembly
                 .andExpect(MockMvcResultMatchers.jsonPath("$.parts[0]").doesNotHaveJsonPath())
                 .andExpect(status().isOk());
     }
 
     @Test // Test deleting a part that doesn't exist
     void shouldNotDeletePartNotExist() throws Exception {
-        mockMvc.perform(get("/api/part/12345"))
+        mockMvc.perform(get("/api/part/25489"))
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(delete("/api/part/12345"))
+        mockMvc.perform(delete("/api/part/25489"))
                 .andExpect(status().isNotFound());
     }
 }
