@@ -134,7 +134,7 @@ public class DataFeedService {
         Machine machineTen = new Machine("Automated Testing Equipment", "Electronics");
         machineTen = machineRepo.save(machineTen);
 
-
+        // Creating list of machines, to add to orders further down
         List<Machine> machinesListOne = new ArrayList<>();
         machinesListOne.add(machineOne);
         machinesListOne.add(machineTwo);
