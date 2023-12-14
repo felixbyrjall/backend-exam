@@ -47,6 +47,27 @@ public class DataFeedService {
         customerTwo = customerRepo.save(customerTwo);
         addressTwo = addressRepo.save(addressTwo);
 
+        // Customer Three
+        Customer customerThree = new Customer("Lars Olsen", "lars@olsen.no");
+        Address addressThree = new Address("Bakkegata 7", "Bergen", "5015");
+        customerThree.getAddresses().add(addressThree);
+        customerThree = customerRepo.save(customerThree);
+        addressThree = addressRepo.save(addressThree);
+
+        // Customer Four
+        Customer customerFour = new Customer("Ingrid Solberg", "ingrid@solberg.no");
+        Address addressFour = new Address("Fjellveien 22", "Stavanger", "4021");
+        customerFour.getAddresses().add(addressFour);
+        customerFour = customerRepo.save(customerFour);
+        addressFour = addressRepo.save(addressFour);
+
+        // Customer Five
+        Customer customerFive = new Customer("Erik Pedersen", "erik@pedersen.no");
+        Address addressFive = new Address("Strandgaten 15", "Trondheim", "7011");
+        customerFive.getAddresses().add(addressFive);
+        customerFive = customerRepo.save(customerFive);
+        addressFive = addressRepo.save(addressFive);
+
         // Initialize Machines
         Machine machineOne = new Machine("3D printer", "Electronics");
         Machine machineTwo = new Machine("Laser printer", "Electronics");
