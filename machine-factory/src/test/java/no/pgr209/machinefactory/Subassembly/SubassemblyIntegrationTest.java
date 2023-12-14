@@ -46,7 +46,7 @@ public class SubassemblyIntegrationTest {
         mockMvc.perform(get("/api/subassembly/1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyId").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyName").value("Printer head"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyName").value("Motion Control System"));
     }
 
     @Test
