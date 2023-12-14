@@ -18,6 +18,6 @@ public class MachineFactoryApplication {
 	@Bean
 	@Profile("!dev") // Exclude CommandLineRunner from testing environments using active profile "dev"
 	CommandLineRunner commandLineRunner(DataFeedService dataFeedService) {
-		return args -> dataFeedService.initializeData(); // Initialize sample data for API requests.
+		return args -> dataFeedService.initializeData(); // Initialize sample data.
 	}
 }
