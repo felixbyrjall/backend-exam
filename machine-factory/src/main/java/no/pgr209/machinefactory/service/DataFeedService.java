@@ -105,13 +105,39 @@ public class DataFeedService {
 
         // Initialize Machines
         Machine machineOne = new Machine("3D printer", "Electronics");
-        Machine machineTwo = new Machine("Laser printer", "Electronics");
         machineOne = machineRepo.save(machineOne);
+
+        Machine machineTwo = new Machine("Laser printer", "Electronics");
         machineTwo = machineRepo.save(machineTwo);
 
-        List<Machine> machines = new ArrayList<>();
-        machines.add(machineOne);
-        machines.add(machineTwo);
+        Machine machineThree = new Machine("Circuit Board Assembler", "Assembly");
+        machineThree = machineRepo.save(machineThree);
+
+        Machine machineFour = new Machine("Soldering Robot", "Assembly");
+        machineFour = machineRepo.save(machineFour);
+
+        Machine machineFive = new Machine("Microcontroller Programmer", "Electronics");
+        machineFive = machineRepo.save(machineFive);
+
+        Machine machineSix = new Machine("Surface Mount Technology Machine", "Electronics");
+        machineSix = machineRepo.save(machineSix);
+
+        Machine machineSeven = new Machine("Pick and Place Machine", "Assembly");
+        machineSeven = machineRepo.save(machineSeven);
+
+        Machine machineEight = new Machine("PCB Etching Machine", "Electronics");
+        machineEight = machineRepo.save(machineEight);
+
+        Machine machineNine = new Machine("Wire Bonding Machine", "Electronics");
+        machineNine = machineRepo.save(machineNine);
+
+        Machine machineTen = new Machine("Automated Testing Equipment", "Electronics");
+        machineTen = machineRepo.save(machineTen);
+
+
+        List<Machine> machinesOne = new ArrayList<>();
+        machinesOne.add(machineOne);
+        machinesOne.add(machineTwo);
 
         // Initialize Subassembly
         Subassembly subassemblyOne = new Subassembly("Printer head");
@@ -159,7 +185,7 @@ public class DataFeedService {
         Order orderTwo = new Order(LocalDateTime.now());
         orderTwo.setAddress(addressTwo);
         orderTwo.setCustomer(customerTwo);
-        orderTwo.setMachines(machines);
+        orderTwo.setMachines(machinesOne);
 
         orderRepo.save(orderOne);
         orderRepo.save(orderTwo);
