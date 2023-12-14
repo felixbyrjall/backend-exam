@@ -133,6 +133,26 @@ public class PartIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test // Test DELETE requests and that associated subassemblies are updated.
+    void shouldDeletePartByIdAndMakePartsNullInSubassembly() throws Exception {
+        mockMvc.perform(get("/api/part/3")) // Check if part exist.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/subassembly/4")) // Check if machine exist and that the subassemblies in the order.
+                .andExpect(MockMvcResultMatchers.jsonPath("$.parts[0].partId").value(3L))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/part/3")) // Delete the part by id.
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/part/3")) // Check if part is deleted.
+                .andExpect(status().isNotFound());
+
+        mockMvc.perform(get("/api/subassembly/4")) // Check if parts is emptied in subassembly.
+                .andExpect(MockMvcResultMatchers.jsonPath("$.parts[0]").doesNotHaveJsonPath())
+                .andExpect(status().isOk());
+    }
+
     @Test // Test deleting a part that doesn't exist
     void shouldNotDeletePartNotExist() throws Exception {
         mockMvc.perform(get("/api/part/12345"))

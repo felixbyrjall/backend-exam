@@ -181,7 +181,7 @@ public class SubassemblyIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE requests and that associated Orders are deleted.
+    @Test // Test DELETE requests and that associated Machine is updated.
     void shouldDeleteSubassemblyByIdAndMakeSubassemblyNullInMachines() throws Exception {
         mockMvc.perform(get("/api/subassembly/1")) // Check if subassembly exist.
                 .andExpect(status().isOk());
