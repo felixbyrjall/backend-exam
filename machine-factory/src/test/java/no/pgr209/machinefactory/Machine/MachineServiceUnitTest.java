@@ -32,7 +32,7 @@ public class MachineServiceUnitTest {
     @MockBean
     private SubassemblyRepo subassemblyRepo;
 
-    @Test
+    @Test // Mock and test fetching all machines
     void shouldReturnAllMachines() {
         List<Machine> mockMachines = new ArrayList<>();
         when(machineRepo.findAll()).thenReturn(mockMachines);
@@ -41,7 +41,7 @@ public class MachineServiceUnitTest {
         assertEquals(mockMachines, machines);
     }
 
-    @Test
+    @Test // Mock and test fetching all machine by id
     void shouldReturnMachineById() {
         Machine mockMachine = new Machine();
         when(machineRepo.findById(1L)).thenReturn(Optional.of(mockMachine));

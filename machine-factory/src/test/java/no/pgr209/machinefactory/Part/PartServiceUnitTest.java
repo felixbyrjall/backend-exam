@@ -29,7 +29,7 @@ public class PartServiceUnitTest {
     private PartRepo partRepo;
 
 
-    @Test
+    @Test // Mock and test fetching all parts
     void shouldReturnAllParts() {
         List<Part> mockParts = new ArrayList<>();
         when(partRepo.findAll()).thenReturn(mockParts);
@@ -38,7 +38,7 @@ public class PartServiceUnitTest {
         assertEquals(mockParts, parts);
     }
 
-    @Test
+    @Test // Mock and test fetching part by id
     void shouldReturnPartById() {
         Part mockPart = new Part();
         when(partRepo.findById(1L)).thenReturn(Optional.of(mockPart));
