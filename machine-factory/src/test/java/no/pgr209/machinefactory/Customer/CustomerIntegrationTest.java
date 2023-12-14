@@ -2,7 +2,6 @@ package no.pgr209.machinefactory.Customer;
 
 import no.pgr209.machinefactory.service.DataFeedService;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,12 +25,6 @@ public class CustomerIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
-
-    // Feed in-memory DB with sample data from DataFeedService.
-    @BeforeEach
-    void setUp() {
-        dataFeedService.initializeData();
-    }
 
     @Test // Test connection is OK, fetch all customers, and ensure customers are returned.
     void shouldFetchCustomers() throws Exception {

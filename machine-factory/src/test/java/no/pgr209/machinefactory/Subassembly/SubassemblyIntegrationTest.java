@@ -2,7 +2,6 @@ package no.pgr209.machinefactory.Subassembly;
 
 import no.pgr209.machinefactory.service.DataFeedService;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,12 +25,6 @@ public class SubassemblyIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
-
-    // Feed in-memory DB with sample data from DataFeedService.
-    @BeforeEach
-    void setUp() {
-        dataFeedService.initializeData();
-    }
 
     @Test
     void shouldFetchSubassemblies() throws Exception {

@@ -2,7 +2,6 @@ package no.pgr209.machinefactory.Order;
 
 import no.pgr209.machinefactory.service.DataFeedService;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,12 +25,6 @@ public class OrderIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
-
-    // Feed in-memory DB with sample data from DataFeedService
-    @BeforeEach
-    void setUp() {
-        dataFeedService.initializeData();
-    }
 
     @Test // Fetch all orders, ensure orders are returned
     void shouldFetchAllOrders() throws Exception {

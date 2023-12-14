@@ -2,7 +2,6 @@ package no.pgr209.machinefactory.Machine;
 
 import no.pgr209.machinefactory.service.DataFeedService;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,12 +25,6 @@ public class MachineIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
-
-    // Feed in-memory DB with sample data from DataFeedService.
-    @BeforeEach
-    void setUp() {
-        dataFeedService.initializeData();
-    }
 
     @Test
     void shouldFetchMachines() throws Exception {
