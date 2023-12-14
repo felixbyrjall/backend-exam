@@ -44,7 +44,7 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[3].orderId").doesNotExist());
     }
 
-    @Test // Fetch an order by id and ensure correct values are returned from the order.
+    @Test // Fetch an order by id and ensure correct values are returned from it
     void shouldFetchOrderById() throws Exception {
         mockMvc.perform(get("/api/order/1"))
                 .andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines.[0].machineType").value("Electronics"));
     }
 
-    @Test // Check creating an order and then fetching it.
+    @Test // Test creating an order and then fetch it
     void shouldCreateOrder() throws Exception {
         String orderJson = String.format("""
         {
@@ -129,7 +129,7 @@ public class OrderIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect response to be NOT FOUND when creating order with data that do not exist
+    @Test // Expect response to be NOT FOUND when creating an order with data that do not exist
     void shouldNotCreateOrderWithInvalidData() throws Exception {
         String orderJson = String.format("""
         {
@@ -181,7 +181,7 @@ public class OrderIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test deleting order and confirm the order is removed
+    @Test // Test deleting an order and confirm it is removed
     void shouldDeleteOrderById() throws Exception {
         mockMvc.perform(get("/api/order/2")) // Check if order exist
                 .andExpect(status().isOk());

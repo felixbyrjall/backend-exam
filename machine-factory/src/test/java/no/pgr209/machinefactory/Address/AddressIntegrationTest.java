@@ -44,7 +44,7 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[3].addressId").doesNotExist());
     }
 
-    @Test
+    @Test // Fetch an address by id and ensure correct values are returned from it
     void shouldFetchAddressById() throws Exception {
         mockMvc.perform(get("/api/address/1"))
                 .andExpect(status().isOk())
@@ -54,18 +54,17 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0184"));
     }
 
-    @Test
+    @Test // Test creating an address and then fetch it
     void shouldCreateAddress() throws Exception {
         String addressJson = """
         {
             "addressStreet": "Kongens gate 15",
             "addressCity": "Oslo",
-            "addressZip":  "0154",
+            "addressZip":  "0153",
             "customerId": []
         }
         """;
 
-        // Create the address
         MvcResult createResult = mockMvc.perform(post("/api/address")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(addressJson))
@@ -82,31 +81,32 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").value(addressId))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressStreet").value("Kongens gate 15"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressCity").value("Oslo"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0154"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0153"));
     }
 
-    @Test
+    @Test // Test updating an address
     void shouldUpdateAddressWithAddingCustomer() throws Exception {
         String addressJson = """
         {
             "addressStreet": "Kongens gate 15",
             "addressCity": "Oslo",
-            "addressZip":  "0154",
+            "addressZip":  "0153",
             "customerId": [2]
         }
         """;
 
-        mockMvc.perform(put("/api/address/2")
+        mockMvc.perform(put("/api/address/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(addressJson))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/address/2"))
+        // Fetch the updated address and check if details are correct
+        mockMvc.perform(get("/api/address/1"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").value(2L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressStreet").value("Kongens gate 15"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressCity").value("Oslo"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0154"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0153"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customers[0].customerId").value(2L));
     }
 
@@ -114,9 +114,9 @@ public class AddressIntegrationTest {
     void shouldUpdateAddressWithNewInfo() throws Exception {
         String addressJson = """
         {
-            "addressStreet": "Drammens gate 24",
+            "addressStreet": "Haugesgate 24",
             "addressCity": "Drammen",
-            "addressZip":  "0584",
+            "addressZip":  "3016",
             "customerId": []
         }
         """;
@@ -129,27 +129,27 @@ public class AddressIntegrationTest {
         mockMvc.perform(get("/api/address/1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.addressStreet").value("Drammens gate 24"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressStreet").value("Haugesgate 24"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressCity").value("Drammen"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0584"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("3016"));
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when fetching a non-existent id
     void shouldNotFetchNonExistentAddressById() throws Exception {
         mockMvc.perform(get("/api/address/24325"))
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when creating an address with a customer that do not exist
     void shouldNotCreateAddressWithInvalidCustomerId() throws Exception {
         String addressJson = String.format("""
         {
-            "addressStreet": "Drammens gate 24",
+            "addressStreet": "Haugesgate 24",
             "addressCity": "Drammen",
-            "addressZip":  "0584",
+            "addressZip":  "3016",
             "customerId": [%d]
         }
-        """, 345245L);
+        """, 86L);
 
         mockMvc.perform(post("/api/address")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -157,7 +157,7 @@ public class AddressIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when trying to create an address without data
     void shouldNotCreateAddressWithEmptyData() throws Exception {
         String addressJson = """
         {
@@ -174,16 +174,16 @@ public class AddressIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when updating an address with a customer that do not exist
     void shouldNotUpdateAddressWithInvalidCustomerId() throws Exception {
         String addressJson = String.format("""
         {
-            "addressStreet": "Drammens gate 24",
+            "addressStreet": "Haugesgate 24",
             "addressCity": "Drammen",
-            "addressZip":  "0584",
+            "addressZip":  "3016",
             "customerId": [%d]
         }
-        """, 4325L);
+        """, 76L);
 
         mockMvc.perform(put("/api/address/2")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -191,7 +191,7 @@ public class AddressIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when trying to update an address without data
     void shouldNotUpdateAddressWithNoData() throws Exception {
         String addressJson = """
         {
@@ -208,34 +208,34 @@ public class AddressIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE request for addresses.
+    @Test // Test deleting an address and confirm it is removed
     void shouldDeleteAddressById() throws Exception {
-        mockMvc.perform(get("/api/address/2")) // Check if address exist.
+        mockMvc.perform(get("/api/address/2")) // Check if address exist
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/address/2")) // Delete the address by id.
+        mockMvc.perform(delete("/api/address/2")) // Delete the address by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/address/2")) // Check if address is removed.
+        mockMvc.perform(get("/api/address/2")) // Confirm the address is deleted
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE requests and that associated Orders are deleted.
+    @Test // Test deleting an address and check if associated orders are also deleted
     void shouldDeleteAddressByIdAndOrdersAssociated() throws Exception {
-        mockMvc.perform(get("/api/address/1")) // Check if address exist.
+        mockMvc.perform(get("/api/address/1")) // Check if address exist
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/order/1")) // Check if order exist and that this is the address order.
+        mockMvc.perform(get("/api/order/1")) // Check if order exist and that this is the connected order
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressId").value(1L))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/address/1")) // Delete the address by id.
+        mockMvc.perform(delete("/api/address/1")) // Delete the address by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/address/1")) // Check if address is removed.
+        mockMvc.perform(get("/api/address/1")) // Check if address is removed
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(get("/api/order/1")) // Check if associated order is removed.
+        mockMvc.perform(get("/api/order/1")) // Check if associated order is removed
                 .andExpect(status().isNotFound());
     }
 
