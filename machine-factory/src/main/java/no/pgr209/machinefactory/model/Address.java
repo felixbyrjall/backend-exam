@@ -40,7 +40,7 @@ public class Address {
     @JsonIgnoreProperties({"addresses", "orders"})
     private List<Customer> customers = new ArrayList<>();
 
-    // A customer can have many orders
+    // An address can have many orders shipped to
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"address", "customer", "machines"})
     private List<Order> orders = new ArrayList<>();
