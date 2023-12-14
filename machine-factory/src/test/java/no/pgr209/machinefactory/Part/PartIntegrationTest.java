@@ -53,7 +53,7 @@ public class PartIntegrationTest {
         mockMvc.perform(get("/api/part/1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.partId").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.partName").value("Printer nozzle"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.partName").value("Fasteners"));
     }
 
     @Test
