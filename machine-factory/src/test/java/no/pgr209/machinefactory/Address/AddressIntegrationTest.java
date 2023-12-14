@@ -140,7 +140,7 @@ public class AddressIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect response to be NOT FOUND when creating an address with a customer that do not exist
+    @Test // Expect response to be NOT FOUND when creating an address with a customer id that do not exist
     void shouldNotCreateAddressWithInvalidCustomerId() throws Exception {
         String addressJson = String.format("""
         {
@@ -157,7 +157,7 @@ public class AddressIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect response to be NOT FOUND when trying to create an address without data
+    @Test // Expect response to be NOT FOUND when trying to create an address without required data
     void shouldNotCreateAddressWithEmptyData() throws Exception {
         String addressJson = """
         {
@@ -232,10 +232,10 @@ public class AddressIntegrationTest {
         mockMvc.perform(delete("/api/address/1")) // Delete the address by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/address/1")) // Check if address is removed
+        mockMvc.perform(get("/api/address/1")) // Check if address is deleted
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(get("/api/order/1")) // Check if associated order is removed
+        mockMvc.perform(get("/api/order/1")) // Check if associated order is deleted
                 .andExpect(status().isNotFound());
     }
 
