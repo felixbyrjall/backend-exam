@@ -21,9 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AddressIntegrationTest {
 
     @Autowired
-    DataFeedService dataFeedService;
-
-    @Autowired
     MockMvc mockMvc;
 
     @Test // Fetch all addresses, ensure they are returned

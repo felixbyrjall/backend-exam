@@ -21,9 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CustomerIntegrationTest {
 
     @Autowired
-    DataFeedService dataFeedService;
-
-    @Autowired
     MockMvc mockMvc;
 
     @Test // Test connection is OK, fetch all customers, and ensure customers are returned.

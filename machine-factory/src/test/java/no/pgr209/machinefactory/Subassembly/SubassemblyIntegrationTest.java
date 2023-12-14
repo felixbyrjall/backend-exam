@@ -21,9 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SubassemblyIntegrationTest {
 
     @Autowired
-    DataFeedService dataFeedService;
-
-    @Autowired
     MockMvc mockMvc;
 
     @Test
