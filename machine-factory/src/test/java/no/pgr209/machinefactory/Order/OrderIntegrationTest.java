@@ -26,7 +26,7 @@ public class OrderIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Test // Fetch all orders, ensure orders are returned
+    @Test // Fetch all orders, ensure they are returned
     void shouldFetchAllOrders() throws Exception {
         mockMvc.perform(get("/api/order"))
                 .andExpect(status().isOk())
@@ -34,11 +34,14 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId").value(2));
     }
 
-    @Test // Check that orders are returned from pagination, returning the correct amount of orders (Max: 3)
+    @Test // Check that orders are returned from pagination, returning the correct amount (Max: 3 per page)
     void shouldFetchOrdersOnPage() throws Exception {
         mockMvc.perform(get("/api/order/page/0"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(1));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].orderId").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3].orderId").doesNotExist());
     }
 
     @Test // Fetch an order by id and ensure correct values are returned from the order.
@@ -52,7 +55,7 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressStreet").value("Storgata 33"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressCity").value("Oslo"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressZip").value("2204"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressZip").value("0184"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines.[0].machineId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines.[0].machineName").value("3D printer"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines.[0].machineType").value("Electronics"));
@@ -90,7 +93,7 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[1].machineId").value(2L));
     }
 
-    @Test // Test updating an order.
+    @Test // Test updating an order
     void shouldUpdateOrder() throws Exception {
 
         String orderJson = String.format("""
@@ -114,7 +117,7 @@ public class OrderIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerId").value(2L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerName").value("Kari Hansen"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressId").value(2L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressStreet").value("Husmannsgate 14"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.address.addressStreet").value("Hausmanns gate 17"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineId").value(2L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineName").value("Laser printer"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineType").value("Electronics"));
@@ -186,7 +189,7 @@ public class OrderIntegrationTest {
         mockMvc.perform(delete("/api/order/2")) // Delete the order by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/order/2")) // Confirm the order is removed
+        mockMvc.perform(get("/api/order/2")) // Confirm the order is deleted
                 .andExpect(status().isNotFound());
     }
 

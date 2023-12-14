@@ -35,12 +35,12 @@ public class DataFeedService {
         // Initialize Customers and Addresses
         // Customer One
         Customer customerOne = customerRepo.save(new Customer("Ola Nordmann", "ola@nordmann.no"));
-        Address addressOne = addressRepo.save(new Address("Storgata 33", "Oslo", "2204"));
+        Address addressOne = addressRepo.save(new Address("Storgata 33", "Oslo", "0184"));
         customerOne.getAddresses().add(addressOne);
 
         // Customer Two
         Customer customerTwo = customerRepo.save(new Customer("Kari Hansen", "kari@hansen.no"));
-        Address addressTwo = addressRepo.save(new Address("Husmannsgate 14", "Oslo", "2232"));
+        Address addressTwo = addressRepo.save(new Address("Hausmanns gate 17", "Oslo", "0598"));
         customerTwo.getAddresses().add(addressOne);
         customerTwo.getAddresses().add(addressTwo);
 
@@ -60,7 +60,7 @@ public class DataFeedService {
         customerFive.getAddresses().add(addressFive);
 
         // Customer Six
-        Customer customerSix = customerRepo.save(new Customer("Mona Johansen", "mona.j@gmail.com"));
+        Customer customerSix = customerRepo.save(new Customer("Mona Johansen", "mona@gmail.com"));
         Address addressSix = addressRepo.save(new Address("Strandveien 10", "Bergen", "5020"));
         customerSix.getAddresses().add(addressSix);
 
@@ -70,13 +70,13 @@ public class DataFeedService {
         customerSeven.getAddresses().add(addressSeven);
 
         // Customer Eight
-        Customer customerEight = customerRepo.save(new Customer("Camilla Larsen", "camilla_l@online.no"));
+        Customer customerEight = customerRepo.save(new Customer("Camilla Larsen", "camilla@online.no"));
         Address addressEight = addressRepo.save(new Address("Bakkegata 15", "Stavanger", "4006"));
         customerEight.getAddresses().add(addressEight);
 
         // Customer Nine
-        Customer customerNine = customerRepo.save(new Customer("Ole Kristiansen", "ole@kristiansenogco.com"));
-        Address addressNine = addressRepo.save(new Address("Solsiden 8", "Trondheim", "7030"));
+        Customer customerNine = customerRepo.save(new Customer("Ole Kristiansen", "ole@kristiansen.com"));
+        Address addressNine = addressRepo.save(new Address("Solsiden 8", "Trondheim", "0157"));
         customerNine.getAddresses().add(addressNine);
 
         // Customer Ten

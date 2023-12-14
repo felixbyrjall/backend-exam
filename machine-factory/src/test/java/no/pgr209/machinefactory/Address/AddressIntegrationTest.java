@@ -26,7 +26,7 @@ public class AddressIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Test
+    @Test // Fetch all addresses, ensure they are returned
     void shouldFetchAddresses() throws Exception {
         mockMvc.perform(get("/api/address"))
                 .andExpect(status().isOk())
@@ -34,11 +34,14 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].addressId").value(2));
     }
 
-    @Test
+    @Test // Check that addresses are returned from pagination, returning the correct amount (Max: 3 per page)
     void shouldFetchAddressOnPage() throws Exception {
         mockMvc.perform(get("/api/address/page/0"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].addressId").value(1));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].addressId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].addressId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].addressId").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3].addressId").doesNotExist());
     }
 
     @Test
@@ -48,7 +51,7 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressStreet").value("Storgata 33"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressCity").value("Oslo"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("2204"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0184"));
     }
 
     @Test
