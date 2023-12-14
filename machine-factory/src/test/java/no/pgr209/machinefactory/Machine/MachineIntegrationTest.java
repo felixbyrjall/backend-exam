@@ -22,7 +22,7 @@ public class MachineIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Test
+    @Test // Fetch all machines, ensure they are returned
     void shouldFetchMachines() throws Exception {
         mockMvc.perform(get("/api/machine"))
                 .andExpect(status().isOk())
@@ -30,14 +30,17 @@ public class MachineIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].machineId").value(2));
     }
 
-    @Test
+    @Test // Check that machines are returned from pagination, returning the correct amount (Max: 3 per page)
     void shouldFetchMachinesOnPage() throws Exception {
         mockMvc.perform(get("/api/machine/page/0"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].machineId").value(1));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].machineId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].machineId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].machineId").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3].machineId").doesNotExist());
     }
 
-    @Test
+    @Test // Fetch a machine by id and ensure correct values are returned from it
     void shouldFetchMachineById() throws Exception {
         mockMvc.perform(get("/api/machine/1"))
                 .andExpect(status().isOk())
@@ -46,17 +49,16 @@ public class MachineIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Electronics"));
     }
 
-    @Test
+    @Test // Test creating a machine
     void shouldCreateMachine() throws Exception {
         String machineJson = """
         {
-            "machineName": "Robot printer",
+            "machineName": "Microcontroller Programmer",
             "machineType":  "Electronics",
             "subassemblyId": []
         }
         """;
 
-        // Create the machine
         MvcResult createResult = mockMvc.perform(post("/api/machine")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(machineJson))
@@ -71,7 +73,7 @@ public class MachineIntegrationTest {
         mockMvc.perform(get("/api/machine/" + machineId))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineId").value(machineId))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Robot printer"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Microcontroller Programmer"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Electronics"));
     }
 
@@ -79,7 +81,7 @@ public class MachineIntegrationTest {
     void shouldUpdateMachineWithAddingSubassembly() throws Exception {
         String machineJson = """
         {
-            "machineName": "Robot printer",
+            "machineName": "Surface Mount Technology Machine",
             "machineType":  "Electronics",
             "subassemblyId": [1]
         }
@@ -94,7 +96,7 @@ public class MachineIntegrationTest {
         mockMvc.perform(get("/api/machine/2"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineId").value(2L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Robot printer"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Surface Mount Technology Machine"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Electronics"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0].subassemblyId").value(1L));
     }
@@ -103,13 +105,12 @@ public class MachineIntegrationTest {
     void shouldUpdateMachineWithNewInfo() throws Exception {
         String machineJson = """
         {
-            "machineName": "Quantum printer",
-            "machineType":  "Qubits",
+            "machineName": "Pick and Place Machine",
+            "machineType":  "Assembly",
             "subassemblyId": []
         }
         """;
 
-        // update the machine
         mockMvc.perform(put("/api/machine/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(machineJson))
@@ -118,25 +119,25 @@ public class MachineIntegrationTest {
         mockMvc.perform(get("/api/machine/1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineId").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Quantum printer"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Qubits"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineName").value("Pick and Place Machine"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Assembly"));
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when fetching a non-existent id
     void shouldNotFetchNonExistentMachineById() throws Exception {
         mockMvc.perform(get("/api/machine/45323"))
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when creating a machine with a subassembly id that do not exist
     void shouldNotCreateMachineWithInvalidSubassemblyId() throws Exception {
         String machineJson = String.format("""
         {
-            "machineName": "Robot printer",
-            "machineType":  "Electronics",
+            "machineName": "Soldering Robot",
+            "machineType":  "Assembly",
             "subassemblyId": [%d]
         }
-        """, 345245L);
+        """, 97L);
 
         mockMvc.perform(post("/api/machine")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -144,7 +145,7 @@ public class MachineIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    @Test // Expect response to be NOT FOUND when trying to create a machine without required data
     void shouldNotCreateMachineWithEmptyData() throws Exception {
         String machineJson = """
         {
@@ -160,7 +161,7 @@ public class MachineIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    @Test  // Expect response to be NOT FOUND when updating a machine with a subassembly id that do not exist
     void shouldNotUpdateMachineWithInvalidSubassemblyId() throws Exception {
         String machineJson = String.format("""
         {
@@ -168,7 +169,7 @@ public class MachineIntegrationTest {
             "machineType":  "Electronics",
             "subassemblyId": [%d]
         }
-        """, 34234L);
+        """, 67);
 
         mockMvc.perform(put("/api/machine/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -176,7 +177,7 @@ public class MachineIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE request for machines.
+    @Test // Test deleting a machine and confirm it is removed
     void shouldDeleteMachineById() throws Exception {
         mockMvc.perform(get("/api/machine/2")) // Check if machine exist.
                 .andExpect(status().isOk());
@@ -184,26 +185,26 @@ public class MachineIntegrationTest {
         mockMvc.perform(delete("/api/machine/2")) // Delete the machine by id.
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/machine/2")) // Check if machine is removed.
+        mockMvc.perform(get("/api/machine/2")) // Check if machine is deleted
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE requests and that associated Orders are deleted.
+    @Test // Test deleting a machine and check if associated orders are also deleted
     void shouldDeleteMachineByIdAndOrdersAssociated() throws Exception {
         mockMvc.perform(get("/api/machine/1")) // Check if machine exist.
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/order/1")) // Check if order exist and that this is the machine in the order.
+        mockMvc.perform(get("/api/order/1")) // Check if order exist and that this is the machine in the order
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machines[0].machineId").value(1L))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/machine/1")) // Delete the machine by id.
+        mockMvc.perform(delete("/api/machine/1")) // Delete the machine by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/machine/1")) // Check if machine is removed.
+        mockMvc.perform(get("/api/machine/1")) // Check if machine is deleted
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(get("/api/order/1")) // Check if associated order is removed.
+        mockMvc.perform(get("/api/order/1")) // Check if associated order is deleted
                 .andExpect(status().isNotFound());
     }
 

@@ -132,7 +132,7 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect response to be NOT FOUND when creating an address with an address id that do not exist
+    @Test // Expect response to be NOT FOUND when creating a customer with an address id that do not exist
     void shouldNotCreateCustomerWithInvalidAddressId() throws Exception {
         String customerJson = String.format("""
         {
