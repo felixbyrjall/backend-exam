@@ -61,7 +61,7 @@ public class PartController {
             return new ResponseEntity<>(createdPart, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Error", "Some fields are invalid");
+            responseHeaders.set("Error", "field is invalid");
             return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
         }
     }

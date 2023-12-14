@@ -61,7 +61,7 @@ public class AddressController {
             return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Error", "One of more fields are invalid");
+            responseHeaders.set("Error", "One or more fields are invalid");
             return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
         }
     }
