@@ -27,6 +27,7 @@ public class MachineIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
+    // Feed in-memory DB with sample data from DataFeedService.
     @BeforeEach
     void setUp() {
         dataFeedService.initializeData();

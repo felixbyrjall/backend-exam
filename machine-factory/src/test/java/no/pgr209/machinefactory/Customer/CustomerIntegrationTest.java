@@ -27,9 +27,10 @@ public class CustomerIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
+    // Feed in-memory DB with sample data from DataFeedService.
     @BeforeEach
     void setUp() {
-        dataFeedService.initializeData(); // Feed in-memory DB with sample data from DataFeedService.
+        dataFeedService.initializeData();
     }
 
     @Test // Test connection is OK, fetch all customers, and ensure customers are returned.
