@@ -262,9 +262,17 @@ public class DataFeedService {
         machineRepo.save(machineTen);
 
         // Initialize Part and add to Subassembly
-        Part partOne = new Part("Printer nozzle");
-        Part partTwo = new Part("Printer tag");
-        Part partThree = new Part("Printer hex socket");
+        Part partOne = new Part("Fasteners");
+        Part partTwo = new Part("Microcontroller");
+        Part partThree = new Part("Sensor Module");
+        Part partFour = new Part("Power Supply Unit");
+        Part partFive = new Part("Display Screen");
+        Part partSix = new Part("Communication Module");
+        Part partSeven = new Part("Switches");
+        Part partEight = new Part("LED indicator");
+        Part partNine = new Part("Cables and connectors");
+        Part partTen = new Part("Mounting bracket");
+
         partOne = partRepo.save(partOne);
         partTwo = partRepo.save(partTwo);
         partThree = partRepo.save(partThree);
