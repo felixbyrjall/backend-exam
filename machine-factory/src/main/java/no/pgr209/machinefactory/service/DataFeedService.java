@@ -180,44 +180,86 @@ public class DataFeedService {
         machinesListTen.add(machineTen);
 
         // Initialize Subassembly
-        Subassembly subassemblyOne = new Subassembly("Printer head");
+        Subassembly subassemblyOne = new Subassembly("Motion Control System");
         subassemblyOne = subassemblyRepo.save(subassemblyOne);
 
-        Subassembly subassemblyTwo = new Subassembly("Paper feed");
+        Subassembly subassemblyTwo = new Subassembly("Extruder Assembly");
         subassemblyTwo = subassemblyRepo.save(subassemblyTwo);
 
-        Subassembly subassemblyThree = new Subassembly("Cartridge");
+        Subassembly subassemblyThree = new Subassembly("Robotic Arm System");
         subassemblyThree = subassemblyRepo.save(subassemblyThree);
 
-        Subassembly subassemblyFour = new Subassembly("Power supply");
+        Subassembly subassemblyFour = new Subassembly("Laser Scanning Unit");
         subassemblyFour = subassemblyRepo.save(subassemblyFour);
 
-        Subassembly subassemblyFive = new Subassembly("Control panel");
+        Subassembly subassemblyFive = new Subassembly("Toner Cartridge Assembly");
         subassemblyFive = subassemblyRepo.save(subassemblyFive);
 
-        Subassembly subassemblySix = new Subassembly("Frame assembly");
+        Subassembly subassemblySix = new Subassembly("Control System Unit");
         subassemblySix = subassemblyRepo.save(subassemblySix);
 
-        Subassembly subassemblySeven = new Subassembly("Sensor array");
+        Subassembly subassemblySeven = new Subassembly("Component Placement Arm");
         subassemblySeven = subassemblyRepo.save(subassemblySeven);
 
-        Subassembly subassemblyEight = new Subassembly("Roller mechanism");
+        Subassembly subassemblyEight = new Subassembly("Vision Inspection Module");
         subassemblyEight = subassemblyRepo.save(subassemblyEight);
 
-        Subassembly subassemblyNine = new Subassembly("Print engine");
+        Subassembly subassemblyNine = new Subassembly("Conveyor System");
         subassemblyNine = subassemblyRepo.save(subassemblyNine);
 
-        Subassembly subassemblyTen = new Subassembly("Memory module");
+        Subassembly subassemblyTen = new Subassembly("Soldering Iron Unit");
         subassemblyTen = subassemblyRepo.save(subassemblyTen);
 
         // Add Subassembly to Machine
         machineOne.getSubassemblies().add(subassemblyOne);
         machineOne.getSubassemblies().add(subassemblyTwo);
-        machineOne.getSubassemblies().add(subassemblyThree);
-        machineTwo.getSubassemblies().add(subassemblyOne);
+
         machineTwo.getSubassemblies().add(subassemblyFour);
+        machineTwo.getSubassemblies().add(subassemblyFive);
+        machineTwo.getSubassemblies().add(subassemblySix);
+
+        machineThree.getSubassemblies().add(subassemblySeven);
+        machineThree.getSubassemblies().add(subassemblyEight);
+        machineThree.getSubassemblies().add(subassemblyNine);
+
+        machineFour.getSubassemblies().add(subassemblyThree);
+        machineFour.getSubassemblies().add(subassemblyTen);
+        machineFour.getSubassemblies().add(subassemblyEight);
+        machineFour.getSubassemblies().add(subassemblySix);
+
+        machineFive.getSubassemblies().add(subassemblySix);
+
+        machineSix.getSubassemblies().add(subassemblySeven);
+        machineSix.getSubassemblies().add(subassemblyEight);
+        machineSix.getSubassemblies().add(subassemblyNine);
+
+        machineSeven.getSubassemblies().add(subassemblySeven);
+        machineSeven.getSubassemblies().add(subassemblyEight);
+        machineSeven.getSubassemblies().add(subassemblyThree);
+        machineSeven.getSubassemblies().add(subassemblyNine);
+        machineSeven.getSubassemblies().add(subassemblySix);
+
+        machineEight.getSubassemblies().add(subassemblyNine);
+        machineEight.getSubassemblies().add(subassemblySix);
+
+        machineNine.getSubassemblies().add(subassemblyThree);
+        machineNine.getSubassemblies().add(subassemblySix);
+
+        machineTen.getSubassemblies().add(subassemblySix);
+        machineTen.getSubassemblies().add(subassemblyNine);
+        machineTen.getSubassemblies().add(subassemblyThree);
+
+        // Save all machines with subassemblies to repo
         machineRepo.save(machineOne);
-        machineRepo.save(machineOne);
+        machineRepo.save(machineTwo);
+        machineRepo.save(machineThree);
+        machineRepo.save(machineFour);
+        machineRepo.save(machineFive);
+        machineRepo.save(machineSix);
+        machineRepo.save(machineSeven);
+        machineRepo.save(machineEight);
+        machineRepo.save(machineNine);
+        machineRepo.save(machineTen);
 
         // Initialize Part and add to Subassembly
         Part partOne = new Part("Printer nozzle");
