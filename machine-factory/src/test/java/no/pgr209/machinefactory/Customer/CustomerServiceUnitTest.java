@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+@ActiveProfiles("dev") // Exclude CommandLineRunner from Unit test, ensuring clean database
 public class CustomerServiceUnitTest {
 
     @Autowired
