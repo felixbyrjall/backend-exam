@@ -135,9 +135,9 @@ public class DataFeedService {
         machineTen = machineRepo.save(machineTen);
 
 
-        List<Machine> machinesOne = new ArrayList<>();
-        machinesOne.add(machineOne);
-        machinesOne.add(machineTwo);
+        List<Machine> machinesListOne = new ArrayList<>();
+        machinesListOne.add(machineOne);
+        machinesListOne.add(machineTwo);
 
         // Initialize Subassembly
         Subassembly subassemblyOne = new Subassembly("Printer head");
@@ -185,7 +185,7 @@ public class DataFeedService {
         Order orderTwo = new Order(LocalDateTime.now());
         orderTwo.setAddress(addressTwo);
         orderTwo.setCustomer(customerTwo);
-        orderTwo.setMachines(machinesOne);
+        orderTwo.setMachines(machinesListOne);
 
         orderRepo.save(orderOne);
         orderRepo.save(orderTwo);
