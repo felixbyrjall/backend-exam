@@ -20,29 +20,26 @@ public class PartRepoUnitTest {
     @Autowired
     PartRepo partRepo;
 
-    @Test
+    @Test // Ensure a part is created
     public void save_shouldReturnPart() {
-        Part part = new Part();
-        Part savedPart = partRepo.save(part);
+        Part part = partRepo.save(new Part());
 
-        assertThat(savedPart).isNotNull();
-        assertThat(savedPart.getPartId()).isNotNull();
+        assertThat(part).isNotNull();
+        assertThat(part.getPartId()).isNotNull();
     }
 
-    @Test // Test fetching all parts.
+    @Test // Test findAll and ensure count of parts
     public void findAll_shouldReturnNonEmptyListOfParts() {
-        Part firstPart = new Part();
-        Part secondPart = new Part();
-        partRepo.save(firstPart);
-        partRepo.save(secondPart);
+        partRepo.save(new Part());
+        partRepo.save(new Part());
 
         List<Part> parts = partRepo.findAll();
 
         assertThat(parts).isNotNull();
-        assertThat(parts.size()).isGreaterThan(0);
+        assertThat(parts.size()).isEqualTo(2);
     }
 
-    @Test // Test fetching part by id
+    @Test // Test finding a part by id
     public void findById_shouldReturnPart() {
         Part part = partRepo.save(new Part());
 
@@ -51,7 +48,7 @@ public class PartRepoUnitTest {
         assertThat(foundPart).isPresent();
     }
 
-    @Test // Test fetching a non-existent part
+    @Test // Test finding a non-existent part
     public void findById_shouldNotReturnNonExistentPart() {
         Long nonExistentPart = 3555L;
 
@@ -60,23 +57,22 @@ public class PartRepoUnitTest {
         assertThat(findPart).isNotPresent();
     }
 
-    @Test // Create part, update the Part type and check if Part type is updated.
+    @Test // Create and then update a part
     public void update_shouldUpdateExistingPart() {
 
         // Create Part with information
-        Part part = partRepo.save(new Part("Diode"));
+        Part part = partRepo.save(new Part("Mounting bracket"));
 
         // Check if the part was created with the correct name
         Optional<Part> createdPart = partRepo.findById(part.getPartId());
-        createdPart.ifPresent(partMade -> assertEquals("Diode", createdPart.get().getPartName()));
+        createdPart.ifPresent(partMade -> assertEquals("Mounting bracket", createdPart.get().getPartName()));
 
         // Update part name
-        part.setPartName("Inductor");
-        partRepo.save(part);
+        part.setPartName("LED indicator");
 
-        // Check if the part name got updated
+        // Check the name
         Optional<Part> partUpdated = partRepo.findById(part.getPartId());
-        partUpdated.ifPresent(partChanged -> assertEquals("Inductor", partUpdated.get().getPartName()));
+        partUpdated.ifPresent(partChanged -> assertEquals("LED indicator", partUpdated.get().getPartName()));
     }
 
     @Test // Create a part, check if the part exist, delete the part and then check if part still exist.
@@ -87,6 +83,7 @@ public class PartRepoUnitTest {
         assertThat(findPart).isPresent();
 
         partRepo.deleteById(part.getPartId());
+
         Optional<Part> findDeletedPart = partRepo.findById(part.getPartId());
         assertThat(findDeletedPart).isNotPresent();
     }
