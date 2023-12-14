@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class CustomerService {
     private final CustomerRepo customerRepo;
-
     private final AddressRepo addressRepo;
 
     @Autowired
@@ -24,14 +23,12 @@ public class CustomerService {
         this.addressRepo = addressRepo;
     }
 
-    //Get ALL customers
     public List<Customer> getAllCustomers() {
         return customerRepo.findAll();
     }
 
-    //Get customers by page
     public List<Customer> getCustomersByPage(int pageNr) {
-        return customerRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+        return customerRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
 
     public Customer getCustomerById(Long id) {
@@ -83,12 +80,11 @@ public class CustomerService {
             if (addresses.size() != addressIds.size()) {
                 return null;
             }
-
             existingCustomer.setAddresses(addresses);
+
         } else {
             existingCustomer.setAddresses(Collections.emptyList());
         }
-
         return customerRepo.save(existingCustomer);
     }
 }

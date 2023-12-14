@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+@ActiveProfiles("dev") // Exclude CommandLineRunner from Unit test, ensuring clean database
 public class MachineServiceUnitTest {
 
     @Autowired
@@ -32,7 +32,7 @@ public class MachineServiceUnitTest {
     @MockBean
     private SubassemblyRepo subassemblyRepo;
 
-    @Test
+    @Test // Mock and test fetching all machines
     void shouldReturnAllMachines() {
         List<Machine> mockMachines = new ArrayList<>();
         when(machineRepo.findAll()).thenReturn(mockMachines);
@@ -41,7 +41,7 @@ public class MachineServiceUnitTest {
         assertEquals(mockMachines, machines);
     }
 
-    @Test
+    @Test // Mock and test fetching all machine by id
     void shouldReturnMachineById() {
         Machine mockMachine = new Machine();
         when(machineRepo.findById(1L)).thenReturn(Optional.of(mockMachine));
@@ -53,14 +53,14 @@ public class MachineServiceUnitTest {
     @Test // Comprehensive mock & unit-testing, creating a machine.
     void shouldCreateMachine() {
         MachineDTO machineDTO = new MachineDTO();
-        machineDTO.setMachineName("Robot Printer");
-        machineDTO.setMachineType("Electronics");
+        machineDTO.setMachineName("Soldering Robot");
+        machineDTO.setMachineType("Assembly");
         List<Long> subassemblies = List.of(1L, 2L);
         machineDTO.setSubassemblyId(subassemblies);
 
-        Machine mockMachine = new Machine("Robot Printer", "Electronics");
-        Subassembly subassemblyOne = new Subassembly( "Printer knob");
-        Subassembly subassemblyTwo = new Subassembly( "Printer logo");
+        Machine mockMachine = new Machine("Soldering Robot", "Assembly");
+        Subassembly subassemblyOne = new Subassembly( "Robotic Arm System");
+        Subassembly subassemblyTwo = new Subassembly( "Soldering Iron Unit");
 
         when(machineRepo.existsById(1L)).thenReturn(true);
         when(machineRepo.findById(1L)).thenReturn(Optional.of(mockMachine));
@@ -68,8 +68,8 @@ public class MachineServiceUnitTest {
         when(subassemblyRepo.findAllById(subassemblies)).thenReturn(List.of(subassemblyOne, subassemblyTwo));
 
         Machine createdMachine = new Machine();
-        createdMachine.setMachineName("Robot Printer");
-        createdMachine.setMachineType("Electronics");
+        createdMachine.setMachineName("Soldering Robot");
+        createdMachine.setMachineType("Assembly");
         createdMachine.setSubassemblies(List.of(subassemblyOne, subassemblyTwo));
         when(machineRepo.save(any())).thenReturn(createdMachine);
 

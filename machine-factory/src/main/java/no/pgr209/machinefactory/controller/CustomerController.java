@@ -22,7 +22,6 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    //Get all customers
     @GetMapping()
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> allCustomers = customerService.getAllCustomers();
@@ -34,7 +33,6 @@ public class CustomerController {
         }
     }
 
-    //Get customers by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Customer>> getCustomersByPage(@PathVariable int pageNr) {
         List<Customer> customersByPage = customerService.getCustomersByPage(pageNr);

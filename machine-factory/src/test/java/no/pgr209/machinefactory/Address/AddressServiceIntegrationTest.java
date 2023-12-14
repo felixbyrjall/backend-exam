@@ -48,28 +48,28 @@ public class AddressServiceIntegrationTest {
     @Test // Comprehensive testing - The full cycle of creating an address and then validate information.
     void shouldCreateAndFetchAddressInformation() {
         AddressDTO address = new AddressDTO();
-        Customer customerOne = customerRepo.save(new Customer("James Brown", "james@brown.no"));
-        Customer customerTwo = customerRepo.save(new Customer("Tom Hardy", "tom@hardy.no"));
+        Customer customerOne = customerRepo.save(new Customer("Ola Nordmann", "ola@nordmann.no"));
+        Customer customerTwo = customerRepo.save(new Customer("Kari Hansen", "kari@hansen.no"));
 
         List<Long> customers = new ArrayList<>();
         customers.add(customerOne.getCustomerId());
         customers.add(customerTwo.getCustomerId());
 
-        address.setAddressStreet("Hegdehaugsveien 21");
+        address.setAddressStreet("Hausmanns gate 17");
         address.setAddressCity("Oslo");
-        address.setAddressZip("0143");
+        address.setAddressZip("0598");
         address.setCustomerId(customers);
         addressService.createAddress(address);
 
         var addresses = addressService.getAllAddresses();
 
         assertEquals(1, addresses.size());
-        assertEquals("Hegdehaugsveien 21", addresses.get(0).getAddressStreet());
+        assertEquals("Hausmanns gate 17", addresses.get(0).getAddressStreet());
         assertEquals("Oslo", addresses.get(0).getAddressCity());
-        assertEquals("0143", addresses.get(0).getAddressZip());
-        assertEquals("James Brown", addresses.get(0).getCustomers().get(0).getCustomerName());
-        assertEquals("james@brown.no", addresses.get(0).getCustomers().get(0).getCustomerEmail());
-        assertEquals("Tom Hardy", addresses.get(0).getCustomers().get(1).getCustomerName());
-        assertEquals("tom@hardy.no", addresses.get(0).getCustomers().get(1).getCustomerEmail());
+        assertEquals("0598", addresses.get(0).getAddressZip());
+        assertEquals("Ola Nordmann", addresses.get(0).getCustomers().get(0).getCustomerName());
+        assertEquals("ola@nordmann.no", addresses.get(0).getCustomers().get(0).getCustomerEmail());
+        assertEquals("Kari Hansen", addresses.get(0).getCustomers().get(1).getCustomerName());
+        assertEquals("kari@hansen.no", addresses.get(0).getCustomers().get(1).getCustomerEmail());
     }
 }

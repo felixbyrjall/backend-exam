@@ -45,28 +45,28 @@ public class CustomerServiceIntegrationTest {
     @Test // Comprehensive testing - The full cycle of creating a customer and then validate information.
     void shouldCreateAndFetchCustomer() {
         CustomerDTO customer = new CustomerDTO();
-        Address addressOne = addressRepo.save(new Address("Hans Petters Gate 13", "Oslo", "1342"));
-        Address addressTwo = addressRepo.save(new Address("Peters vei 131", "Oslo", "1324"));
+        Address addressOne = addressRepo.save(new Address("Storgata 33", "Oslo", "0184"));
+        Address addressTwo = addressRepo.save(new Address("Hausmanns gate 17", "Oslo", "0598"));
 
         List<Long> addresses = new ArrayList<>();
         addresses.add(addressOne.getAddressId());
         addresses.add(addressTwo.getAddressId());
 
-        customer.setCustomerName("James Jameson");
-        customer.setCustomerEmail("james@jameson.com");
+        customer.setCustomerName("Ola Nordmann");
+        customer.setCustomerEmail("ola@nordmann.no");
         customer.setAddressId(addresses);
         customerService.createCustomer(customer);
 
         var customers = customerService.getAllCustomers();
 
         assertEquals(1, customers.size());
-        assertEquals("James Jameson", customers.get(0).getCustomerName());
-        assertEquals("james@jameson.com", customers.get(0).getCustomerEmail());
-        assertEquals("Hans Petters Gate 13", customers.get(0).getAddresses().get(0).getAddressStreet());
+        assertEquals("Ola Nordmann", customers.get(0).getCustomerName());
+        assertEquals("ola@nordmann.no", customers.get(0).getCustomerEmail());
+        assertEquals("Storgata 33", customers.get(0).getAddresses().get(0).getAddressStreet());
         assertEquals("Oslo", customers.get(0).getAddresses().get(0).getAddressCity());
-        assertEquals("1342", customers.get(0).getAddresses().get(0).getAddressZip());
-        assertEquals("Peters vei 131", customers.get(0).getAddresses().get(1).getAddressStreet());
+        assertEquals("0184", customers.get(0).getAddresses().get(0).getAddressZip());
+        assertEquals("Hausmanns gate 17", customers.get(0).getAddresses().get(1).getAddressStreet());
         assertEquals("Oslo", customers.get(0).getAddresses().get(1).getAddressCity());
-        assertEquals("1324", customers.get(0).getAddresses().get(1).getAddressZip());
+        assertEquals("0598", customers.get(0).getAddresses().get(1).getAddressZip());
     }
 }

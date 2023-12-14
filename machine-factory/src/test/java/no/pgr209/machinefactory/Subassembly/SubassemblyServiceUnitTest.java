@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+@ActiveProfiles("dev") // Exclude CommandLineRunner from Unit test, ensuring clean database
 public class SubassemblyServiceUnitTest {
 
     @Autowired
@@ -32,7 +32,7 @@ public class SubassemblyServiceUnitTest {
     @MockBean
     private PartRepo partRepo;
 
-    @Test
+    @Test // Mock and test fetching all subassemblies
     void shouldReturnAllSubassemblies() {
         List<Subassembly> mockSubassemblies = new ArrayList<>();
         when(subassemblyRepo.findAll()).thenReturn(mockSubassemblies);
@@ -41,7 +41,7 @@ public class SubassemblyServiceUnitTest {
         assertEquals(mockSubassemblies, subassemblies);
     }
 
-    @Test
+    @Test // Mock and test fetching subassembly by id
     void shouldReturnSubassemblyById() {
         Subassembly mockSubassembly = new Subassembly();
         when(subassemblyRepo.findById(1L)).thenReturn(Optional.of(mockSubassembly));

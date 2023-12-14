@@ -44,13 +44,13 @@ public class OrderServiceIntegrationTest {
 
     @Test // Comprehensive testing - The full cycle of creating an order and then validate information.
     void shouldCreateAndFetchOrders(){
-        Customer customer = customerRepo.save(new Customer("James Jameson", "James@jameson.com"));
-        Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", "2013"));
+        Customer customer = customerRepo.save(new Customer("Lars Olsen", "lars@olsen.no"));
+        Address address = addressRepo.save(new Address("Bakkegata 7", "Bergen", "5015"));
         OrderDTO order = new OrderDTO();
 
         List<Long> machines = new ArrayList<>();
-        var FirstMachine = machineRepo.save(new Machine("3D Printer", "Electronics"));
-        var SecondMachine = machineRepo.save(new Machine("Speaker", "Electronics"));
+        var FirstMachine = machineRepo.save(new Machine("Laser printer", "Electronics"));
+        var SecondMachine = machineRepo.save(new Machine("Circuit Board Assembler", "Assembly"));
 
         machines.add(FirstMachine.getMachineId());
         machines.add(SecondMachine.getMachineId());
@@ -65,17 +65,17 @@ public class OrderServiceIntegrationTest {
 
         assertEquals(1, orders.size());
 
-        assertEquals("James Jameson", orders.get(0).getCustomer().getCustomerName());
-        assertEquals("James@jameson.com", orders.get(0).getCustomer().getCustomerEmail());
+        assertEquals("Lars Olsen", orders.get(0).getCustomer().getCustomerName());
+        assertEquals("lars@olsen.no", orders.get(0).getCustomer().getCustomerEmail());
 
-        assertEquals("Skjetten", orders.get(0).getAddress().getAddressCity());
-        assertEquals("Karihaugsveien 78", orders.get(0).getAddress().getAddressStreet());
-        assertEquals("2013", orders.get(0).getAddress().getAddressZip());
+        assertEquals("Bergen", orders.get(0).getAddress().getAddressCity());
+        assertEquals("Bakkegata 7", orders.get(0).getAddress().getAddressStreet());
+        assertEquals("5015", orders.get(0).getAddress().getAddressZip());
 
-        assertEquals("3D Printer", orders.get(0).getMachines().get(0).getMachineName());
+        assertEquals("Laser printer", orders.get(0).getMachines().get(0).getMachineName());
         assertEquals("Electronics", orders.get(0).getMachines().get(0).getMachineType());
 
-        assertEquals("Speaker", orders.get(0).getMachines().get(1).getMachineName());
-        assertEquals("Electronics", orders.get(0).getMachines().get(1).getMachineType());
+        assertEquals("Circuit Board Assembler", orders.get(0).getMachines().get(1).getMachineName());
+        assertEquals("Assembly", orders.get(0).getMachines().get(1).getMachineType());
     }
 }

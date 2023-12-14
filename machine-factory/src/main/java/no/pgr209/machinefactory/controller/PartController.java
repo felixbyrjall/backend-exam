@@ -22,7 +22,6 @@ public class PartController {
         this.partService = partService;
     }
 
-    //Get all part
     @GetMapping()
     public ResponseEntity<List<Part>> getAllParts() {
         List<Part> allParts = partService.getAllParts();
@@ -34,7 +33,6 @@ public class PartController {
         }
     }
 
-    //Get parts by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Part>> getPartsByPage(@PathVariable int pageNr) {
         List<Part> partsByPage = partService.getPartsByPage(pageNr);
@@ -63,7 +61,7 @@ public class PartController {
             return new ResponseEntity<>(createdPart, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Error", "Some fields are invalid");
+            responseHeaders.set("Error", "field is invalid");
             return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
         }
     }

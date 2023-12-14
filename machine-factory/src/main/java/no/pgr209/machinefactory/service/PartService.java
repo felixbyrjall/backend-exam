@@ -22,14 +22,12 @@ public class PartService {
         this.subassemblyRepo = subassemblyRepo;
     }
 
-    //Get ALL parts
     public List<Part> getAllParts() {
         return partRepo.findAll();
     }
 
-    //Get parts by page
     public List<Part> getPartsByPage(int pageNr) {
-        return partRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+        return partRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
 
     public Part getPartById(Long id) {
@@ -58,7 +56,6 @@ public class PartService {
                     subassemblyRepo.save(subassembly);
                 }
             }
-
             partRepo.delete(part);
         }
     }
@@ -74,7 +71,6 @@ public class PartService {
             existingPart.setPartName(partDTO.getPartName());
             return partRepo.save(existingPart);
         }
-
         return null;
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@ActiveProfiles("dev") // Seperate CommandLine and Data Jpa test.
+@ActiveProfiles("dev") // Exclude CommandLineRunner from Unit test, ensuring clean database
 public class OrderRepoUnitTest {
 
     @Autowired
@@ -36,117 +35,106 @@ public class OrderRepoUnitTest {
     @Autowired
     private MachineRepo machineRepo;
 
-    @Test // Test saving, creating an order.
-    public void save_shouldReturnSavedOrder() {
-        Order order = new Order();
-        Order savedOrder = orderRepo.save(order);
+    @Test // Ensure an order is created
+    public void save_shouldReturnOrder() {
+        Order order = orderRepo.save(new Order());
 
-        assertThat(savedOrder).isNotNull();
-        assertThat(savedOrder.getOrderId()).isNotNull();
-    }
-    @Test // Testing the Many-to-one relationship with Customer.
-    public void save_shouldReturnSavedOrderWithCustomer() {
-        Customer customerOne = customerRepo.save(new Customer("James Brown", "james@brown.no"));
-
-        Order createOrder = new Order();
-        createOrder.setCustomer(customerOne);
-        Order savedOrder = orderRepo.save(createOrder);
-
-        Optional<Order> findOrder = orderRepo.findById(savedOrder.getOrderId());
-        findOrder.ifPresent(order -> assertEquals(customerOne, findOrder.get().getCustomer()));
+        assertThat(order).isNotNull();
+        assertThat(order.getOrderId()).isNotNull();
     }
 
-    @Test // Testing the Many-to-one relationship with Address.
-    public void save_shouldReturnSavedOrderWithAddress() {
-        Address address = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "1350"));
+    @Test // Test many-to-one relationship with Customer
+    public void save_shouldReturnOrderWithCustomer() {
+        Customer customer = customerRepo.save(new Customer("Harald Skog", "harald@skog.no"));
 
-        Order createOrder = new Order();
-        createOrder.setAddress(address);
-        Order savedOrder = orderRepo.save(createOrder);
+        Order order = orderRepo.save(new Order());
+        order.setCustomer(customer);
 
-        Optional<Order> findOrder = orderRepo.findById(savedOrder.getOrderId());
-        findOrder.ifPresent(order -> assertEquals(address, findOrder.get().getAddress()));
+        Optional<Order> findOrder = orderRepo.findById(order.getOrderId());
+        findOrder.ifPresent(checkOrder -> assertEquals(customer, findOrder.get().getCustomer()));
     }
 
-    @Test // Testing the One-to-Many relationship with machines.
-    public void save_shouldReturnSavedOrderWithMachines() {
-        Machine machineOne = machineRepo.save(new Machine("3D Printer", "Electronics"));
-        Machine machineTwo = machineRepo.save(new Machine("3D Scanner", "Electronics"));
-        List<Machine> allMachines = Arrays.asList(machineOne, machineTwo);
+    @Test // Test many-to-one relationship with Address
+    public void save_shouldReturnOrderWithAddress() {
+        Address address = addressRepo.save(new Address("Kongens Gate 15", "Oslo", "0153"));
 
-        Order createOrder = new Order();
-        createOrder.setMachines(allMachines);
-        Order savedOrder = orderRepo.save(createOrder);
+        Order order = orderRepo.save(new Order());
+        order.setAddress(address);
 
-        Optional<Order> findOrder = orderRepo.findById(savedOrder.getOrderId());
-        findOrder.ifPresent(order -> assertEquals(allMachines, findOrder.get().getMachines()));
+        Optional<Order> findOrder = orderRepo.findById(order.getOrderId());
+        findOrder.ifPresent(checkOrder -> assertEquals(address, findOrder.get().getAddress()));
     }
 
-    @Test // Test fetching all orders
+    @Test // Test many-to-one relationship with Machine
+    public void save_shouldReturnOrderWithMachines() {
+        machineRepo.save(new Machine("3D Printer", "Electronics"));
+        machineRepo.save(new Machine("Robot Scanner", "Electronics"));
+        List<Machine> machines = machineRepo.findAll();
+
+        Order order = orderRepo.save(new Order());
+        order.setMachines(machines);
+
+        Optional<Order> findOrder = orderRepo.findById(order.getOrderId());
+        findOrder.ifPresent(checkOrder -> assertEquals(machines, findOrder.get().getMachines()));
+    }
+
+    @Test // Test findAll and ensure count of orders
     public void findAll_shouldReturnNonEmptyListOfOrders() {
-        Order firstOrder = new Order();
-        Order secondOrder = new Order();
-        orderRepo.save(firstOrder);
-        orderRepo.save(secondOrder);
-
+        orderRepo.save(new Order());
+        orderRepo.save(new Order());
         List<Order> orders = orderRepo.findAll();
 
         assertThat(orders).isNotNull();
-        assertThat(orders.size()).isGreaterThan(0);
+        assertThat(orders.size()).isEqualTo(2);
     }
 
-    @Test // Test fetching order by id
+    @Test // Test finding order by id
     public void findById_shouldReturnOrder() {
-        Order order = new Order();
-        Order savedOrder = orderRepo.save(order);
+        Order order = orderRepo.save(new Order());
 
-        Optional<Order> foundOrder = orderRepo.findById(savedOrder.getOrderId());
-
+        Optional<Order> foundOrder = orderRepo.findById(order.getOrderId());
         assertThat(foundOrder).isPresent();
     }
 
-    @Test // Test fetching a non-existing order.
+    @Test // Test finding a non-existing order.
     public void findById_shouldNotReturnNonExistentOrder() {
-        Long nonExistentId = 65561L;
+        Long nonExistentOrder = 65561L;
 
-        Optional<Order> findOrder = orderRepo.findById(nonExistentId);
-
+        Optional<Order> findOrder = orderRepo.findById(nonExistentOrder);
         assertThat(findOrder).isNotPresent();
     }
 
-    @Test // Create and then update an order.
+    @Test // Create and then update an order
     public void update_shouldUpdateExistingOrder() {
 
-        // Create the order with address information.
-        Order createOrder = new Order();
+        // Create the order with address information
+        Order order = orderRepo.save(new Order());
         Address address = addressRepo.save(new Address("Karihaugsveien 78", "Skjetten", "2013"));
-        createOrder.setAddress(address);
-        Order savedOrder = orderRepo.save(createOrder);
+        order.setAddress(address);
 
-        // Find the created order and check the information.
-        Optional<Order> findSavedOrder = orderRepo.findById(savedOrder.getOrderId());
-        findSavedOrder.ifPresent(order -> assertEquals("Karihaugsveien 78", findSavedOrder.get().getAddress().getAddressStreet()));
+        // Find the created order and check the address
+        Optional<Order> findOrder = orderRepo.findById(order.getOrderId());
+        findOrder.ifPresent(checkOrder -> assertEquals("Karihaugsveien 78", findOrder.get().getAddress().getAddressStreet()));
 
-        // Update order with a new address:
+        // Update order with a new address
         Address newAddress = addressRepo.save(new Address("Kongens Gate 101", "Oslo", "5126"));
-        savedOrder.setAddress(newAddress);
-        orderRepo.save(savedOrder);
+        order.setAddress(newAddress);
 
-        // Check order address after update.
-        Optional<Order> findOrderAfterUpdate = orderRepo.findById(savedOrder.getOrderId());
-        findOrderAfterUpdate.ifPresent(order -> assertEquals("Kongens Gate 101", findOrderAfterUpdate.get().getAddress().getAddressStreet()));
+        // Check order address after update
+        Optional<Order> findOrderAfterUpdate = orderRepo.findById(order.getOrderId());
+        findOrderAfterUpdate.ifPresent(checkOrder -> assertEquals("Kongens Gate 101", findOrderAfterUpdate.get().getAddress().getAddressStreet()));
     }
 
-    @Test // Create an order, check if order exist, delete the order and then check if order still exist.
+    @Test // Create an order, check if order exist, delete the order and then check if order still exist
     public void deleteById_shouldRemoveOrder() {
-        Order order = new Order();
-        Order savedOrder = orderRepo.save(order);
-        Optional<Order> findSavedOrder = orderRepo.findById(savedOrder.getOrderId());
+        Order order = orderRepo.save(new Order());
+        Optional<Order> findOrder = orderRepo.findById(order.getOrderId());
 
-        assertThat(findSavedOrder).isPresent();
+        assertThat(findOrder).isPresent();
 
-        orderRepo.deleteById(savedOrder.getOrderId());
-        Optional<Order> findDeletedOrder = orderRepo.findById(savedOrder.getOrderId());
+        orderRepo.deleteById(order.getOrderId());
+
+        Optional<Order> findDeletedOrder = orderRepo.findById(order.getOrderId());
         assertThat(findDeletedOrder).isNotPresent();
     }
 

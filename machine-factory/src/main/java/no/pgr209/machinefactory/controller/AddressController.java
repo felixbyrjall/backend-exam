@@ -22,7 +22,6 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    //Get all addresses
     @GetMapping()
     public ResponseEntity<List<Address>> getAllAddresses() {
         List<Address> allAddresses = addressService.getAllAddresses();
@@ -34,7 +33,6 @@ public class AddressController {
         }
     }
 
-    //Get addresses by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Address>> getAddressesByPage(@PathVariable int pageNr) {
         List<Address> addressesByPage = addressService.getAddressesByPage(pageNr);
@@ -63,7 +61,7 @@ public class AddressController {
             return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Error", "One of more fields are invalid");
+            responseHeaders.set("Error", "One or more fields are invalid");
             return new ResponseEntity<>(responseHeaders, HttpStatus.NOT_FOUND);
         }
     }

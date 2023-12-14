@@ -23,14 +23,12 @@ public class MachineService {
         this.orderService = orderService;
     }
 
-    //Get ALL machines
     public List<Machine> getAllMachines() {
         return machineRepo.findAll();
     }
 
-    //Get machines by page
     public List<Machine> getMachinesByPage(int pageNr) {
-        return machineRepo.findAll(PageRequest.of(pageNr, 10)).stream().toList();
+        return machineRepo.findAll(PageRequest.of(pageNr, 3)).stream().toList();
     }
 
     public Machine getMachineById(Long id) {
@@ -53,18 +51,17 @@ public class MachineService {
     }
 
 
-    // Delete Orders connected to Machine
     public void deleteMachineById(Long id) {
         List<Order> allOrders = orderService.getAllOrders();
         List<Order> ordersContainingMachine = allOrders.stream()
                 .filter(order -> order.getMachines().stream().anyMatch(machine -> machine.getMachineId().equals(id)))
                 .toList();
 
-        for (Order order : ordersContainingMachine) { // Delete all orders that contain the machine
+        for (Order order : ordersContainingMachine) {
             orderService.deleteOrderById(order.getOrderId());
         }
 
-        machineRepo.deleteById(id); // Delete machine after orders are deleted.
+        machineRepo.deleteById(id);
     }
 
     public boolean machineExists(Long id) {

@@ -27,19 +27,19 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    // Who ordered - A customer can have many orders.
+    // A customer can have many orders
     @ManyToOne
     @JoinColumn(name = "customer_id")
     @JsonIgnoreProperties({"addresses", "orders"})
     private Customer customer;
 
-    // Where is order shipping to - An address can have many orders.
+    // An address can have many orders.
     @ManyToOne
     @JoinColumn(name = "address_id")
     @JsonIgnoreProperties({"customers", "orders"})
     private Address address;
 
-    // What is ordered - An order has one or more machines
+    // An order has one or more machines
     @ManyToMany
     @JsonIgnoreProperties({"subassemblies"})
     private List<Machine> machines = new ArrayList<>();

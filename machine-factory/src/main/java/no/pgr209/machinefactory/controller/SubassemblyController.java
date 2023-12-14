@@ -22,7 +22,6 @@ public class SubassemblyController {
         this.subassemblyService = subassemblyService;
     }
 
-    //Get all subassembly
     @GetMapping()
     public ResponseEntity<List<Subassembly>> getAllSubassemblies() {
         List<Subassembly> allSubassemblies = subassemblyService.getAllSubassemblies();
@@ -34,7 +33,6 @@ public class SubassemblyController {
         }
     }
 
-    //Get subassemblies by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Subassembly>> getSubassembliesByPage(@PathVariable int pageNr) {
         List<Subassembly> subassembliesByPage = subassemblyService.getSubassembliesByPage(pageNr);
