@@ -79,7 +79,6 @@ public class OrderIntegrationTest {
         JSONObject jsonObject = new JSONObject(responseContent);
         int orderId = jsonObject.getInt("orderId");
 
-        // Fetch the created order and check if details are correct
         mockMvc.perform(get("/api/order/" + orderId))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerId").value(1L))

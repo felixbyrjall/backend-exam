@@ -22,7 +22,7 @@ public class CustomerIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Test // Test connection is OK, fetch all customers, and ensure customers are returned.
+    @Test // Fetch all customers, ensure they are returned
     void shouldFetchCustomers() throws Exception {
         mockMvc.perform(get("/api/customer"))
                 .andExpect(status().isOk())
@@ -30,14 +30,17 @@ public class CustomerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].customerId").value(2));
     }
 
-    @Test // Ensure customer are returned from pagination, returning the correct customers.
+    @Test // Check that customers are returned from pagination, returning the correct amount (Max: 3 per page)
     void shouldFetchCustomersOnPage() throws Exception {
         mockMvc.perform(get("/api/customer/page/0"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].customerId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].customerId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].customerId").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3].customerId").doesNotExist());
     }
 
-    @Test // Test GET - Customer by id, ensure correct customer information are returned.
+    @Test // Fetch a customer by id and ensure correct values are returned from it
     void shouldFetchCustomerById() throws Exception {
         mockMvc.perform(get("/api/customer/1"))
                 .andExpect(status().isOk())
@@ -46,18 +49,16 @@ public class CustomerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("ola@nordmann.no"));
     }
 
-    @Test // Testing POST request, creating a customer.
+    @Test // Test creating a customer
     void shouldCreateCustomer() throws Exception {
-        // Create customer, address is not required upon creation hence why it is empty.
         String customerJson = """
         {
-            "customerName": "James Brown",
-            "customerEmail": "james@brown.com",
+            "customerName": "Tom Hansen",
+            "customerEmail": "tom@hansen.no",
             "addressId": []
         }
         """;
 
-        // Create the customer
         MvcResult createResult = mockMvc.perform(post("/api/customer")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(customerJson))
@@ -69,43 +70,19 @@ public class CustomerIntegrationTest {
         JSONObject jsonObject = new JSONObject(responseContent);
         int customerId = jsonObject.getInt("customerId");
 
-        // Fetch the created customer and check if details match.
         mockMvc.perform(get("/api/customer/" + customerId))
             .andExpect(status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(customerId))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("James Brown"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("james@brown.com"));
+            .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tom Hansen"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hansen.no"));
     }
 
-    @Test // Testing PUT request, updating a customerName, customerEmail and making addresses empty.
+    @Test // Test updating a customer
     void shouldUpdateCustomer() throws Exception {
         String customerJson = """
         {
-            "customerName": "Tom Hardy",
-            "customerEmail": "tom@hardy.com",
-            "addressId": []
-        }
-        """;
-
-        mockMvc.perform(put("/api/customer/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(customerJson))
-                .andExpect(status().isOk());
-
-        // Fetch the updated customer and check if details actually match.
-        mockMvc.perform(get("/api/customer/1"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tom Hardy"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"));
-    }
-
-    @Test // Testing PUT request, updating a customer with another address.
-    void shouldUpdateCustomerWithAnotherAddress() throws Exception {
-        String customerJson = """
-        {
-            "customerName": "Tom Hardy",
-            "customerEmail": "tom@hardy.com",
+            "customerName": "Tommy Hansen",
+            "customerEmail": "tom@hansen.no",
             "addressId": [2]
         }
         """;
@@ -115,31 +92,55 @@ public class CustomerIntegrationTest {
                         .content(customerJson))
                 .andExpect(status().isOk());
 
-        // Fetch the updated customer and check if details actually match.
+        // Fetch the updated customer and check if details are correct
         mockMvc.perform(get("/api/customer/1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tom Hardy"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hardy.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tommy Hansen"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hansen.no"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(2L));
+    }
+
+    @Test // Test updating a customer without addresses
+    void shouldUpdateCustomerWithAnotherAddress() throws Exception {
+        String customerJson = """
+        {
+            "customerName": "Tom Hansen",
+            "customerEmail": "tom@hansen.no",
+            "addressId": []
+        }
+        """;
+
+        mockMvc.perform(put("/api/customer/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(customerJson))
+                .andExpect(status().isOk());
+
+        // Fetch the updated customer and check if details are correct
+        mockMvc.perform(get("/api/customer/1"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerId").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value("Tom Hansen"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.customerEmail").value("tom@hansen.no"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").doesNotExist());
 
     }
 
-    @Test // Expect fetch to be NOT FOUND using non-existent ID customer
+    @Test // Expect response to be NOT FOUND when fetching a non-existent id
     void shouldNotFetchNonExistentCustomerById () throws Exception {
         mockMvc.perform(get("/api/customer/81561"))
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect NOT FOUND when creating a customer with non-existent addressId
-    void shouldNotCreateCustomerWithInvalidCustomerId() throws Exception {
+    @Test // Expect response to be NOT FOUND when creating an address with an address id that do not exist
+    void shouldNotCreateCustomerWithInvalidAddressId() throws Exception {
         String customerJson = String.format("""
         {
-            "customerName": "James Brown",
-            "customerEmail": "james@brown.com",
+            "customerName": "Erik Olsen",
+            "customerEmail": "erik@olsen.no",
             "addressId": [%d]
         }
-        """, 3425L);
+        """, 77L);
 
         mockMvc.perform(post("/api/customer")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -147,15 +148,15 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect NOT FOUND when creating a customer with non-existent parameters and invalid data
+    @Test // Expect response to be NOT FOUND when trying to create a customer without required data
     void shouldNotCreateCustomerWithEmptyData() throws Exception {
-        String customerJson = String.format("""
+        String customerJson = """
         {
-            "customerName": "James Brown",
-            "customerEmail": "james@brown.com",
-            "addressId": [%d]
+            "customerName": "",
+            "customerEmail": "",
+            "addressId": []
         }
-        """, 3425L);
+        """;
 
         mockMvc.perform(post("/api/customer")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -163,15 +164,15 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect NOT FOUND when creating a customer with non-existent parameters and invalid data
+    @Test // Expect response to be NOT FOUND when trying to update a customer that do not exist
     void shouldNotUpdateNonExistentCustomer() throws Exception {
-        String customerJson = String.format("""
+        String customerJson = """
         {
-            "customerName": "Tom Hardy",
-            "customerEmail": "tom@hardy.com",
-            "addressId": [%d]
+            "customerName": "Erik Svein Olsen",
+            "customerEmail": "erik.svein@olsen.no",
+            "addressId": []
         }
-        """, 2L);
+        """;
 
         mockMvc.perform(put("/api/customer/234345")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -179,7 +180,7 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect NOT FOUND when creating a customer with data that do not exist.
+    @Test // Expect NOT FOUND when updating a customer with an address that do not exist
     void shouldNotUpdateCustomerWithInvalidData() throws Exception {
         String customerJson = String.format("""
         {
@@ -195,7 +196,7 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Expect NOT FOUND when creating a customer with no data.
+    @Test // Expect NOT FOUND when updating a customer with no data
     void shouldNotUpdateCustomerWithEmptyData() throws Exception {
         String customerJson = """
         {
@@ -211,34 +212,34 @@ public class CustomerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE request for customers.
+    @Test // Test deleting a customer and confirm it is removed
     void shouldDeleteCustomerById() throws Exception {
-        mockMvc.perform(get("/api/customer/2")) // Check if customer exist.
+        mockMvc.perform(get("/api/customer/2")) // Check if customer exist
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/customer/2")) // Delete the customer by id.
+        mockMvc.perform(delete("/api/customer/2")) // Delete the customer by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/customer/2")) // Check if customer is removed.
+        mockMvc.perform(get("/api/customer/2")) // Check if customer is deleted
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test DELETE requests and that associated Orders are deleted.
+    @Test // Test deleting a customer and check if associated orders are also deleted
     void shouldDeleteCustomerByIdAndOrdersAssociated() throws Exception {
-        mockMvc.perform(get("/api/customer/1")) // Check if customer exist.
+        mockMvc.perform(get("/api/customer/1")) // Check if customer exist
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/order/1")) // Check if order exist and that this is the customer's order.
+        mockMvc.perform(get("/api/order/1")) // Check if order exist and that this is the connected order
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customer.customerId").value(1L))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/customer/1")) // Delete the customer by id.
+        mockMvc.perform(delete("/api/customer/1")) // Delete the customer by id
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/customer/1")) // Check if customer is removed.
+        mockMvc.perform(get("/api/customer/1")) // Check if customer is deleted
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(get("/api/order/1")) // Check if associated order is removed.
+        mockMvc.perform(get("/api/order/1")) // Check if associated order is deleted
                 .andExpect(status().isNotFound());
     }
 

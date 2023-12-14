@@ -50,7 +50,7 @@ public class AddressIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressZip").value("0184"));
     }
 
-    @Test // Test creating an address and then fetch it
+    @Test // Test creating an address
     void shouldCreateAddress() throws Exception {
         String addressJson = """
         {
