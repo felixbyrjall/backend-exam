@@ -285,15 +285,54 @@ public class DataFeedService {
         partTen = partRepo.save(partTen);
 
         subassemblyOne.getParts().add(partOne);
-        subassemblyOne.getParts().add(partTwo);
+        subassemblyOne.getParts().add(partFour);
+
         subassemblyTwo.getParts().add(partOne);
-        subassemblyTwo.getParts().add(partThree);
-        subassemblyThree.getParts().add(partOne);
+        subassemblyTwo.getParts().add(partTwo);
+
         subassemblyThree.getParts().add(partTwo);
+        subassemblyThree.getParts().add(partThree);
+        subassemblyThree.getParts().add(partOne);
+        subassemblyThree.getParts().add(partFour);
+
         subassemblyFour.getParts().add(partThree);
+        subassemblyFour.getParts().add(partNine);
+
+        subassemblyFive.getParts().add(partOne);
+
+        subassemblySix.getParts().add(partTwo);
+        subassemblySix.getParts().add(partFour);
+        subassemblySix.getParts().add(partNine);
+
+        subassemblySeven.getParts().add(partTwo);
+        subassemblySeven.getParts().add(partOne);
+        subassemblySeven.getParts().add(partSix);
+
+        subassemblyEight.getParts().add(partThree);
+        subassemblyEight.getParts().add(partEight);
+        subassemblyEight.getParts().add(partTen);
+        subassemblyEight.getParts().add(partFive);
+
+        subassemblyNine.getParts().add(partNine);
+        subassemblyNine.getParts().add(partFour);
+        subassemblyNine.getParts().add(partSeven);
+
+        subassemblyTen.getParts().add(partOne);
+        subassemblyTen.getParts().add(partSeven);
+        subassemblyTen.getParts().add(partFour);
+        subassemblyTen.getParts().add(partFive);
 
         // Update Subassembly with the Part
         subassemblyRepo.save(subassemblyOne);
+        subassemblyRepo.save(subassemblyTwo);
+        subassemblyRepo.save(subassemblyThree);
+        subassemblyRepo.save(subassemblyFour);
+        subassemblyRepo.save(subassemblyFive);
+        subassemblyRepo.save(subassemblySix);
+        subassemblyRepo.save(subassemblySeven);
+        subassemblyRepo.save(subassemblyEight);
+        subassemblyRepo.save(subassemblyNine);
+        subassemblyRepo.save(subassemblyTen);
 
         // Initialize and save Orders
         Order orderOne = new Order(LocalDateTime.now());
@@ -305,6 +344,7 @@ public class DataFeedService {
         orderTwo.setAddress(addressTwo);
         orderTwo.setCustomer(customerTwo);
         orderTwo.setMachines(machinesListOne);
+
 
         orderRepo.save(orderOne);
         orderRepo.save(orderTwo);
