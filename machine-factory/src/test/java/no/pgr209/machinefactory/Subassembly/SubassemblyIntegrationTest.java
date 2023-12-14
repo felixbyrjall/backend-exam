@@ -187,27 +187,27 @@ public class SubassemblyIntegrationTest {
         mockMvc.perform(get("/api/subassembly/1")) // Check if subassembly exist.
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/subassembly/4")) // Check if subassembly exist.
+        mockMvc.perform(get("/api/subassembly/2")) // Check if subassembly exist.
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/machine/2")) // Check if machine exist and that the subassemblies in the order.
+        mockMvc.perform(get("/api/machine/1")) // Check if machine exist and that the subassemblies in the order.
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0].subassemblyId").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[1].subassemblyId").value(4L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[1].subassemblyId").value(2L))
                 .andExpect(status().isOk());
 
         mockMvc.perform(delete("/api/subassembly/1")) // Delete the subassembly by id.
                 .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/subassembly/4")) // Delete the subassembly by id.
+        mockMvc.perform(delete("/api/subassembly/2")) // Delete the subassembly by id.
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/subassembly/1")) // Check if subassembly exist.
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(get("/api/subassembly/4")) // Check if subassembly exist.
+        mockMvc.perform(get("/api/subassembly/2")) // Check if subassembly exist.
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(get("/api/machine/2")) // Check if subassembly is emptied in machine.
+        mockMvc.perform(get("/api/machine/1")) // Check if subassembly is emptied in machine.
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0]").doesNotHaveJsonPath())
                 .andExpect(status().isOk()); // Making sure machine still exist.
     }
