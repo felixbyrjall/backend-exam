@@ -51,8 +51,8 @@ public class MachineServiceIntegrationTest {
     @Test
     void shouldCreateAndFetchMachine() {
         MachineDTO machine = new MachineDTO();
-        Subassembly subassemblyOne = subassemblyRepo.save(new Subassembly("Printer rod"));
-        Subassembly subassemblyTwo = subassemblyRepo.save(new Subassembly("Printer knob"));
+        Subassembly subassemblyOne = subassemblyRepo.save(new Subassembly("Extruder Assembly"));
+        Subassembly subassemblyTwo = subassemblyRepo.save(new Subassembly("Motion Control System"));
         System.out.println(subassemblyTwo.getSubassemblyId());
         System.out.println(subassemblyOne.getSubassemblyId());
 
@@ -61,18 +61,17 @@ public class MachineServiceIntegrationTest {
         subassemblies.add(subassemblyTwo.getSubassemblyId());
         System.out.println(subassemblies);
 
-        machine.setMachineName("Robot printer");
-        machine.setMachineType("Electronics");
+        machine.setMachineName("Component Placement Arm");
+        machine.setMachineType("Conveyor System");
         machine.setSubassemblyId(subassemblies);
         machineService.createMachine(machine);
 
         var machines = machineService.getAllMachines();
 
         assertEquals(1, machines.size());
-        assertEquals("Robot printer", machines.get(0).getMachineName());
-        assertEquals("Electronics", machines.get(0).getMachineType());
-        assertEquals("Printer rod", machines.get(0).getSubassemblies().get(0).getSubassemblyName());
-        assertEquals("Printer knob", machines.get(0).getSubassemblies().get(1).getSubassemblyName());
+        assertEquals("Component Placement Arm", machines.get(0).getMachineName());
+        assertEquals("Conveyor System", machines.get(0).getMachineType());
+        assertEquals("Extruder Assembly", machines.get(0).getSubassemblies().get(0).getSubassemblyName());
+        assertEquals("Motion Control System", machines.get(0).getSubassemblies().get(1).getSubassemblyName());
     }
-
 }

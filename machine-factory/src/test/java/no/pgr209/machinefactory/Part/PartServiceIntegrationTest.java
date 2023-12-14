@@ -49,12 +49,12 @@ public class PartServiceIntegrationTest {
     void shouldCreateAndFetchPart() {
         PartDTO part = new PartDTO();
 
-        part.setPartName("Voltage Regulator");
+        part.setPartName("Cables and connectors");
         partService.createPart(part);
 
         var parts = partService.getAllParts();
 
         assertEquals(1, parts.size());
-        assertEquals("Voltage Regulator", parts.get(0).getPartName());
+        assertEquals("Cables and connectors", parts.get(0).getPartName());
     }
 }

@@ -48,12 +48,12 @@ public class SubassemblyServiceIntegrationTest {
     @Test
     void shouldCreateAndFetchSubassembly() {
         SubassemblyDTO subassembly = new SubassemblyDTO();
-        Part partOne = partRepo.save(new Part("Rod"));
+        Part partOne = partRepo.save(new Part("Microcontroller"));
 
         List<Long> parts = new ArrayList<>();
         parts.add(partOne.getPartId());
 
-        subassembly.setSubassemblyName("Something");
+        subassembly.setSubassemblyName("Component Placement Arm");
         subassembly.setPartId(parts);
         subassemblyService.createSubassembly(subassembly);
 
