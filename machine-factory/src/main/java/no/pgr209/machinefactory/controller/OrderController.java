@@ -23,7 +23,6 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    //Get all orders
     @GetMapping()
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> allOrders = orderService.getAllOrders();
@@ -35,7 +34,6 @@ public class OrderController {
         }
     }
 
-    //Get orders by page
     @GetMapping("/page/{pageNr}")
     public ResponseEntity<List<Order>> getOrdersByPage(@PathVariable int pageNr) {
         List<Order> ordersByPage = orderService.getOrdersByPage(pageNr);
@@ -46,7 +44,6 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //Get order by id
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Order orderById = orderService.getOrderById(id);
@@ -57,7 +54,6 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    //Create an order
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
         Order createdOrder = orderService.createOrder(orderDTO);
@@ -71,7 +67,6 @@ public class OrderController {
         }
     }
 
-    //Delete order by id
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOrderById(@PathVariable Long id) {
         if (orderService.orderExists(id)) {
