@@ -77,7 +77,7 @@ public class MachineIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.machineType").value("Electronics"));
     }
 
-    @Test
+    @Test // Test updating a Machine with a subassembly
     void shouldUpdateMachineWithAddingSubassembly() throws Exception {
         String machineJson = """
         {
@@ -87,7 +87,7 @@ public class MachineIntegrationTest {
         }
         """;
 
-        // update the machine
+        // Update the machine
         mockMvc.perform(put("/api/machine/2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(machineJson))
@@ -101,7 +101,7 @@ public class MachineIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0].subassemblyId").value(1L));
     }
 
-    @Test
+    @Test // Test deleting a customer that doesn't exist
     void shouldUpdateMachineWithNewInfo() throws Exception {
         String machineJson = """
         {
