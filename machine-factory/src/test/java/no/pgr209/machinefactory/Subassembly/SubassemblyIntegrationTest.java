@@ -83,7 +83,6 @@ public class SubassemblyIntegrationTest {
         }
         """;
 
-        // Update the subassembly
         mockMvc.perform(put("/api/subassembly/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(subassemblyJson))
@@ -95,7 +94,7 @@ public class SubassemblyIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblyName").value("Super Laser Printer knobs"));
     }
 
-    @Test // Test update subassembly part
+    @Test // Test update partId inside a subassembly
     void shouldUpdateSubassemblyWithAddingPart() throws Exception {
         String subassemblyJson = """
         {
@@ -104,7 +103,6 @@ public class SubassemblyIntegrationTest {
         }
         """;
 
-        // Update the subassembly
         mockMvc.perform(put("/api/subassembly/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(subassemblyJson))
@@ -180,7 +178,7 @@ public class SubassemblyIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test deleting a machine and check if associated machines is updated
+    @Test // Test deleting a subassembly and check if associated machines is updated
     void shouldDeleteSubassemblyByIdAndMakeSubassemblyNullInMachines() throws Exception {
         mockMvc.perform(get("/api/subassembly/1")) // Check if subassembly exist
                 .andExpect(status().isOk());
@@ -188,7 +186,7 @@ public class SubassemblyIntegrationTest {
         mockMvc.perform(get("/api/subassembly/2")) // Check if subassembly exist
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/machine/1")) // Check if machine exist and that the subassemblies in the order.
+        mockMvc.perform(get("/api/machine/1")) // Check if machine exist and that the subassemblies are in the order
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0].subassemblyId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[1].subassemblyId").value(2L))
                 .andExpect(status().isOk());
@@ -207,7 +205,7 @@ public class SubassemblyIntegrationTest {
 
         mockMvc.perform(get("/api/machine/1")) // Check if subassembly is emptied in machine
                 .andExpect(MockMvcResultMatchers.jsonPath("$.subassemblies[0]").doesNotHaveJsonPath())
-                .andExpect(status().isOk()); // Making sure machine still exist
+                .andExpect(status().isOk());
     }
 
     @Test // Test deleting a subassembly that doesn't exist
