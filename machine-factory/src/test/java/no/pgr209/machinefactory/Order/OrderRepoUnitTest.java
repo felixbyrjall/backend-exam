@@ -65,7 +65,7 @@ public class OrderRepoUnitTest {
         findOrder.ifPresent(checkOrder -> assertEquals(address, findOrder.get().getAddress()));
     }
 
-    @Test // Test many-to-one relationship with Machine
+    @Test // Test many-to-many relationship with Machine
     public void save_shouldReturnOrderWithMachines() {
         machineRepo.save(new Machine("3D Printer", "Electronics"));
         machineRepo.save(new Machine("Robot Scanner", "Electronics"));
@@ -96,7 +96,7 @@ public class OrderRepoUnitTest {
         assertThat(foundOrder).isPresent();
     }
 
-    @Test // Test finding a non-existing order.
+    @Test // Test finding a non-existing order
     public void findById_shouldNotReturnNonExistentOrder() {
         Long nonExistentOrder = 65561L;
 

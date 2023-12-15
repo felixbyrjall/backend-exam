@@ -67,7 +67,7 @@ public class SubassemblyRepoUnitTest {
         assertThat(foundSubassembly).isPresent();
     }
 
-    @Test // Test finding a non-existent machine
+    @Test // Test finding a non-existent machine id
     public void findById_shouldNotReturnNonExistentSubassembly() {
         Long nonExistentSubassembly = 23214L;
 
@@ -93,7 +93,7 @@ public class SubassemblyRepoUnitTest {
         subassemblyUpdated.ifPresent(subassemblyChanged -> assertEquals("Robotic Leg System", subassemblyUpdated.get().getSubassemblyName()));
     }
 
-    @Test // Create a Subassembly, check if the subassembly exist, delete the subassembly and then check if subassembly still exist.
+    @Test // Create a Subassembly, check if the subassembly exist, delete the subassembly and then check if subassembly still exist
     public void deleteById_shouldRemoveSubassembly() {
         Subassembly subassembly = subassemblyRepo.save(new Subassembly());
         Optional<Subassembly> findSubassembly = subassemblyRepo.findById(subassembly.getSubassemblyId());

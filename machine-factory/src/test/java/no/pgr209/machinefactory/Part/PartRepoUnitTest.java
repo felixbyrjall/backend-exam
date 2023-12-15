@@ -48,7 +48,7 @@ public class PartRepoUnitTest {
         assertThat(foundPart).isPresent();
     }
 
-    @Test // Test finding a non-existent part
+    @Test // Test finding a non-existent part id
     public void findById_shouldNotReturnNonExistentPart() {
         Long nonExistentPart = 3555L;
 
@@ -75,7 +75,7 @@ public class PartRepoUnitTest {
         partUpdated.ifPresent(partChanged -> assertEquals("LED indicator", partUpdated.get().getPartName()));
     }
 
-    @Test // Create a part, check if the part exist, delete the part and then check if part still exist.
+    @Test // Create a part, check if the part exist, delete the part and then check if part still exist
     public void deleteById_shouldRemovePart() {
         Part part = partRepo.save(new Part());
         Optional<Part> findPart = partRepo.findById(part.getPartId());

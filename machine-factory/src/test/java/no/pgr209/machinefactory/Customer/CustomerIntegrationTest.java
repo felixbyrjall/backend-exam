@@ -101,7 +101,7 @@ public class CustomerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addresses[0].addressId").value(2L));
     }
 
-    @Test // Test updating a customer without addresses
+    @Test // Test updating a customer without an addresses
     void shouldUpdateCustomerWithAnotherAddress() throws Exception {
         String customerJson = """
         {
@@ -188,7 +188,7 @@ public class CustomerIntegrationTest {
             "customerEmail": "james@brown.com",
             "addressId": [%d]
         }
-        """, 54323L);
+        """, 87L);
 
         mockMvc.perform(put("/api/customer/1")
                         .contentType(MediaType.APPLICATION_JSON)

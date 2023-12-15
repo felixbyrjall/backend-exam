@@ -47,7 +47,7 @@ public class PartServiceUnitTest {
         assertEquals(mockPart, part);
     }
 
-    @Test // Comprehensive mock & unit-testing, creating a part.
+    @Test // Comprehensive mock & unit-testing, creating a part
     void shouldCreatePart() {
         PartDTO partDTO = new PartDTO();
         partDTO.setPartName("Light-Emitting Diode");

@@ -37,7 +37,7 @@ public class AddressServiceIntegrationTest {
     @Autowired
     CustomerRepo customerRepo;
 
-    @BeforeEach // Ensure clean DB.
+    @BeforeEach // Ensure clean DB for test environment
     void setUp() {
         orderRepo.deleteAll();
         customerRepo.deleteAll();
@@ -45,7 +45,7 @@ public class AddressServiceIntegrationTest {
         machineRepo.deleteAll();
     }
 
-    @Test // Comprehensive testing - The full cycle of creating an address and then validate information.
+    @Test // Comprehensive testing - The full cycle of creating an address and then validate information
     void shouldCreateAndFetchAddressInformation() {
         AddressDTO address = new AddressDTO();
         Customer customerOne = customerRepo.save(new Customer("Ola Nordmann", "ola@nordmann.no"));

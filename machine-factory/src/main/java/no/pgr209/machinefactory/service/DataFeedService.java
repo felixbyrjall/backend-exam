@@ -250,7 +250,7 @@ public class DataFeedService {
         orderOne.setCustomer(customerOne);
         orderOne.getMachines().addAll(machinesListOne);
 
-        // Order two
+        // Order Two
         Order orderTwo = orderRepo.save(new Order(LocalDateTime.parse("2023-03-07T14:22:59.00000")));
         orderTwo.setAddress(addressEight);
         orderTwo.setCustomer(customerTwo);

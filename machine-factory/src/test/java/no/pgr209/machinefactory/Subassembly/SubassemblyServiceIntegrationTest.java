@@ -3,7 +3,6 @@ package no.pgr209.machinefactory.Subassembly;
 import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.SubassemblyDTO;
 import no.pgr209.machinefactory.repo.*;
-import no.pgr209.machinefactory.service.PartService;
 import no.pgr209.machinefactory.service.SubassemblyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,9 +23,6 @@ public class SubassemblyServiceIntegrationTest {
     SubassemblyService subassemblyService;
 
     @Autowired
-    PartService partService;
-
-    @Autowired
     MachineRepo machineRepo;
 
     @Autowired
@@ -38,14 +34,14 @@ public class SubassemblyServiceIntegrationTest {
     @Autowired
     PartRepo partRepo;
 
-    @BeforeEach
+    @BeforeEach // Ensure clean DB for test environment
     void setUp() {
         orderRepo.deleteAll();
         machineRepo.deleteAll();
         subassemblyRepo.deleteAll();
         partRepo.deleteAll();
     }
-    @Test
+    @Test // Comprehensive testing - The full cycle of creating a subassembly and then validate information
     void shouldCreateAndFetchSubassembly() {
         SubassemblyDTO subassembly = new SubassemblyDTO();
         Part partOne = partRepo.save(new Part("Microcontroller"));

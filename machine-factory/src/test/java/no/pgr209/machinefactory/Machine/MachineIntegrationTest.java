@@ -87,7 +87,6 @@ public class MachineIntegrationTest {
         }
         """;
 
-        // Update the machine
         mockMvc.perform(put("/api/machine/2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(machineJson))

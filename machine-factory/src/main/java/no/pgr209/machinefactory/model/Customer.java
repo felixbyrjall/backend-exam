@@ -47,5 +47,4 @@ public class Customer {
         this.customerName = customerName;
         this.customerEmail = customerEmail;
     }
-
 }

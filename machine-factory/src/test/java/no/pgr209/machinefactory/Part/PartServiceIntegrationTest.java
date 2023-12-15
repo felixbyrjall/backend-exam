@@ -19,16 +19,10 @@ public class PartServiceIntegrationTest {
     PartService partService;
 
     @Autowired
-    AddressRepo addressRepo;
-
-    @Autowired
     MachineRepo machineRepo;
 
     @Autowired
     OrderRepo orderRepo;
-
-    @Autowired
-    CustomerRepo customerRepo;
 
     @Autowired
     SubassemblyRepo subassemblyRepo;
@@ -37,7 +31,7 @@ public class PartServiceIntegrationTest {
     PartRepo partRepo;
 
 
-    @BeforeEach // Ensure clean DB.
+    @BeforeEach // Ensure clean DB for test environment
     void setUp() {
         orderRepo.deleteAll();
         machineRepo.deleteAll();
@@ -45,7 +39,7 @@ public class PartServiceIntegrationTest {
         partRepo.deleteAll();
     }
 
-    @Test
+    @Test // Comprehensive testing - The full cycle of creating a part and then validate information
     void shouldCreateAndFetchPart() {
         PartDTO part = new PartDTO();
 
