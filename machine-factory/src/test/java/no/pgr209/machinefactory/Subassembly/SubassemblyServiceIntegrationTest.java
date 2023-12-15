@@ -24,9 +24,6 @@ public class SubassemblyServiceIntegrationTest {
     SubassemblyService subassemblyService;
 
     @Autowired
-    PartService partService;
-
-    @Autowired
     MachineRepo machineRepo;
 
     @Autowired
