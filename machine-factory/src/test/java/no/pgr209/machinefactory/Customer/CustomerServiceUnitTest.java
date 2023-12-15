@@ -53,7 +53,7 @@ public class CustomerServiceUnitTest {
         assertEquals(mockCustomer, customer);
     }
 
-    @Test // Comprehensive mock & unit-testing, creating a customer.
+    @Test // Comprehensive mock & unit-testing, creating a customer
     void shouldCreateCustomer() {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setCustomerName("Lars Olsen");
