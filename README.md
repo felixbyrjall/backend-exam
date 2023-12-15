@@ -1,95 +1,129 @@
-# backend-exam
-Exam hand in for the Backend-programming course fall 2023
+# PGR209 - Backendprogramming exam
 
-<p>Course code: PGR209<br/>
-Course name: Backend programmering<br/>
-Assessment type: mappeksamen i gruppe (2 studenter)<br/>
-Start date: 28.11.2023<br/>
-End date: 19.12.2023</p>
-<p>Plagiarism detection:
-All exam papers, including bachelor’s and master’s theses will be checked for plagiarism. You can read more about this in the guidelines on citing sources (referencing), plagiarism, and formal requirements for submitting assignments.</p>
+**Candidate numbers:** <br>
+2014 <br>
+2006
 
-<p><h3>General information:</h3>
-Start uploading your exam paper/file ahead of time, as it may take a long time to upload
-Exam papers that are not handed in on Wiseflow by the specified time of the submission date will not be
-proceeded to assessment<br>
-Before submitting, remember to check that all files can be opened and that every file is included. It may be a good
-idea to check the saved files on several machines before submitting in Wiseflow.
-Incorrect file format or lacking documents may result in the submission not being passed or assessed.
-The total file size of the entire exam paper/file must not exceed 5GB in zip format or 5MB in PDF format</p>
+<h2>Getting started:</h2>
+- Run 'MachineFactoryApplication.java' <br>
+- The application runs on 'http://localhost:8080' <br>
+- Use Postman or any other API platform to send requests <br>
+- Please use the provided json-templates in “TEMPLATES.txt”, for PUT and POST requests. <br>
+&nbsp;&nbsp;&nbsp;All requests are also showcased in our endpoint tests.
 
-<h3>Assignment:</h3>
-  
-- [x] You will build a rest Api using Java and Spring Boot.
-- [x] You must use Spring Data JPA and H2 in-memory database to persist all data.
-- [x] You must use Repositories, Services, and RestControllers
-- [x] You should implement pagination for all endpoints that return lists
-- [ ] You may implement Flyway, but it is not required
-- [x] You should have the following tests, making use of @SpringBootTest, @DataJpaTest where necessary:
-- [x] Unit tests of services and business logic using MockBean
-- [x] Integrations tests
-- [x] End-to-end tests using MockMvc
+<h2>To run all tests, you can either:</h2>
+- Right-click java folder under the ‘test’ folder and Run tests<br>
+- Run ‘mvn test’ in terminal from ‘..\machine-factory’. (‘cd machine-factory’)<br>
+- Run each class file or test method individually.
 
-  
-You are building an order system for a factory that sells machines.
-The domain objects are as follows:
+<h2>Project information:</h2>
+- All features, business logic and rules are showcased and thoroughly tested in our tests.<br>
+- An overview over the highlighted features, business logic and rules are described below. <br>
+- We’ve made a service file named ‘DataFeedService’ to initialize sample data using our applications logic,<br> 
+&nbsp;&nbsp;&nbsp;following the order of how everything is created, saved and set.
 
-- [x] Customer
-- [x] Address
-- [x] Order
-- [x] Machine
-- [x] Subassembly
-- [x] Part
+<h2>API:</h2>
+/api/order <br>
+/api/customer <br>
+/api/address <br>
+/api/machine <br>
+/api/subassembly <br>
+/api/part <br>
 
-Model:
-- [x] A customer can have many addresses<br>
-- [x] An address has one or more customers<br>
-- [x] A customer can have many orders<br>
-- [x] An order has one or more machines<br>
-- [x] A machine has one or more subassemblies<br>
-- [x] A subassembly has one or more parts
+<h2>All APIs have implemented the following METHODS:</h2>
+GET                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> returns all entities of a specific domain <br>
+GET /{id}            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> returns an entity by id <br>
+GET /page/{pageNr}   &nbsp;&nbsp;&nbsp;-> returns all entities on a specific page <br>
+POST                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> creates an entity of a specific domain <br>
+DELETE /{id}         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> deletes an entity by id <br>
+PUT /{id}            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> updates an entity by id <br>
 
-More model:
-- [x] Customer must know about addresses, and addresses must know customers they belong to.<br/>
-- [x] Order must know about customers, and customers must know all their orders.<br>
-- [x] Order must know about machines, but machines do not need to know what orders they are part of.<br>
-- [x] Machines must know what subassemblies they require, <br>
-  subassemblies do not need to know what machines they are a part of.<br>
-- [x] Subassemblies must know about parts, parts do not need to know what machines they are part of
 
-Controllers, Services, Repositories should be implemented for all domain objects,<br/> 
-implementing the following functionality:</br>
-- [x] Get one by id</br>
-- [x] Get all with pagination<br>
-- [x] Create one<br>
-- [x] Delete one<br>
-- [x] Update one<br>
+<h2>Besides implementing all required features, here’s our additional features:</h2>
+- Create a customer, and add an address to it. <br>
+- Create an address and add it to a customer. <br>
+- Add an address to a customer. <br>
+- Added controlled responses for all requests to the API endpoints. <br>
+- Implemented DTOs for all models. <br>
+- Deleting a machine, deletes all orders containing that machine. <br>
+- Deleting a part or subassembly sets fields containing those <br>
+&nbsp;&nbsp;&nbsp;entities to null before deleting the part or subassembly. <br>
+- The user can update machine with an empty subassemblyId, <br>
+&nbsp;&nbsp;&nbsp;but gets an error even if the field contains just one id that doesn't exist in the subassembly table. <br>
+- The user can update subassembly with an empty partId, <br>
+&nbsp;&nbsp;&nbsp;but gets an error even if the field contains just one id that doesn't exist in the part table. <br>
+- Besides the required tests, we also made unit tests for the repositories <br>
+- Implemented ActiveProfiles for more controlled testing environments
 
-<p>Additional functionality can be added, such as:<br/>
-- Create a customer, and add an address to it<br/>
-- Create an address and add it to a customer<br/>
-- Add an address to a customer</p>
+<h2>Logic / relationship </h2>
+<p>Deleting an Order, deletes the whole order, but the customer,
+while the address and machine will still exist in their own tables.</p>
 
-<h3>Delivery:</h3>
+<p>Deleting a Customer, deletes the customer and the order(if there is any),
+while the address will still exist in its own table.</p>
 
-- [ ] You should deliver a zip file with your complete code.<br/>
-- [x] DO NOT INCLUDE THE /TARGET DIRECTORY.<br/>
-- [ ] Include a readme file in the project root.<br/>
-- [ ] This file should include any instructions needed to run the application.<br/>
-- [ ] This readme should also include anything you were unable to get working, <br/>
-      and what you tried to do to fix it.<br/>
-- [ ] Do not include names of the group members.
+<p>Deleting an Address, deletes the address and the order(if there is any),
+while the customer will still exist in its own table.</p>
 
-<h3>Grading:</h3>
+<p>Deleting a Machine, deletes all orders containing the machine, then deletes the machine.</p>
 
-- [x] F - That application does not include at least one model,<br>
-repository, service, controller, or the application does not run.
-- [x] E - The application implements partial functionality<br>
-- [x] D - The application implements complete fuctionality, but no tests
-- [x] C - The application implements complete functionality,<br>
-some additional functionality and includes unit tests
-- [x] B - The application implements complete functionality,<br>
-      some additional functionality and includes both unit and integration tests
-- [x] A - The application implements complete functionality, <br>
-some additional functionality and includes unit, integration, <br>
-and end-to-end tests
+<p>Deleting a Subassembly, sets the subassemblyId field in all machines containing that 
+subassemblyId to null, then deletes the subassembly.</p>
+
+<p>Deleting a Part, sets the partId field in all subassemblies containing that 
+partId to null, then deletes the part.</p>
+
+<h2>Rules:</h2>
+<p>Before creating an order, the customer, address and machine(s) must be created(if they don't already exist). <br> 
+Then create an order with the correct ids associated.</p>
+
+<p>Machines, subassemblies and parts can be created separately. <br>
+They can be connected by adding the associated ids upon creation or when updating.</p>
+
+<p>The same goes for the relationship between customers and addresses.</p>
+
+<h2>Sources:</h2>
+- Associated lectures and course material in course PGR209, autumn 2023
+
+<h3>Spring Boot and Spring Data JPA:</h3>
+- https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://www.baeldung.com/java-dto-pattern#2-connecting-both-sides <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/HttpHeaders.html <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://www.geeksforgeeks.org/stream-anymatch-java-examples/ <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://www.baeldung.com/java-optional-uses <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+
+<h3>Database, H2 and entities: </h3>
+- https://www.h2database.com/html/tutorial.html <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://www.baeldung.com/jpa-cascade-types <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://www.geeksforgeeks.org/spring-boot-h2-database/ <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+
+<h3>Mock and testing:</h3>
+- https://docs.spring.io/spring-framework/reference/testing.html <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://docs.spring.io/spring-framework/reference/testing/annotations/integration-spring/annotation-activeprofiles.html <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://docs.spring.io/spring-framework/reference/testing/spring-mvc-test-framework/vs-end-to-end-integration-tests.html <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://www.baeldung.com/maven-run-single-test <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/MediaType.html <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023)
+
+<h3>Github repositories from lectures:</h3>
+- https://github.com/jlwcrews2/vet-clinic <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023) <br>
+- https://github.com/jlwcrews2/jpa-demo <br>
+&nbsp;&nbsp;&nbsp;(Referred and accessed in December, 2023)
+
