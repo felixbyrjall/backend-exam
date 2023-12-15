@@ -90,7 +90,7 @@ public class MachineRepoUnitTest {
         machineUpdated.ifPresent(machineChanged -> assertEquals("Electronics", machineUpdated.get().getMachineType()));
     }
 
-    @Test // Create a machine, check if the machine exist, delete the machine and then check if machine still exist.
+    @Test // Create a machine, check if the machine exist, delete the machine and then check if machine still exist
     public void deleteById_shouldRemoveMachine() {
         Machine machine = machineRepo.save(new Machine());
         Optional<Machine> findMachine = machineRepo.findById(machine.getMachineId());

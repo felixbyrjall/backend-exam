@@ -50,7 +50,7 @@ public class MachineServiceUnitTest {
         assertEquals(mockMachine, machine);
     }
 
-    @Test // Comprehensive mock & unit-testing, creating a machine.
+    @Test // Comprehensive mock & unit-testing, creating a machine
     void shouldCreateMachine() {
         MachineDTO machineDTO = new MachineDTO();
         machineDTO.setMachineName("Soldering Robot");
