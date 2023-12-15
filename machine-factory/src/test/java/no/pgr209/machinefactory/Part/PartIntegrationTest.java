@@ -124,7 +124,7 @@ public class PartIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test // Test deleting a machine and check if associated orders are also deleted
+    @Test // Test deleting a part and check if associated subassemblies are also updated
     void shouldDeletePartByIdAndMakePartsNullInSubassembly() throws Exception {
         mockMvc.perform(get("/api/part/1")) // Check if part exist
                 .andExpect(status().isOk());
