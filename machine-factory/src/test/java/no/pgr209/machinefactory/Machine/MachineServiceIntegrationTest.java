@@ -4,7 +4,6 @@ import no.pgr209.machinefactory.model.MachineDTO;
 import no.pgr209.machinefactory.model.Subassembly;
 import no.pgr209.machinefactory.repo.*;
 import no.pgr209.machinefactory.service.MachineService;
-import no.pgr209.machinefactory.service.SubassemblyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ public class MachineServiceIntegrationTest {
 
     @Autowired
     MachineService machineService;
-
-    @Autowired
-    SubassemblyService subassemblyService;
 
     @Autowired
     AddressRepo addressRepo;
