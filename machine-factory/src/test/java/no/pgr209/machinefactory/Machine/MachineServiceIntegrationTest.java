@@ -48,7 +48,7 @@ public class MachineServiceIntegrationTest {
         addressRepo.deleteAll();
         machineRepo.deleteAll();
     }
-    @Test
+    @Test // Comprehensive testing - The full cycle of creating a machine and then validate information
     void shouldCreateAndFetchMachine() {
         MachineDTO machine = new MachineDTO();
         Subassembly subassemblyOne = subassemblyRepo.save(new Subassembly("Extruder Assembly"));

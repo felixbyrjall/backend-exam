@@ -45,7 +45,7 @@ public class PartServiceIntegrationTest {
         partRepo.deleteAll();
     }
 
-    @Test
+    @Test // Comprehensive testing - The full cycle of creating a part and then validate information
     void shouldCreateAndFetchPart() {
         PartDTO part = new PartDTO();
 

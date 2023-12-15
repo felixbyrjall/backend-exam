@@ -42,7 +42,7 @@ public class OrderServiceIntegrationTest {
         machineRepo.deleteAll();
     }
 
-    @Test // Comprehensive testing - The full cycle of creating an order and then validate information.
+    @Test // Comprehensive testing - The full cycle of creating an order and then validate information
     void shouldCreateAndFetchOrders(){
         Customer customer = customerRepo.save(new Customer("Lars Olsen", "lars@olsen.no"));
         Address address = addressRepo.save(new Address("Bakkegata 7", "Bergen", "5015"));

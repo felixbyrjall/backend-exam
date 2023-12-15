@@ -45,7 +45,7 @@ public class SubassemblyServiceIntegrationTest {
         subassemblyRepo.deleteAll();
         partRepo.deleteAll();
     }
-    @Test
+    @Test // Comprehensive testing - The full cycle of creating a subassembly and then validate information
     void shouldCreateAndFetchSubassembly() {
         SubassemblyDTO subassembly = new SubassemblyDTO();
         Part partOne = partRepo.save(new Part("Microcontroller"));
