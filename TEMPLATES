@@ -1,0 +1,99 @@
+POST template on /order
+{
+    "customerId": 1,
+    "addressId": 1,
+    "machineId": [
+        1, 2
+    ]
+}
+
+PUT template on /order/{id}
+{
+    "customerId": 2,
+    "addressId": 2,
+    "machineId": [
+        1, 2
+    ]
+}
+
+POST template on /customer
+{
+    "customerName": "Lars Olsen",
+    "customerEmail": "lars@olsen.no",
+    "addressId": [
+        8, 3
+    ]
+}
+
+PUT template on /customer/{id}
+{
+    "customerName": "Vegard Hansen",
+    "customerEmail": "vegard.h@jobb.no",
+    "addressId": [
+        1, 2
+    ]
+}
+
+POST template on /address
+{
+    "addressStreet": "Trondheimsveien 1",
+    "addressCity": "Oslo",
+    "addressZip": 5313,
+    "customerId": [
+        1
+    ]
+}
+
+PUT template on /address/{id}
+{
+    "addressStreet": "Trollgata 31",
+    "addressCity": "Ski",
+    "addressZip": 1421,
+    "customerId": [
+        1
+    ]
+}
+
+POST template on /machine
+{
+    "machineName": "3D printer",
+    "machineType": "Assembly",
+    "subassemblyId": [
+        1
+    ]
+}
+
+PUT template on /machine{id}
+{
+    "machineName": "3D printer 3000",
+    "machineType": "Printer",
+    "subassemblyId": [
+        1
+    ]
+}
+
+POST template on /subassembly
+{
+    "subassemblyName": "PCB",
+    "partId":[
+        1
+    ]
+}
+
+PUT template on /subassembly{id}
+{
+    "subassemblyName": "PSU",
+    "partId":[
+        1
+    ]
+}
+
+POST template on /part
+{
+    "partName":"Microchip"
+}
+
+PUT template on /part{id}
+{
+    "partName":"Microcontroller"
+}
