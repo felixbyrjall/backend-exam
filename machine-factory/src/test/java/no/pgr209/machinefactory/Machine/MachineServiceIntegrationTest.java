@@ -41,7 +41,7 @@ public class MachineServiceIntegrationTest {
     @Autowired
     SubassemblyRepo subassemblyRepo;
 
-    @BeforeEach // Ensure clean DB.
+    @BeforeEach // Ensure clean DB for test environment
     void setUp() {
         orderRepo.deleteAll();
         customerRepo.deleteAll();

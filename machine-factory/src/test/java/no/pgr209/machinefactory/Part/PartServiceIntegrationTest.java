@@ -37,7 +37,7 @@ public class PartServiceIntegrationTest {
     PartRepo partRepo;
 
 
-    @BeforeEach // Ensure clean DB.
+    @BeforeEach // Ensure clean DB for test environment
     void setUp() {
         orderRepo.deleteAll();
         machineRepo.deleteAll();
