@@ -19,16 +19,10 @@ public class PartServiceIntegrationTest {
     PartService partService;
 
     @Autowired
-    AddressRepo addressRepo;
-
-    @Autowired
     MachineRepo machineRepo;
 
     @Autowired
     OrderRepo orderRepo;
-
-    @Autowired
-    CustomerRepo customerRepo;
 
     @Autowired
     SubassemblyRepo subassemblyRepo;

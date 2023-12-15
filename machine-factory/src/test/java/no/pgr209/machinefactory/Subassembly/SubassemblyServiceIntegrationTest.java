@@ -3,7 +3,6 @@ package no.pgr209.machinefactory.Subassembly;
 import no.pgr209.machinefactory.model.Part;
 import no.pgr209.machinefactory.model.SubassemblyDTO;
 import no.pgr209.machinefactory.repo.*;
-import no.pgr209.machinefactory.service.PartService;
 import no.pgr209.machinefactory.service.SubassemblyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
